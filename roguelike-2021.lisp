@@ -7,6 +7,8 @@
 
 (defun draw ()
   (blt:clear)
+  (setf (blt:color) (blt:white)
+        (blt:cell-char 10 10) #\@)
   (blt:refresh))
 
 (defun config ()
