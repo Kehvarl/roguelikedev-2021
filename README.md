@@ -1,6 +1,4 @@
 # r/RoguelikeDev Does The Complete Roguelike Tutorial
-### _Kehvarl <Kehvarl@Kehvarl.com>_
-
 
 ![RoguelikeDev Does the Complete Roguelike Tutorial Event Logo](https://imgur.com/xSph4zw.png)
 
@@ -8,6 +6,7 @@ At [r/roguelikedev](https://www.reddit.com/r/roguelikedev/) we're doing a dev-al
 This version will be following the [Common Lisp Roguelike Tutorial (CL-RLTUT)](https://nwforrer.github.io/categories/roguelike-tutorial/).
 
 ## Roguelike 2021
+By: _Kehvarl <Kehvarl@Kehvarl.com>_
 This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial through at least Chapter 6.
 
 
@@ -30,3 +29,17 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
   * `sbcl` ;; I used `rlwrap sbcl` to give me history in the repl
   * (ql:quickload :roguelikedev-2021)
   * (in-package :roguelikedev-2021)
+
+
+## Part 1
+### Drawing the Screen
+![Part 1.0](./screenshots/Part1.0.png?raw=true "Game Window")
+* Initialize BearLibTerminal and display a window with title
+* Capture keystrokes and check for game-over condition.
+## Drawing the Player and Moving around
+![Part 1.1](./screenshots/Part1.1.png?raw=true "Player On Screen")
+* Update Drawing routine to show the player '@'
+* Update Drawing routing to accept location to draw player
+* Break out key-handler to its own function
+* Update Main loop to track player location and feed to drawing routing
+* Update key-handler to capture movement keys and feed back to main loop.
