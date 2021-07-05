@@ -65,3 +65,7 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 #### Cleaning up our Main file
 * Move all the new Entity methods to their own file
 * Add the new Entity file to our ASD to make sure it gets loaded.
+### The Map
+#### Define Map Components
+* Create a new game-map file and add it to our ASD so it will get loaded.
+* Define a Tile which is a game-map space that may or may not be a wall
