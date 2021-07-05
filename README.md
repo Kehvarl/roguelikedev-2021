@@ -43,3 +43,25 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 * Break out key-handler to its own function
 * Update Main loop to track player location and feed to drawing routing
 * Update key-handler to capture movement keys and feed back to main loop.
+
+## Part 2
+### The entity
+![Part 2.1](./screenshots/Part2.1.png?raw=true "Entities and NPCs")
+#### Defining the Entity
+* Create a generic Entity object to track entities
+  * Position
+  * color
+  * Symbol
+#### Using the Entity
+* Turn the Player object into an entity
+* Update the Draw routine to use Entities.
+* Update Main loop to use entities and new Draw routine.
+#### Better Rendering
+* Render many entities using our new Draw method for generic entities.
+#### Smarter movement
+* Move our movement routine out of the Main Loop and into our Entity
+#### Adding a Friend
+* Created a second Entity, not in control of the player.
+#### Cleaning up our Main file
+* Move all the new Entity methods to their own file
+* Add the new Entity file to our ASD to make sure it gets loaded.
