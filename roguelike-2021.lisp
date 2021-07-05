@@ -17,6 +17,11 @@
    (setf (blt:color) color
          (blt:cell-char x y) char)))
 
+(defmethod move ((e entity) dx dy)
+  (incf (entity/x e) dx)
+  (incf (entity/y e) dy))
+
+
 (defun render-all (entities)
  (blt:clear)
  (mapc #'draw entities)
@@ -55,5 +60,4 @@
        (if exit
          (return))
        (when move
-         (incf (entity/x player) (car move))
-         (incf (entity/y player) (cdr move)))))))
+         (move player (car move) (cdr move)))))))
