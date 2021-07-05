@@ -26,6 +26,9 @@
   (setf (game-map/tiles map)
         (make-array (list (game-map/w map) (game-map/h map)))))
 
+(defmethod blocked-p ((map game-map) x y)
+  (tile/blocked (aref (game-map/tiles map) x y)))
+
 (defun initialize-tiles (map)
   (dotimes (y (game-map/h map))
     (dotimes (x (game-map/w map))

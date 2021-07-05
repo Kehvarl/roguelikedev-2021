@@ -82,3 +82,7 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
   * Dont' forget to put `(in-package #:roguelike-2021)` at the top
 * Add our new file to our ASD for loading.
   * Make sure it comes after anything it needs and before anything that uses it
+#### Fixing our movement
+* We can walk through walls, let's fix that!
+* Add a method to game-map to check if a given x/y position is a wall.
+* Update the "move" section of our main loop to check for a wall before we walk into it
