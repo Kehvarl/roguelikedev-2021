@@ -51,3 +51,7 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
   * Position
   * color
   * Symbol
+#### Using the Entity
+* Turn the Player object into an entity
+* Update the Draw routine to use Entities.
+* Update Main loop to use entities and new Draw routine.
