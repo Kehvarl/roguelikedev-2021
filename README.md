@@ -46,7 +46,7 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 
 ## Part 2
 ### The entity
-### Defining the Entity
+#### Defining the Entity
 * Create a generic Entity object to track entities
   * Position
   * color
@@ -55,9 +55,9 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 * Turn the Player object into an entity
 * Update the Draw routine to use Entities.
 * Update Main loop to use entities and new Draw routine.
-### Better Rendering
+#### Better Rendering
 * Render many entities using our new Draw method for generic entities.
-### Smarter movement
+#### Smarter movement
 * Move our movement routine out of the Main Loop and into our Entity
-### Adding a Friend
+#### Adding a Friend
 * Created a second Entity, not in control of the player.
