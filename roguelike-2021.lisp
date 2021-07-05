@@ -17,6 +17,12 @@
    (setf (blt:color) color
          (blt:cell-char x y) char)))
 
+(defun render-all (entities)
+ (blt:clear)
+ (mapc #'draw entities)
+ (blt:refresh))
+
+
 (defun handle-keys ()
   (let ((action nil))
     (blt:key-case (blt:read)
@@ -42,9 +48,7 @@
                                        :char #\@
                                        :color (blt:white))
      :do
-     (blt:clear)
-     (draw player)
-     (blt:refresh)
+     (render-all (list player))
      (let* ((action (handle-keys))
             (move (getf action :move))
             (exit (getf action :quit)))

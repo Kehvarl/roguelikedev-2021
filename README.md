@@ -55,3 +55,5 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 * Turn the Player object into an entity
 * Update the Draw routine to use Entities.
 * Update Main loop to use entities and new Draw routine.
+### Better Rendering
+* Render many entities using our new Draw method for generic entities.
