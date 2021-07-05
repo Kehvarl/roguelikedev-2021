@@ -22,6 +22,11 @@
                   (:close (setf action (list :quit t))))
     action))
 
+(defclass entity()
+  ((x :initarg :x :accessor entity/x)
+   (y :initarg :y :accessor entity/y)
+   (char :initarg :char :accessor entity/char)
+   (color :initarg :color :accessor entity/color)))
 
 (defun config ()
   (blt:set "window.resizeable = true")

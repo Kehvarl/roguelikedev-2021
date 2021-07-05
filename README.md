@@ -43,3 +43,9 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 * Break out key-handler to its own function
 * Update Main loop to track player location and feed to drawing routing
 * Update key-handler to capture movement keys and feed back to main loop.
+
+## Part 2
+### The entity
+* Create a generic Entity object to track the position, symbol, and color of
+things that move around.
+*
