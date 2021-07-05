@@ -71,3 +71,4 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 * Define a Tile which is a game-map space that may or may not be a wall
 #### Define game-map
 * Create a game-map object which holds an array of Tiles to represent our map
+* Initialize an empty map and set a few walls for demonstration purposes
