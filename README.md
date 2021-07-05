@@ -46,6 +46,7 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 
 ## Part 2
 ### The entity
+![Part 2.1](./screenshots/Part2.1.png?raw=true "Entities and NPCs")
 #### Defining the Entity
 * Create a generic Entity object to track entities
   * Position
