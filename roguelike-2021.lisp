@@ -52,8 +52,15 @@
                                        :y (/ *screen-height* 2)
                                        :char #\@
                                        :color (blt:white))
+     :and npc = (make-instance 'entity
+                               :x (- (/ *screen-width* 2) 5)
+                               :y (/ *screen-height* 2)
+                               :char #\@
+                               :color (blt:yellow))
+     :with entities = (list player npc)
+
      :do
-     (render-all (list player))
+     (render-all entities)
      (let* ((action (handle-keys))
             (move (getf action :move))
             (exit (getf action :quit)))

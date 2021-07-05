@@ -59,3 +59,5 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 * Render many entities using our new Draw method for generic entities.
 ### Smarter movement
 * Move our movement routine out of the Main Loop and into our Entity
+### Adding a Friend
+* Created a second Entity, not in control of the player.
