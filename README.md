@@ -77,3 +77,8 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 * Create some colors to identify map tile states
 * Update our render-all function to draw map Tiles
 * Update our main loop with a new map (don't forget to initialize it)
+#### Cleaning up our Main file
+* Create a file to hold our render-functions
+  * Dont' forget to put `(in-package #:roguelike-2021)` at the top
+* Add our new file to our ASD for loading.
+  * Make sure it comes after anything it needs and before anything that uses it
