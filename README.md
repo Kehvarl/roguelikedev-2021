@@ -46,6 +46,8 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 
 ## Part 2
 ### The entity
-* Create a generic Entity object to track the position, symbol, and color of
-things that move around.
-*
+### Defining the Entity
+* Create a generic Entity object to track entities
+  * Position
+  * color
+  * Symbol
