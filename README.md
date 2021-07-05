@@ -62,3 +62,6 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 * Move our movement routine out of the Main Loop and into our Entity
 #### Adding a Friend
 * Created a second Entity, not in control of the player.
+#### Cleaning up our Main file
+* Move all the new Entity methods to their own file
+* Add the new Entity file to our ASD to make sure it gets loaded.

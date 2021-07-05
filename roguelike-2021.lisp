@@ -5,28 +5,10 @@
 (defparameter *screen-width* 80)
 (defparameter *screen-height* 50)
 
-
-(defclass entity()
-  ((x :initarg :x :accessor entity/x)
-   (y :initarg :y :accessor entity/y)
-   (char :initarg :char :accessor entity/char)
-   (color :initarg :color :accessor entity/color)))
-
-(defmethod draw ((e entity))
-  (with-slots (x y char color) e
-   (setf (blt:color) color
-         (blt:cell-char x y) char)))
-
-(defmethod move ((e entity) dx dy)
-  (incf (entity/x e) dx)
-  (incf (entity/y e) dy))
-
-
 (defun render-all (entities)
  (blt:clear)
  (mapc #'draw entities)
  (blt:refresh))
-
 
 (defun handle-keys ()
   (let ((action nil))
