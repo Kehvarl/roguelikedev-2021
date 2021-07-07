@@ -9,6 +9,7 @@
   :depends-on (#:cl-blt)
   :components ((:file "package")
                (:file "entity")
+               (:file "rect")
                (:file "game-map")
                (:file "render-functions")
                (:file "roguelike-2021")))
