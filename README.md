@@ -93,3 +93,4 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
 * Cleanup our Initialize loop to concisely state what we need it to do
 * Initialize all tiles to walls while we're at it.
 * Create a macro that generates the tiles-loop we used for Initializing
+* Re-implement our initiazation in terms of our new macro
