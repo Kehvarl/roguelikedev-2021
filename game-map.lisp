@@ -29,13 +29,22 @@
 (defmethod blocked-p ((map game-map) x y)
   (tile/blocked (aref (game-map/tiles map) x y)))
 
+(defmacro map-tiles-loop ((map tile-val &key (row-val (gensym)) (col-val (gensym))
+                                             (x-start 0) (y-start 0)
+                                             (x-end nil) (y-end nil))
+                          &body body)
+  `(loop :for ,col-val
+         :from ,x-start
+         :below (if (null ,x-end) (game-map/w ,map) ,x-end)
+     :do
+         (loop :for ,row-val
+               :from ,y-start
+               :below (if (null ,y-end) (game-map/h ,map) , y-end)
+           :do
+               (let ((,tile-val (aref (game-map/tiles , map) ,col-val ,row-val)))
+                 (declare (ignorable ,tile-val))
+                 ,@body))))
+
 (defun initialize-tiles (map)
-  (dotimes (y (game-map/h map))
-    (dotimes (x (game-map/w map))
-      (setf (aref (game-map/tiles map) x y)(make-instance 'tile))))
-  (setf (tile/blocked (aref (game-map/tiles map) 30 22)) t)
-  (setf (tile/block-sight (aref (game-map/tiles map) 30 22)) t)
-  (setf (tile/blocked (aref (game-map/tiles map) 31 22)) t)
-  (setf (tile/block-sight (aref (game-map/tiles map) 31 22)) t)
-  (setf (tile/blocked (aref (game-map/tiles map) 32 22)) t)
-  (setf (tile/block-sight (aref (game-map/tiles map) 32 22)) t))
+  (map-tiles-loop (map tile :col-val x :row-val y)
+    (setf (aref (game-map/tiles map) x y) (make-instance 'tile :blocked t))))

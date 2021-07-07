@@ -86,3 +86,15 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 * We can walk through walls, let's fix that!
 * Add a method to game-map to check if a given x/y position is a wall.
 * Update the "move" section of our main loop to check for a wall before we walk into it
+
+## Part 3
+### Looping over Tiles
+We will be looping over the entire map (or subsets of it) quite often.  To facilitate this, we will create a macro to build the looping functions we need.
+* Cleanup our Initialize loop to concisely state what we need it to do
+* Initialize all tiles to walls while we're at it.
+* Create a macro that generates the tiles-loop we used for Initializing
+* Re-implement our initialization in terms of our new macro
+### Defining Rooms and Tunnels.
+* Create a class to identify simple rectangular rooms.
+* Draw a few on our map
+* Create some mechanism to carve tunnels between our Rooms
