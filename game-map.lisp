@@ -14,6 +14,13 @@
     (if (null block-sight)
       (setf block-sight blocked))))
 
+(defmethod set-tile-slots ((tile tile) &key (blocked nil blocked-supplied-p)
+                                       (block-sight nil block-sight-supplied-p))
+  (if blocked-supplied-p
+    (setf (slot-value tile 'blocked) blocked))
+  (if block-sight-supplied-p
+    (setf (slot-value tile 'block-site) block-sight)))
+
 (defclass game-map ()
   ((width :initarg :w
           :accessor game-map/w)
