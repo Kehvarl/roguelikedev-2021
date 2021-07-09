@@ -24,9 +24,9 @@
    (let ((center-x (random (+ x1 1) x2))
          (center-y (random (+ y1 1) y2)))
      (values center-x center-y))))
-  
-((defmethod intersect ((rect rect) (other rect))
-   (and (<= (rect/x1 rect) (rect/x2 other))
-        (>= (rect/x2 rect) (rect/x1 other))
-        (<= (rect/y1 rect) (rect/y2 other))
-        (>= (rect/y2 rect) (rect/y2 other)))))
+
+(defmethod intersect ((rect rect) (other rect))
+  (and (<= (rect/x1 rect) (rect/x2 other))
+       (>= (rect/x2 rect) (rect/x1 other))
+       (<= (rect/y1 rect) (rect/y2 other))
+       (>= (rect/y2 rect) (rect/y1 other))))

@@ -36,6 +36,12 @@
 (defmethod blocked-p ((map game-map) x y)
   (tile/blocked (aref (game-map/tiles map) x y)))
 
+(defmethod create-room ((map game-map) (room rect))
+  (map-tiles-loop (map tile
+                       :x-start (1+ (rect/x1 room)) :x-end (rect/x2 room)
+                       :y-start (1+ (rect/y1 room)) :y-end (rect/y2 room))
+    (set-tile-slots tile :blocked nil :block-sight nil)))
+
 (defmacro map-tiles-loop ((map tile-val &key (row-val (gensym)) (col-val (gensym))
                                              (x-start 0) (y-start 0)
                                              (x-end nil) (y-end nil))
