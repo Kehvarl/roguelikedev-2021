@@ -98,3 +98,4 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
 * Create a class to identify simple rectangular rooms.
 * Draw a few on our map
 * Create some mechanism to carve tunnels between our Rooms
+* Create-Room tool will carve a Rect into our game-map
