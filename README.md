@@ -115,3 +115,12 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
 * We can also use a way to find the center of any room.
 * Now we'll generate random rooms, and try to place them on the map!
 * While we're at it, let's draw some connecting corridors
+
+## Part 4
+### Field of View
+* Per the CL-RLTUT tutorial, we will be implementing a very simple FoV algorithm
+  * We will draw 360 lines from the character out to our desired radius.
+  * As we draw each line, we will mark each tile it touches as "lit".
+  * If we encounter a wall, we will mark the wall as "lit" and stop following the line.
+* To support our lit/unlit state, we will add a slot to our Tile class.
+* Since tile is becoming more complicated, I am going to move it out of the game-map file and into its own.

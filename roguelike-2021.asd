@@ -10,6 +10,7 @@
   :components ((:file "package")
                (:file "entity")
                (:file "rect")
+               (:file "tile")
                (:file "game-map")
                (:file "render-functions")
                (:file "roguelike-2021")))
