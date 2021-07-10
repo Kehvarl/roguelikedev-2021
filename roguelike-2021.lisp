@@ -7,6 +7,10 @@
 (defparameter *map-width* *screen-width*)
 (defparameter *map-height* (- *screen-height* 6))
 
+(defparameter *room-max-size* 10)
+(defparameter *room-min-size* 6)
+(defparameter *max-rooms* 30)
+
 (defun handle-keys ()
   (let ((action nil))
     (blt:key-case (blt:read)
@@ -29,7 +33,7 @@
          (move (getf action :move))
          (exit (getf action :quit)))
     (when move
-      (unless (blocked-p *map*
+      (unless (blocked-p map
                          (+ (entity/x player) (car move))
                          (+ (entity/y player) (cdr move)))
         (move player (car move) (cdr move))))
@@ -50,6 +54,6 @@
                               :color (blt:yellow)))
           (entities (list player npc))
           (map (make-instance 'game-map :w *map-width* :h *map-height*)))
-     (make-map map)
-     (do ((exit nil (game-tick player entities *map*)))
+     (make-map map *max-rooms* *room-min-size* *room-max-size* *map-width* *map-height* player)
+     (do ((exit nil (game-tick player entities map)))
        (exit)))))

@@ -88,6 +88,7 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
 * Update the "move" section of our main loop to check for a wall before we walk into it
 
 ## Part 3
+![Part 3.1](./screenshots/Part3.1.png?raw=true "Random Maps")
 ### Looping over Tiles
 We will be looping over the entire map (or subsets of it) quite often.  To facilitate this, we will create a macro to build the looping functions we need.
 * Cleanup our Initialize loop to concisely state what we need it to do
@@ -105,3 +106,12 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
 * Update Main to feed initial state to our game-tick function.
 * Strip out our global *map*
 * Make a map initialize itself
+### More useful maps
+* Time to connect the rooms!
+* We will first define a couple of functions to carve out a line of Tiles
+* Then carve a corridor into our map!
+### Dungeon Generation
+* If we don't already have a function for overlapping rects, then lets create it
+* We can also use a way to find the center of any room.
+* Now we'll generate random rooms, and try to place them on the map!
+* While we're at it, let's draw some connecting corridors
