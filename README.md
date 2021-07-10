@@ -115,3 +115,19 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
 * We can also use a way to find the center of any room.
 * Now we'll generate random rooms, and try to place them on the map!
 * While we're at it, let's draw some connecting corridors
+
+## Part 4
+### Field of View
+![Part 4.1](./screenshots/Part4.1.png?raw=true "Our Field Of View")
+#### Calculating
+* Per the CL-RLTUT tutorial, we will be implementing a very simple FoV algorithm
+  * We will draw 360 lines from the character out to our desired radius.
+  * As we draw each line, we will mark each tile it touches as "lit".
+  * If we encounter a wall, we will mark the wall as "lit" and stop following the line.
+* To support our lit/unlit state, we will add a slot to our Tile class.
+* Since tile is becoming more complicated, I am going to move it out of the game-map file and into its own.
+#### Rendering
+* To render our calculated field of view, we'll need to modify our rendering routines to know what to do
+  * First, we'll define some more colors to differentiate lit and unlit Tiles
+  * Then we'll modify the Render-All function to draw those lit tiles in our fancy new color
+  * Of course, our rendering tools don't know what to do if we don't calculate the FoV, so let's add that to our Game-Tick

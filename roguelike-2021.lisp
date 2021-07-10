@@ -28,6 +28,7 @@
   (blt:set "window.title = Roguelike 2021"))
 
 (defun game-tick (player entities map)
+  (fov map (entity/x player) (entity/y player))
   (render-all entities map)
   (let* ((action (handle-keys))
          (move (getf action :move))
