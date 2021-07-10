@@ -30,6 +30,7 @@
    (config)
    (setf *map* (make-instance 'game-map :w *map-width* :h *map-height*))
    (initialize-tiles *map*)
+   (make-map *map*)
    (loop :with player = (make-instance 'entity
                                        :x (/ *screen-width* 2)
                                        :y (/ *screen-height* 2)
