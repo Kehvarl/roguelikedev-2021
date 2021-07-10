@@ -19,7 +19,7 @@
   (if blocked-supplied-p
     (setf (slot-value tile 'blocked) blocked))
   (if block-sight-supplied-p
-    (setf (slot-value tile 'block-site) block-sight)))
+    (setf (slot-value tile 'block-sight) block-sight)))
 
 (defclass game-map ()
   ((width :initarg :w
@@ -28,10 +28,13 @@
            :accessor game-map/h)
    (tiles :accessor game-map/tiles)))
 
-(defmethod initialize-instance :after ((map game-map) &rest initargs)
-  (declare (ignore initargs))
+(defmethod initialize-instance :after ((map game-map)
+                                       &key (initial-blocked-value t))
   (setf (game-map/tiles map)
-        (make-array (list (game-map/w map) (game-map/h map)))))
+        (make-array (list (game-map/w map) (game-map/h map))))
+  (map-tiles-loop (map tile :col-val x :row-val y)
+    (setf (aref (game-map/tiles map) x y)
+          (make-instance 'tile :blocked initial-blocked-value))))
 
 (defmethod blocked-p ((map game-map) x y)
   (tile/blocked (aref (game-map/tiles map) x y)))
@@ -58,6 +61,8 @@
                  (declare (ignorable ,tile-val))
                  ,@body))))
 
-(defun initialize-tiles (map)
-  (map-tiles-loop (map tile :col-val x :row-val y)
-    (setf (aref (game-map/tiles map) x y) (make-instance 'tile :blocked t))))
+(defmethod make-map ((map game-map))
+  (let ((room-1 (make-instance 'rect :x 20 :y 15 :w 10 :h 15))
+        (room-2 (make-instance 'rect :x 35 :y 15 :w 10 :h 15)))
+    (create-room map room-1)
+    (create-room map room-2)))
