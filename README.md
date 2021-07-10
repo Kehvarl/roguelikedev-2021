@@ -103,3 +103,4 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
 ### Improve our Game loop
 * Split our loop out into a "game-tick" function
 * Update Main to feed initial state to our game-tick function.
+* Strip out our global *map*

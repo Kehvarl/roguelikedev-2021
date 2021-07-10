@@ -7,8 +7,6 @@
 (defparameter *map-width* *screen-width*)
 (defparameter *map-height* (- *screen-height* 6))
 
-(defparameter *map* nil)
-
 (defun handle-keys ()
   (let ((action nil))
     (blt:key-case (blt:read)
@@ -40,9 +38,6 @@
 (defun main ()
   (blt:with-terminal
    (config)
-   (setf *map* (make-instance 'game-map :w *map-width* :h *map-height*))
-   (initialize-tiles *map*)
-   (make-map *map*)
    (let* ((player (make-instance 'entity
                                  :x (/ *screen-width* 2)
                                  :y (/ *screen-height* 2)
@@ -53,6 +48,9 @@
                               :y (/ *screen-height* 2)
                               :char #\@
                               :color (blt:yellow)))
-          (entities (list player npc)))
+          (entities (list player npc))
+          (map (make-instance 'game-map :w *map-width* :h *map-height*)))
+     (initialize-tiles map)
+     (make-map map)
      (do ((exit nil (game-tick player entities *map*)))
        (exit)))))
