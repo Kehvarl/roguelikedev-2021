@@ -29,7 +29,7 @@
          (move (getf action :move))
          (exit (getf action :quit)))
     (when move
-      (unless (blocked-p *map*
+      (unless (blocked-p map
                          (+ (entity/x player) (car move))
                          (+ (entity/y player) (cdr move)))
         (move player (car move) (cdr move))))
@@ -51,5 +51,5 @@
           (entities (list player npc))
           (map (make-instance 'game-map :w *map-width* :h *map-height*)))
      (make-map map)
-     (do ((exit nil (game-tick player entities *map*)))
+     (do ((exit nil (game-tick player entities map)))
        (exit)))))

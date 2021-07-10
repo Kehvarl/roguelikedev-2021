@@ -105,3 +105,7 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
 * Update Main to feed initial state to our game-tick function.
 * Strip out our global *map*
 * Make a map initialize itself
+### Move useful maps
+* Time to connect the rooms!
+* We will first define a couple of functions to carve out a line of Tiles
+* Then carve a corridor into our map!

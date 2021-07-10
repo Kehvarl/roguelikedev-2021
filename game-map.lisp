@@ -30,11 +30,12 @@
 
 (defmethod initialize-instance :after ((map game-map)
                                        &key (initial-blocked-value t))
-  (setf (game-map/tiles map)
-        (make-array (list (game-map/w map) (game-map/h map))))
+  (setf (game-map/tiles map) (make-array (list (game-map/w map)
+                                               (game-map/h map))))
   (map-tiles-loop (map tile :col-val x :row-val y)
-    (setf (aref (game-map/tiles map) x y)
-          (make-instance 'tile :blocked initial-blocked-value))))
+                  (setf (aref (game-map/tiles map) x y)
+                        (make-instance 'tile
+                                       :blocked initial-blocked-value))))
 
 (defmethod blocked-p ((map game-map) x y)
   (tile/blocked (aref (game-map/tiles map) x y)))
@@ -44,6 +45,23 @@
                        :x-start (1+ (rect/x1 room)) :x-end (rect/x2 room)
                        :y-start (1+ (rect/y1 room)) :y-end (rect/y2 room))
     (set-tile-slots tile :blocked nil :block-sight nil)))
+
+(defmethod create-h-tunnel ((map game-map) x1 x2 y)
+  (let ((start-x (min x1 x2))
+        (end-x (max x1 x2)))
+    (map-tiles-loop (map tile
+                         :x-start start-x :x-end (1+ end-x)
+                         :y-start y :y-end (1+ y))
+      (set-tile-slots tile :blocked nil :block-sight nil))))
+
+
+(defmethod create-v-tunnel ((map game-map) y1 y2 x)
+  (let ((start-y (min y1 y2))
+        (end-y (max y1 y2)))
+    (map-tiles-loop (map tile
+                         :x-start x :x-end (1+ x)
+                         :y-start start-y :y-end (1+ end-y))
+      (set-tile-slots tile :blocked nil :block-sight nil))))
 
 (defmacro map-tiles-loop ((map tile-val &key (row-val (gensym)) (col-val (gensym))
                                              (x-start 0) (y-start 0)
@@ -65,4 +83,6 @@
   (let ((room-1 (make-instance 'rect :x 20 :y 15 :w 10 :h 15))
         (room-2 (make-instance 'rect :x 35 :y 15 :w 10 :h 15)))
     (create-room map room-1)
-    (create-room map room-2)))
+    (create-room map room-2))
+
+  (create-h-tunnel map 25 40 23))
