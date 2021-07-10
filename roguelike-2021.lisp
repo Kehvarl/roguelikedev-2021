@@ -25,33 +25,34 @@
   (blt:set "window.size = ~AX~A" *screen-width* *screen-height*)
   (blt:set "window.title = Roguelike 2021"))
 
+(defun game-tick (player entities map)
+  (render-all entities map)
+  (let* ((action (handle-keys))
+         (move (getf action :move))
+         (exit (getf action :quit)))
+    (when move
+      (unless (blocked-p *map*
+                         (+ (entity/x player) (car move))
+                         (+ (entity/y player) (cdr move)))
+        (move player (car move) (cdr move))))
+    exit))
+
 (defun main ()
   (blt:with-terminal
    (config)
    (setf *map* (make-instance 'game-map :w *map-width* :h *map-height*))
    (initialize-tiles *map*)
    (make-map *map*)
-   (loop :with player = (make-instance 'entity
-                                       :x (/ *screen-width* 2)
-                                       :y (/ *screen-height* 2)
-                                       :char #\@
-                                       :color (blt:white))
-     :and npc = (make-instance 'entity
-                               :x (- (/ *screen-width* 2) 5)
-                               :y (/ *screen-height* 2)
-                               :char #\@
-                               :color (blt:yellow))
-     :with entities = (list player npc)
-
-     :do
-     (render-all entities *map*)
-     (let* ((action (handle-keys))
-            (move (getf action :move))
-            (exit (getf action :quit)))
-       (if exit
-         (return))
-       (when move
-         (unless (blocked-p *map*
-                            (+ (entity/x player) (car move))
-                            (+ (entity/y player) (cdr move)))
-           (move player (car move) (cdr move))))))))
+   (let* ((player (make-instance 'entity
+                                 :x (/ *screen-width* 2)
+                                 :y (/ *screen-height* 2)
+                                 :char #\@
+                                 :color (blt:white)))
+          (npc (make-instance 'entity
+                              :x (- (/ *screen-width* 2) 5)
+                              :y (/ *screen-height* 2)
+                              :char #\@
+                              :color (blt:yellow)))
+          (entities (list player npc)))
+     (do ((exit nil (game-tick player entities *map*)))
+       (exit)))))

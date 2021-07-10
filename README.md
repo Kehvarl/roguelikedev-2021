@@ -100,3 +100,6 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
 * Create some mechanism to carve tunnels between our Rooms
 * Create-Room tool will carve a Rect into our game-map
 * Create a sample map with two rooms and use that from our main loop.
+### Improve our Game loop
+* Split our loop out into a "game-tick" function
+* Update Main to feed initial state to our game-tick function.
