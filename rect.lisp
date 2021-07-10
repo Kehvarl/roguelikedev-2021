@@ -15,8 +15,8 @@
 
 (defmethod center ((rect rect))
   (with-slots (x1 x2 y1 y2) rect
-    (let ((center-x (floor (- x2 x1) 2))
-          (center-y (floor (- y2 y1) 2)))
+    (let ((center-x (floor (+ x2 x1) 2))
+          (center-y (floor (+ y2 y1) 2)))
       (values center-x center-y))))
 
 (defmethod rect/random ((rect rect))
