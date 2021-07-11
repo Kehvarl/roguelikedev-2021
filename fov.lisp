@@ -44,6 +44,8 @@
                  ;; if the tile is a wall, mark it as lit and stop tracing the line
                  (when (tile/block-sight (aref (game-map/tiles map) tx ty))
                    (setf (tile/visible (aref (game-map/tiles map) tx ty)) t)
+                   (setf (tile/explored (aref (game-map/tiles map) tx ty) t))
                    (return))
                  ;; Otherwise, mark the tile as lit and continue
-                 (setf (tile/visible (aref (game-map/tiles map) tx ty)) t))))))
+                 (setf (tile/visible (aref (game-map/tiles map) tx ty)) t)
+                 (setf (file/visible (aref (game-map/tiles map) tx ty)) t))))))
