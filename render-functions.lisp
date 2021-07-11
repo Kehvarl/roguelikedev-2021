@@ -11,14 +11,17 @@
     (dotimes (x (game-map/w map))
       (let* ((tile (aref (game-map/tiles map) x y))
              (wall (tile/blocked tile))
-             (visible (tile/visible tile)))
-        (if visible
+             (visible (tile/visible tile))
+             (explored (tile/explored tile)))
+
+        (if explored
+         (if visible
           (if wall
            (setf (blt:background-color) (getf *color-map* :lit-wall))
            (setf (blt:background-color) (getf *color-map* :lit-ground)))
           (if wall
            (setf (blt:background-color) (getf *color-map* :dark-wall))
-           (setf (blt:background-color) (getf *color-map* :dark-ground))))
+           (setf (blt:background-color) (getf *color-map* :dark-ground)))))
         (setf (blt:cell-char x y) #\Space))))
 
   (mapc #'draw entities)
