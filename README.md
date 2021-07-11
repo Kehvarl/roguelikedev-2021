@@ -137,3 +137,5 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
 Currently the player can see the entire map.  That's no challenge at all! So what we will do is hide the map and only show the player what's in their field of view.  Just to be nice, we will also show the parts of the map the player has seen before, but we won't show any monsters or treasures lurking in those remembered places.
 * First step: Add an "Explored" slot to our tiles.  That way we know what's safe to render.
 * Then we'll update our FoV tool to mark places as explored as we encounter them.
+#### Enemies
+* Update our Draw routine to only show enemies inside our FoV.
