@@ -6,10 +6,12 @@
    (char :initarg :char :accessor entity/char)
    (color :initarg :color :accessor entity/color)))
 
-(defmethod draw ((e entity))
+(defmethod draw ((e entity) (map game-map))
   (with-slots (x y char color) e
-   (setf (blt:color) color
-         (blt:cell-char x y) char)))
+   (if (tile/visible (aref (game-map/tiles map) x y))
+       (setf (blt:color) color
+             (blt:background-color) (blt:cell-background-color x y)
+            (blt:cell-char x y) char))))
 
 (defmethod move ((e entity) dx dy)
   (incf (entity/x e) dx)

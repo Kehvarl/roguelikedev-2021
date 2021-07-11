@@ -13,8 +13,7 @@
                                                (game-map/h map))))
   (map-tiles-loop (map tile :col-val x :row-val y)
                   (setf (aref (game-map/tiles map) x y)
-                        (make-instance 'tile
-                                       :blocked initial-blocked-value))))
+                        (make-instance 'tile :blocked initial-blocked-value))))
 
 (defmethod blocked-p ((map game-map) x y)
   (tile/blocked (aref (game-map/tiles map) x y)))
@@ -42,21 +41,22 @@
                          :y-start start-y :y-end (1+ end-y))
       (set-tile-slots tile :blocked nil :block-sight nil))))
 
-(defmacro map-tiles-loop ((map tile-val &key (row-val (gensym)) (col-val (gensym))
-                                             (x-start 0) (y-start 0)
-                                             (x-end nil) (y-end nil))
+(defmacro map-tiles-loop ((map tile-val &key (row-val (gensym))
+                                          (col-val (gensym))
+                                          (x-start 0) (y-start 0)
+                                          (x-end nil) (y-end nil))
                           &body body)
   `(loop :for ,col-val
          :from ,x-start
-         :below (if (null ,x-end) (game-map/w ,map) ,x-end)
-     :do
-         (loop :for ,row-val
-               :from ,y-start
-               :below (if (null ,y-end) (game-map/h ,map) , y-end)
-           :do
-               (let ((,tile-val (aref (game-map/tiles , map) ,col-val ,row-val)))
-                 (declare (ignorable ,tile-val))
-                 ,@body))))
+           :below (if (null ,x-end) (game-map/w ,map) ,x-end)
+    :do
+      (loop :for ,row-val
+             :from ,y-start
+               :below (if (null ,y-end) (game-map/h ,map) ,y-end)
+       :do
+          (let ((,tile-val (aref (game-map/tiles ,map) ,col-val ,row-val)))
+              (declare (ignorable ,tile-val))
+              ,@body))))
 
 (defmethod make-map ((map game-map) max-rooms
                                     room-min-size room-max-size
