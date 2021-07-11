@@ -14,15 +14,18 @@
              (visible (tile/visible tile))
              (explored (tile/explored tile)))
 
-        (if explored
-         (if visible
-          (if wall
-           (setf (blt:background-color) (getf *color-map* :lit-wall))
-           (setf (blt:background-color) (getf *color-map* :lit-ground)))
-          (if wall
-           (setf (blt:background-color) (getf *color-map* :dark-wall))
-           (setf (blt:background-color) (getf *color-map* :dark-ground)))))
-        (setf (blt:cell-char x y) #\Space))))
+         (cond (visible
+                 (if wall
+                   (setf (blt:background-color) (getf *color-map* :lit-wall))
+                   (setf (blt:background-color) (getf *color-map* :lit-ground)))
+                 (setf (blt:cell-char x y) #\Space))
+               (explored
+                 (if wall
+                   (setf (blt:background-color) (getf *color-map* :dark-wall))
+                   (setf (blt:background-color) (getf *color-map* :dark-ground)))
+                 (setf (blt:cell-char x y) #\Space))))))
+
 
   (mapc #'draw entities)
+  (setf (blt:background-color) (blt:black))
   (blt:refresh))
