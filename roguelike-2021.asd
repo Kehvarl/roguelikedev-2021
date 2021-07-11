@@ -8,10 +8,10 @@
   :serial t
   :depends-on (#:cl-blt)
   :components ((:file "package")
-               (:file "entity")
                (:file "rect")
                (:file "tile")
                (:file "game-map")
+               (:file "entity") ;; Entity now relies on game-map
                (:file "fov")
                (:file "render-functions")
                (:file "roguelike-2021")))
