@@ -139,3 +139,12 @@ Currently the player can see the entire map.  That's no challenge at all! So wha
 * Then we'll update our FoV tool to mark places as explored as we encounter them.
 #### Enemies
 * Update our Draw routine to only show enemies inside our FoV.
+
+## Part 5
+![Part 5.1](./screenshots/Part5.1.png?raw=true "A Well-Stocked Dungeon")
+### Placing Enemies
+Now that there's a map to explore, and some mystery to the map, it's time to populate the dungeon!  This is most easily done ruing map generation when we can easily add stuff to the rooms.
+* First we'll add a utility function to our game-map that checks if there's already an entity at a chosen x/y point.
+* Then we'll add a method to our game-map that accepts a room and some constraints, then populates that room with some number of entities fitting our constraints.
+  * Part of placing entities is finding a random spot in a room to place them.  I decided that finding that random point made more sense hiding inside Rect than in our Game-Map
+* And then we just update our make-map routine so we can drop those random entities into our rooms as we make them.
