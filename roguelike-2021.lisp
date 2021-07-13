@@ -10,6 +10,7 @@
 (defparameter *room-max-size* 10)
 (defparameter *room-min-size* 6)
 (defparameter *max-rooms* 30)
+(defparameter *max-enemies-per-room* 6)
 
 (defun handle-keys ()
   (let ((action nil))
@@ -55,6 +56,6 @@
                               :color (blt:yellow)))
           (entities (list player npc))
           (map (make-instance 'game-map :w *map-width* :h *map-height*)))
-     (make-map map *max-rooms* *room-min-size* *room-max-size* *map-width* *map-height* player)
+     (make-map map *max-rooms* *room-min-size* *room-max-size* *map-width* *map-height* player entities *max-enemies-per-room*)
      (do ((exit nil (game-tick player entities map)))
        (exit)))))

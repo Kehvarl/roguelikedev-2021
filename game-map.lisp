@@ -18,6 +18,12 @@
 (defmethod blocked-p ((map game-map) x y)
   (tile/blocked (aref (game-map/tiles map) x y)))
 
+(defun entity-at (entities x y)
+  (dolist (entity entities)
+    (if (and (= (entity/x entity) x)
+             (= (entity/y entity) y))
+      (return entity))))
+
 (defmethod create-room ((map game-map) (room rect))
   (map-tiles-loop (map tile
                        :x-start (1+ (rect/x1 room)) :x-end (rect/x2 room)
@@ -41,6 +47,18 @@
                          :y-start start-y :y-end (1+ end-y))
       (set-tile-slots tile :blocked nil :block-sight nil))))
 
+(defmethod place-entities ((map game-map) (room rect) entities
+                                          max-enemies-per-room)
+  (let ((num-monsters (random max-enemies-per-room)))
+    (dotimes (monster-index num-monsters)
+      (multiple-value-bind (x y) (rect/random room)
+        (unless (entity-at entities x y)
+          (if (< (random 100) 80)
+            (nconc entities (list (make-instance 'entity :x x :y y :color (blt:green) :char #\o)))
+            (nconc entities (list (make-instance 'entity :x x :y y :color (blt:yellow) :char #\T)))))))))
+
+
+
 (defmacro map-tiles-loop ((map tile-val &key (row-val (gensym))
                                           (col-val (gensym))
                                           (x-start 0) (y-start 0)
@@ -61,7 +79,8 @@
 (defmethod make-map ((map game-map) max-rooms
                                     room-min-size room-max-size
                                     map-width map-height
-                                    player)
+                                    player entities
+                                    max-enemies-per-room)
 
   (do* ((rooms nil)
         (num-rooms 0)
@@ -94,6 +113,7 @@
                     (t
                      (create-v-tunnel map prev-y new-y prev-x)
                      (create-h-tunnel map prev-x new-x new-y)))))
+        (place-entities map new-room entities max-enemies-per-room)
         (if (null rooms)
             (setf rooms (list new-room))
             (push new-room (cdr (last rooms))))

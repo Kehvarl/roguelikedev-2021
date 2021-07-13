@@ -21,9 +21,9 @@
 
 (defmethod rect/random ((rect rect))
   (with-slots (x1 x2 y1 y2) rect
-   (let ((center-x (random (+ x1 1) x2))
-         (center-y (random (+ y1 1) y2)))
-     (values center-x center-y))))
+   (let ((rand-x (+ (random (round (/ (- x2 x1 1) 2)))(1+ x1)))
+         (rand-y (+ (random (round (/ (- y2 y1 1) 2)))(1+ y1))))
+     (values rand-x rand-y))))
 
 (defmethod intersect ((rect rect) (other rect))
   (and (<= (rect/x1 rect) (rect/x2 other))
