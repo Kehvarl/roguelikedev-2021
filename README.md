@@ -141,10 +141,20 @@ Currently the player can see the entire map.  That's no challenge at all! So wha
 * Update our Draw routine to only show enemies inside our FoV.
 
 ## Part 5
-![Part 5.1](./screenshots/Part5.1.png?raw=true "A Well-Stocked Dungeon")
 ### Placing Enemies
+![Part 5.1](./screenshots/Part5.1.png?raw=true "A Well-Stocked Dungeon")
 Now that there's a map to explore, and some mystery to the map, it's time to populate the dungeon!  This is most easily done ruing map generation when we can easily add stuff to the rooms.
 * First we'll add a utility function to our game-map that checks if there's already an entity at a chosen x/y point.
 * Then we'll add a method to our game-map that accepts a room and some constraints, then populates that room with some number of entities fitting our constraints.
   * Part of placing entities is finding a random spot in a room to place them.  I decided that finding that random point made more sense hiding inside Rect than in our Game-Map
 * And then we just update our make-map routine so we can drop those random entities into our rooms as we make them.
+### Colliding with enemies
+![Part 5.2](./screenshots/Part5.2.png?raw=true "Win Friends and Kick Enemies")
+Currently we can walk right through all the enemies on the map.  Since they won't move out of our way, this is very useful.  Unfortunately it's not ideal for the future of our game.
+* Modify the Entity to hold a "blocks" slot
+* Update entity creation to make our various entities solid
+* Update our movement routine to check for solid creatures before we can enter a space on our map
+  * This would be easier if we had an easy way to see if a given x/y location has an entity that blocks movement.  So let's add that function to our Game Map.
+* While we're at it, let's tell you what you bumped into!
+  * Back to the entity to add a Name slot.  Make sure to set it on entity creation.
+  * Then update your move (over in Game-Tick) to print a message when you bump into an entity.

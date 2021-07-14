@@ -24,6 +24,11 @@
              (= (entity/y entity) y))
       (return entity))))
 
+(defun blocking-entity-at (entities x y)
+  (let ((entity (entity-at entities x y)))
+    (if (and entity (entity/blocks entity))
+      entity)))
+
 (defmethod create-room ((map game-map) (room rect))
   (map-tiles-loop (map tile
                        :x-start (1+ (rect/x1 room)) :x-end (rect/x2 room)
@@ -54,8 +59,12 @@
       (multiple-value-bind (x y) (rect/random room)
         (unless (entity-at entities x y)
           (if (< (random 100) 80)
-            (nconc entities (list (make-instance 'entity :x x :y y :color (blt:green) :char #\o)))
-            (nconc entities (list (make-instance 'entity :x x :y y :color (blt:yellow) :char #\T)))))))))
+            (nconc entities (list (make-instance 'entity :name "Orc"
+                                                 :x x :y y :color (blt:green)
+                                                 :char #\o :blocks t)))
+            (nconc entities (list (make-instance 'entity :name "Troll"
+                                                 :x x :y y :color (blt:yellow)
+                                                 :char #\T :blocks t)))))))))
 
 
 
