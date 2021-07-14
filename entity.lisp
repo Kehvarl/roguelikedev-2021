@@ -1,10 +1,12 @@
 (in-package #:roguelike-2021)
 
 (defclass entity()
-  ((x :initarg :x :accessor entity/x)
+  ((name :initarg :name :accessor entity/name)
+   (x :initarg :x :accessor entity/x)
    (y :initarg :y :accessor entity/y)
    (char :initarg :char :accessor entity/char)
-   (color :initarg :color :accessor entity/color)))
+   (color :initarg :color :accessor entity/color)
+   (blocks :initarg :blocks :accessor entity/blocks)))
 
 (defmethod draw ((e entity) (map game-map))
   (with-slots (x y char color) e
