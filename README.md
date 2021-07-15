@@ -158,3 +158,17 @@ Currently we can walk right through all the enemies on the map.  Since they won'
 * While we're at it, let's tell you what you bumped into!
   * Back to the entity to add a Name slot.  Make sure to set it on entity creation.
   * Then update your move (over in Game-Tick) to print a message when you bump into an entity.
+### Taking Turns
+Let's give all those entities we're spawning a chance to do things!
+* Create type to track our allowed game states
+  * It can either be the player's turn or the list of Enemies' Turn
+* Modify our Game-Tick to swap between states as appropriate
+  * If it's the player Turn, and the Player has done something,
+    * If they quit the game:  Set game-state to :EXIT
+    * Otherwise Do the thing and set the game-state to :Enemy-Turn
+  * If it's Enemy-Turn
+    * Go through each entity and perform a placeholder
+    * Set the Game-State to :Player-Turn
+  * If it's EXIT
+    * Return the :EXIT condition
+* Modify the "do" loop in our Main function to track and pass Game-State to our Tick function.
