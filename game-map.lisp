@@ -66,8 +66,6 @@
                                                  :x x :y y :color (blt:yellow)
                                                  :char #\T :blocks t)))))))))
 
-
-
 (defmacro map-tiles-loop ((map tile-val &key (row-val (gensym))
                                           (col-val (gensym))
                                           (x-start 0) (y-start 0)
