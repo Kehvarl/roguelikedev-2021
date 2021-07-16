@@ -172,3 +172,6 @@ Let's give all those entities we're spawning a chance to do things!
   * If it's EXIT
     * Return the :EXIT condition
 * Modify the "do" loop in our Main function to track and pass Game-State to our Tick function.
+
+## Interlude
+* Doing some cleanup and re-organization so I can find stuff more easily.
