@@ -13,7 +13,6 @@
                   (:close (setf action (list :quit t))))
     action))
 
-
 (defun game-tick (player entities map game-state)
   (declare (type game-states game-state))
   (render-all entities map)
