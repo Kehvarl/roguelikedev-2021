@@ -14,4 +14,5 @@
                (:file "entity") ;; Entity now relies on game-map
                (:file "fov")
                (:file "render-functions")
+               (:file "game-tick")
                (:file "roguelike-2021")))
