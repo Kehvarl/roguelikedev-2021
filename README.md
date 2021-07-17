@@ -191,3 +191,4 @@ We'll be using components within our entities to identify various capabilities, 
   * Make sure we initialize any existing components with the reference back to its owner.
 * Update our player instance to have a Fighter component.
 * Update our random monsters to have Fighter and AI components to make them more interesting.
+* Now we need to update our game loop (Game-Tick if you forgot) to make use of the AI on our creatures!  Basically we just call "Take-turn" on anything that has an AI component.
