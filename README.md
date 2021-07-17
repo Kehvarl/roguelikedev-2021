@@ -175,3 +175,14 @@ Let's give all those entities we're spawning a chance to do things!
 
 ## Interlude
 * Doing some cleanup and re-organization so I can find stuff more easily.
+
+## Part 6
+### Combat!
+![Part 6.1](./screenshots/Part6.1.png?raw=true "With a Fightin' Heart and Immortal Skill")
+#### Components
+We'll be using components within our entities to identify various capabilities, the first of which is "Fighter".  The Fighter Component grants: HP, Attack, and Defense.
+* Create a new Components file, make sure to add it to our ASD and also put the proper (in-package...) at the top!
+* The first thing we'll define is actually a generic Component class.  This holds the information that all components must have, which is basically just a reference to the entity that this component belongs to.
+* Next up the Fighter.  This is a Component with HP, Max-HP, Attack, and Defense.
+* A monster with HP but no AI seems silly, so we'll plan for that too!
+  * Monster AI is just a component with a "take-turn" method.
