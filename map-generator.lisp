@@ -29,13 +29,26 @@
     (dotimes (monster-index num-monsters)
       (multiple-value-bind (x y) (rect/random room)
         (unless (entity-at entities x y)
-          (if (< (random 100) 80)
-            (nconc entities (list (make-instance 'entity :name "Orc"
-                                                 :x x :y y :color (blt:green)
-                                                 :char #\o :blocks t)))
-            (nconc entities (list (make-instance 'entity :name "Troll"
-                                                 :x x :y y :color (blt:yellow)
-                                                 :char #\T :blocks t)))))))))
+          (cond
+            ((< (random 100) 80)
+             (let* ((fighter-component (make-instance 'fighter :hp 10
+                                                      :defense 0 :power 3))
+                    (ai-component (make-instance 'basic-monster)))
+               (nconc entities (list (make-instance 'entity :name "Orc"
+                                                    :x x :y y :color (blt:green)
+                                                    :char #\o :blocks t
+                                                    :fighter fighter-component
+                                                    :ai ai-component)))))
+
+            (t
+             (let* ((fighter-component (make-instance 'fighter :hp 16
+                                                      :defense 1 :power 4))
+                    (ai-component (make-instance 'basic-monster)))
+               (nconc entities (list (make-instance 'entity :name "Troll"
+                                                    :x x :y y :color (blt:yellow)
+                                                    :char #\T :blocks t
+                                                    :fighter fighter-component
+                                                    :ai ai-component)))))))))))
 
 (defmethod make-map ((map game-map) max-rooms
                                    room-min-size room-max-size

@@ -189,3 +189,5 @@ We'll be using components within our entities to identify various capabilities, 
 * Now that we have a couple of components, lets' modify Entity so  we can use them.
   * Create a slot for each Component type in Entity
   * Make sure we initialize any existing components with the reference back to its owner.
+* Update our player instance to have a Fighter component.
+* Update our random monsters to have Fighter and AI components to make them more interesting.
