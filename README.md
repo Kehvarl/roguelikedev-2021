@@ -186,3 +186,6 @@ We'll be using components within our entities to identify various capabilities, 
 * Next up the Fighter.  This is a Component with HP, Max-HP, Attack, and Defense.
 * A monster with HP but no AI seems silly, so we'll plan for that too!
   * Monster AI is just a component with a "take-turn" method.
+* Now that we have a couple of components, lets' modify Entity so  we can use them.
+  * Create a slot for each Component type in Entity
+  * Make sure we initialize any existing components with the reference back to its owner.
