@@ -198,3 +198,8 @@ Now we make our enemies do stuff!
 * Next we update our AI's "take-turn" method to move towards the player, and try to attack if the enemy is close enough to a target.
 * Finally we update our Game-Tick to feed all the essential data to Take-Turn.
 * Running the game now, we see our enemies give chase!  Though, with their simplistic movement, they can get stuck easily.
+### Player Improvements
+* Monsters are a bit more maneuverable than we are, let's fix that!  8-way movement can be implemented by assigning some new movement keys, and usually we'd be using the vi keys (hjkl + yubn).  I personally never found these to be intuitive or ergonomic, so let's see how we can improve on them!
+  * QWE/A D/ZXC ->  really awkward on the left hand, so let's not go there if we dont' have to.
+  * UIO/J L/M<> -> this seems doable, I actually find myself reaching for NM<m, but that might just be me.   This also leaves K for some special purpose, and P:? under your pinky, ready to use.
+  * Numpad ->  This would be ideal, except I'm on a tenkeyless keyboard, as are many people I know.
