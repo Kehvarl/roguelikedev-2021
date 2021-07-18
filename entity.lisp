@@ -30,11 +30,12 @@
   (incf (entity/y e) dy))
 
 (defgeneric move-towards (e target-x target-y map entities))
+(defgeneric distance-to (e other))
 
 (defmethod move-towards ((e entity) target-x target-y  map entities)
   (with-slots (x y) e
     (let* ((dx (- target-x x))
-           (dy (- targey-y y))
+           (dy (- target-y y))
            (distance (sqrt (+ (expt dx 2) (expt dy 2)))))
       (setf dx (round (/ dx distance))
             dy (round (/ dy distance)))
@@ -42,7 +43,7 @@
                   (blocking-entity-at entities (+ x dx) (+ y dy)))
         (move e dx dy)))))
 
-(defmethod distance-to ((e entity) (other enttiy))
+(defmethod distance-to ((e entity) (other entity))
   (let ((dx (- (entity/x other) (entity/x e)))
         (dy (- (entity/y other) (entity/y e))))
     (sqrt (+ (expt dx 2) (expt dy 2)))))

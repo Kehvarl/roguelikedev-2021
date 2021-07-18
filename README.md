@@ -195,3 +195,6 @@ We'll be using components within our entities to identify various capabilities, 
 #### Basic Monster AI
 Now we make our enemies do stuff!
 * To start with we need some features built into our entity class. Specifically a move-towards method that will handle pathfinding, and a distance-to that will see how far we are from a goal.
+* Next we update our AI's "take-turn" method to move towards the player, and try to attack if the enemy is close enough to a target.
+* Finally we update our Game-Tick to feed all the essential data to Take-Turn.
+* Running the game now, we see our enemies give chase!  Though, with their simplistic movement, they can get stuck easily.
