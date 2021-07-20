@@ -6,7 +6,7 @@
   :license  ""
   :version "0.0.2"
   :serial t
-  :depends-on (#:cl-blt)
+  :depends-on (#:cl-blt #:queues.priority-queue)
   :components ((:file "package")
                (:file "rect")
                (:file "tile")
