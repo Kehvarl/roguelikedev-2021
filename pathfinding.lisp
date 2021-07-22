@@ -14,7 +14,7 @@
   ((g :initform 0 :accessor node/g)
    (h :initform 0 :accessor node/h)
    (f :initform 0 :accessor node/f)
-   (distance-from-parent :initarg :distance-from-pareng :accessor
+   (distance-from-parent :initarg :distance-from-parent :accessor
                          node/distance-from-parent)
    (parent :initarg :parent :initform nil :accessor node/parent)
    (position :initarg :position :initform nil :accessor node/position)))
@@ -41,3 +41,29 @@ there are multiple matches."
                                   (setf node item)))
                       queue)
     node))
+
+(defun create-path (current-node)
+  "Given a node, return a list of all parent nodes leading to it."
+  (do ((path nil)
+       (current current-node (node/parent current)))
+    ((null current) (reverse path))
+    (setf path (append path (list (node/position current))))))
+
+(defun make-node (parent-node node-x node-y direction-from-parent)
+  "Creates a NODE instance with the given PARENT, X, Y, and calculates
+DISTANCE-FROM-PARENT"
+  (let ((distance 10))
+    (if (and (not (zerop (car direction-from-parent)))
+             (not (zerop (cdr direction-from-parent))))
+      (setf distance 14))
+    (make-instance 'node :parent parent-node
+                   :position (cons node-x node-y)
+                   :distance-from-parent distance)))
+
+(defun generate-node-cost (child current-node end-node)
+  "Calculates and sets G, H, and F slots on child node."
+  (with-slots (g h f position distance-from-parent) child
+    (setf g (+ distance-from-parent (node/g current-node))
+          h (+ (expt (- (car position) (car (node/position end-node))) 2)
+               (expt (- (cdr position) (cdr (node/position end-node))) 2))
+          f (+ g h))))
