@@ -100,3 +100,21 @@ tile is not blocking, and the node is not in the CLOSED-LIST"
             (unless (find child closed-list :test 'node-equal)
               (generate-node-cost child current-node end-node)
               (update-open-queue open-list child))))))))
+
+(defun astar (map start end)
+  "Returns a list of cons cells describing a path from the gicen start to the
+given end in a given map."
+  (let ((start-node (make-instance 'node :position start))
+        (end-node (make-instance 'node :position end))
+        (open-list (queues:make-queue :priority-queue :compare #'node-compare))
+        (closed-list nil))
+    (queues:qpush open-list start-node)
+    (do ((current-node (queues:qpop open-list) (queues:qpop open-list)))
+        ((null current-node))
+      (setf closed-list (append closed-list (list current-node)))
+
+      ;;found the goal.
+      (when (node-equal current-node end-node)
+        (return-from astar (create-path current-node)))
+
+      (generate-node-children current-node map open-list closed-list end-node))))
