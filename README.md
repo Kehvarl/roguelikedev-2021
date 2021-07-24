@@ -209,3 +209,8 @@ Now we make our enemies do stuff!
 * Don't forget to add Pathfinding to our ASD so it loads properly.
 ### Doing Damage
 And now we move from trading insults to trading blows.
+* First up is some necessary changes to our Fighter component.
+  * We'll add a function to deal damage
+  * And another for straight-forward attacks.
+* Then we'll modify our game-tick to use this new attack feature when we bump into an enemy.
+* For fairness, we'll update the enemies' AI to attack instead of insulting us.
