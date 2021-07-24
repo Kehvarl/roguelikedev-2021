@@ -1,6 +1,6 @@
 (in-package #:roguelike-2021)
 
-(deftype game-states () '(member :player-turn :enemy-turn :exit))
+(deftype game-states () '(member :player-turn :enemy-turn :player-dead :exit))
 
 (defun handle-keys ()
   (when (blt:has-input-p)
@@ -41,19 +41,33 @@
           (dead-entity (getf player-turn-results :dead)))
       (when message
         (format t message))
-      (when dead-entity)))
-      ;; Do something cool here
+      (when dead-entity
+        (cond
+          ((equal dead-entity player)
+           (setf (values message game-state)
+                 (kill-player dead-entity)))
+          (t
+           (setf message (kill-monster dead-entity))))
+        (format t message))))
 
   (when (eql game-state :enemy-turn)
     (dolist (entity (remove-if-not #'entity/ai entities))
-          (let* ((enemy-turn-results (take-turn (entity/ai entity))
-                          player map entities)
+          (let* ((enemy-turn-results (take-turn (entity/ai entity)
+                                                player map entities))
                  (message (getf enemy-turn-results :message))
                  (dead-entity (getf enemy-turn-results :dead)))
             (when message
               (format t message))
-            (when dead-entity)))
-              ;; Do something with these corpses soon!
+            (when dead-entity
+              (cond
+                ((equal dead-entity player)
+                 (setf (values message game-state)
+                       (kill-player dead-entity)))
+                (t
+                  (setf message (kill-monster dead-entity))))
+              (format t message)
+              (when (eql game-state :player-dead)
+                (return-from game-tick game-state)))))
     (setf game-state :player-turn))
 
   game-state)
