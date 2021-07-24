@@ -208,9 +208,21 @@ Now we make our enemies do stuff!
 * Once we have a workable pathfinding solution, let's update our Entity's "move-towards" function to use that to help find the way to our target.
 * Don't forget to add Pathfinding to our ASD so it loads properly.
 ### Doing Damage
+![Part 6.2](./screenshots/Part6.2.png?raw=true "WHAM! POW! BLAM!")
+#### Damage and Combat
 And now we move from trading insults to trading blows.
 * First up is some necessary changes to our Fighter component.
   * We'll add a function to deal damage
   * And another for straight-forward attacks.
 * Then we'll modify our game-tick to use this new attack feature when we bump into an enemy.
 * For fairness, we'll update the enemies' AI to attack instead of insulting us.
+#### Messages, Death, and Corpses
+![Part 6.3](./screenshots/Part6.3.png?raw=true "Let the dead find their rest as a messy pile!")
+We can hit things, things can hit us, and we can even brag about the relative amounts of damage!  Time to do something with all this.
+* Instead of printing, our take-damage and attack methods should return some information about what happened, so the game logic can do useful things for us.
+* With all these useful messages flowing back to our game loop, let's modify it to display our messages and do something when things die!
+* Now that our game loop has some information to work with (and we're printing the messages that look exactly the same as before), let's decide what to do with these immortal dead things!
+  * We'll create a new file (don't forget to in-package and add it to our ASD), and define some nice tools for dealing with bodies.
+  * Kill-player will turn you Red and set some flags so we can end the game
+  * kill-monster will Print a nice victory message, turn the monster Red, and make it stop trying to do stuff.
+* With those helpful utilities in place, we'll update our game-tick function to use them when things die.

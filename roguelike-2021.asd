@@ -18,4 +18,5 @@
                (:file "fov")
                (:file "render-functions")
                (:file "game-tick")
+               (:file "death-functions")
                (:file "roguelike-2021")))
