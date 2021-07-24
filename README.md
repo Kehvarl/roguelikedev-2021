@@ -226,3 +226,10 @@ We can hit things, things can hit us, and we can even brag about the relative am
   * Kill-player will turn you Red and set some flags so we can end the game
   * kill-monster will Print a nice victory message, turn the monster Red, and make it stop trying to do stuff.
 * With those helpful utilities in place, we'll update our game-tick function to use them when things die.
+
+## Part 7
+### The UI
+![Part 7.1](./screenshots/Part7.1.png?raw=true "Interfacing with Users!")
+#### Player Health
+We can deal and take damage, but right now we have no way of knowing just how badly injured we are.   We're going to tackle this in stages!  First up, just a crude presentation of our current HP.
+* We'll hack our Render-All function to accept the player and display the HP and Max-HP values from that entity.

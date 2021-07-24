@@ -18,7 +18,7 @@
 
 (defun game-tick (player entities map game-state)
   (declare (type game-states game-state))
-  (render-all entities map)
+  (render-all entities player map *screen-width* *screen-height*)
   (let* ((player-turn-results nil)
          (action (handle-keys))
          (move (getf action :move))
