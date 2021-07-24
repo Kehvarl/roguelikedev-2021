@@ -19,7 +19,8 @@
 (defun game-tick (player entities map game-state)
   (declare (type game-states game-state))
   (render-all entities map)
-  (let* ((action (handle-keys))
+  (let* ((player-turn-results nil)
+         (action (handle-keys))
          (move (getf action :move))
          (exit (getf action :quit)))
     (when (and move (eql game-state :player-turn))
@@ -28,17 +29,31 @@
            (unless (blocked-p map destination-x destination-y)
              (let ((target (blocking-entity-at entities destination-x destination-y)))
                (cond (target
-                      (attack (entity/fighter player) target))
+                      (setf player-turn-results (attack (entity/fighter player) target)))
                      (t
                       (move player (car move) (cdr move))
                       (fov map (entity/x player) (entity/y player)))))
             (setf game-state :enemy-turn))))
     (when exit
-      (setf game-state :exit)))
+      (setf game-state :exit))
+
+    (let ((message (getf player-turn-results :message))
+          (dead-entity (getf player-turn-results :dead)))
+      (when message
+        (format t message))
+      (when dead-entity)))
+      ;; Do something cool here
 
   (when (eql game-state :enemy-turn)
     (dolist (entity (remove-if-not #'entity/ai entities))
-          (take-turn (entity/ai entity) player map entities))
+          (let* ((enemy-turn-results (take-turn (entity/ai entity)
+                                                player map entities))
+                 (message (getf enemy-turn-results :message))
+                 (dead-entity (getf enemy-turn-results :dead)))
+            (when message
+              (format t message))
+            (when dead-entity)))
+              ;; Do something with these corpses soon!
     (setf game-state :player-turn))
 
   game-state)

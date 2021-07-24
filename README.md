@@ -208,9 +208,15 @@ Now we make our enemies do stuff!
 * Once we have a workable pathfinding solution, let's update our Entity's "move-towards" function to use that to help find the way to our target.
 * Don't forget to add Pathfinding to our ASD so it loads properly.
 ### Doing Damage
+![Part 6.2](./screenshots/Part6.2.png?raw=true "WHAM! POW! BLAM!")
+#### Damage and Combat
 And now we move from trading insults to trading blows.
 * First up is some necessary changes to our Fighter component.
   * We'll add a function to deal damage
   * And another for straight-forward attacks.
 * Then we'll modify our game-tick to use this new attack feature when we bump into an enemy.
 * For fairness, we'll update the enemies' AI to attack instead of insulting us.
+#### Messages, Death, and Corpses
+We can hit things, things can hit us, and we can even brag about the relative amounts of damage!  Time to do something with all this.
+* Instead of printing, our take-damage and attack methods should return some information about what happened, so the game logic can do useful things for us.
+* With all these useful messages flowing back to our game loop, let's modify it to display our messages and do something when things die!
