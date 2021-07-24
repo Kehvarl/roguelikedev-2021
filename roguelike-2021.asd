@@ -11,6 +11,7 @@
                (:file "rect")
                (:file "tile")
                (:file "game-map")
+               (:file "pathfinding")
                (:file "components")
                (:file "entity")
                (:file "map-generator")

@@ -203,3 +203,7 @@ Now we make our enemies do stuff!
   * QWE/A D/ZXC ->  really awkward on the left hand, so let's not go there if we dont' have to.
   * UIO/J L/M<> -> this seems doable, I actually find myself reaching for NM<m, but that might just be me.   This also leaves K for some special purpose, and P:? under your pinky, ready to use.
   * Numpad ->  This would be ideal, except I'm on a tenkeyless keyboard, as are many people I know.
+### Monster movement
+* Our monsters just move in a straight line, so it's easy to trap them in places they can't move.   To fix that let's implement the AStar pathfinding algorithm and have our creatures use that to make their way around the map.
+* Once we have a workable pathfinding solution, let's update our Entity's "move-towards" function to use that to help find the way to our target.
+* Don't forget to add Pathfinding to our ASD so it loads properly.
