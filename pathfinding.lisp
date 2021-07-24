@@ -80,3 +80,41 @@ CHILD-NODE, then it pushes CHILD-NODE onto OPEN-LIST"
                             child-node))
       (t
        (queues:qpush open-list child-node)))))
+
+(defun generate-node-children (current-node map open-list closed-list end-node)
+  "Gemerate a list of all valid nodes that can be moves to from CURRENT-NODE.
+and adds them to OPEN-QUEUE.  A valid node is within the MAP dimensions, the
+tile is not blocking, and the node is not in the CLOSED-LIST"
+  (dolist (new-position *all-directions*)
+    (let ((node-x (+ (car (node/position current-node))
+                     (car new-position)))
+          (node-y (+ (cdr (node/position current-node))
+                     (cdr new-position))))
+      (unless (or (> node-x (1- (game-map/w map)))
+                  (< node-x 0)
+                  (> node-y (1- (game-map/h map)))
+                  (< node-y 0))
+        (unless (tile/blocked (aref (game-map/tiles map) node-x node-y))
+          (let ((child (make-node current-node node-x node-y new-position)))
+            ;; Child is on the closed list.
+            (unless (find child closed-list :test 'node-equal)
+              (generate-node-cost child current-node end-node)
+              (update-open-queue open-list child))))))))
+
+(defun astar (map start end)
+  "Returns a list of cons cells describing a path from the gicen start to the
+given end in a given map."
+  (let ((start-node (make-instance 'node :position start))
+        (end-node (make-instance 'node :position end))
+        (open-list (queues:make-queue :priority-queue :compare #'node-compare))
+        (closed-list nil))
+    (queues:qpush open-list start-node)
+    (do ((current-node (queues:qpop open-list) (queues:qpop open-list)))
+        ((null current-node))
+      (setf closed-list (append closed-list (list current-node)))
+
+      ;;found the goal.
+      (when (node-equal current-node end-node)
+        (return-from astar (create-path current-node)))
+
+      (generate-node-children current-node map open-list closed-list end-node))))
