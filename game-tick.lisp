@@ -46,8 +46,8 @@
 
   (when (eql game-state :enemy-turn)
     (dolist (entity (remove-if-not #'entity/ai entities))
-          (let* ((enemy-turn-results (take-turn (entity/ai entity)
-                                                player map entities))
+          (let* ((enemy-turn-results (take-turn (entity/ai entity))
+                          player map entities)
                  (message (getf enemy-turn-results :message))
                  (dead-entity (getf enemy-turn-results :dead)))
             (when message
