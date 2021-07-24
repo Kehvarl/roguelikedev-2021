@@ -229,7 +229,22 @@ We can hit things, things can hit us, and we can even brag about the relative am
 
 ## Part 7
 ### The UI
-![Part 7.1](./screenshots/Part7.1.png?raw=true "Interfacing with Users!")
+![Part 7.1](./screenshots/Part7.1.png?raw=true "Showing off our HP!")
 #### Player Health
 We can deal and take damage, but right now we have no way of knowing just how badly injured we are.   We're going to tackle this in stages!  First up, just a crude presentation of our current HP.
 * We'll hack our Render-All function to accept the player and display the HP and Max-HP values from that entity.
+#### Emergency Recompile of our source libraries
+Well that was an exciting diversion!  It turns out that cl-blt can't print with the pre-compiled version of BearLibTerminal.  The fix wasn't too hard, so here's some instructions if you're following along:
+* `git clone https://github.com/tommyettinger/BearLibTerminal.git`  to grab the latest source code for BearLibTerminal
+* `sudo apt install build-essential cmake freeglut3-dev`  This will give us the stuff we need to compile BearLibTerminal from scratch, including the openGL headers we will need.   NOTE:  This is on Ubuntu Linux 21.04.  Your own computer might be different.
+* `cd BearLibTerminal` Or to wheresoever you put your cloned copy.
+* `cmake .`  Build the things that tell it how to build the thing!
+* `make` Now actually build the thing!
+* `sudo cp Terminal/Output/Linux64/libBearLibTerminal.so /usr/lib/libBearLibTerminal.so` Put the newly crafted BearLibTerminal in the place that Lisp knows to look for it.
+* Now, RESTART your lisp REPL.  I'm sure there's a better way, but for me this is the only thing that worked.
+* `(ql:quickload :roguelikedev-2021)`  Load our project
+* `(in-package :roguelikedev-2021)`    Work within our Project
+* `(main)`  Make sure it runs now!
+#### Player Health Try 2. Or: Back to our code already in progress.
+* It seems to be working now, though I missed a step earlier.  I'm never setting the Max-HP of my entities, so my display is wrong.   Easy fix though!
+  * Pop into components, and create an initialize-instance function to set max-HP if it's not provided.
