@@ -261,3 +261,11 @@ Let's use that silly mouse that all our players have on their desk!
 * We'll start off by configuring BLT to watch the mouse movements.
 * Then we create a function that will scan our list of entities and find everything under the mouse position.
 * And lastly we update Render-All to print that list in our message box.
+
+## Part 8
+### Items and Inventory
+Now that our player can explore the map, encounter strange and unusual creatures, fight them to the death, and be told about it in glorious messages, it's time to add some stuff for them to pick up
+#### Placing Items
+* For starters let's scatter some healing potions around the map.
+* Alongside our place monsters, it's time to create a place-items function we'll call during map generation.
+* While we're at it, let's move monsters out of "entities" and into their own generator.
