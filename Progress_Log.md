@@ -251,4 +251,7 @@ Based on some work I did after setting a Break in my code, it appears that corps
   * Some simple word-wrapping to make sure that text actually fits.
   * A render function that knows how to draw the contents of a log.
 * Penultimately, we create a message log back in our Main function.
-* And finally, we will add a message to the log!
+  * Let's add a test message too.
+* ![Part 7.5](./screenshots/Part7.5.png?raw=true "Logging our Messages")  
+* Finally finally, we replace our format statements with add-to-log statements
+  * Make sure we pass our new message-log into game-tick, and use that when we append messages, otherwise we won't actually have a working solution.

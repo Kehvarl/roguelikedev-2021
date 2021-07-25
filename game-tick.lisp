@@ -16,7 +16,7 @@
                   (:escape (list :quit t))
                   (:close (list :quit t)))))
 
-(defun game-tick (player entities map game-state stats-panel)
+(defun game-tick (player entities map game-state stats-panel message-log)
   (declare (type game-states game-state))
   (render-all entities player map stats-panel *screen-width* *screen-height*)
   (let* ((player-turn-results nil)
@@ -40,7 +40,7 @@
     (let ((message (getf player-turn-results :message))
           (dead-entity (getf player-turn-results :dead)))
       (when message
-        (format t message))
+        (add-message message-log message))
       (when dead-entity
         (cond
           ((equal dead-entity player)
@@ -48,7 +48,7 @@
                  (kill-player dead-entity)))
           (t
            (setf message (kill-monster dead-entity))))
-        (format t message))))
+        (add-message message-log message))))
 
   (when (eql game-state :enemy-turn)
     (dolist (entity (remove-if-not #'entity/ai entities))
