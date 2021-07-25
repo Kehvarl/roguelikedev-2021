@@ -226,3 +226,43 @@ We can hit things, things can hit us, and we can even brag about the relative am
   * Kill-player will turn you Red and set some flags so we can end the game
   * kill-monster will Print a nice victory message, turn the monster Red, and make it stop trying to do stuff.
 * With those helpful utilities in place, we'll update our game-tick function to use them when things die.
+
+## Part 7 (UI Stuff)
+![Part 7.1](./screenshots/Part7.1.png?raw=true "Showing off our HP!")
+### Player Health
+We can deal and take damage, but right now we have no way of knowing just how badly injured we are.   We're going to tackle this in stages!  First up, just a crude presentation of our current HP.
+* We'll hack our Render-All function to accept the player and display the HP and Max-HP values from that entity.
+### Emergency Recompile of our source libraries
+Well that was an exciting diversion!  It turns out that cl-blt can't print with the pre-compiled version of BearLibTerminal.  The fix wasn't too hard, so here's some instructions if you're following along:
+* `git clone https://github.com/tommyettinger/BearLibTerminal.git`  to grab the latest source code for BearLibTerminal
+* `sudo apt install build-essential cmake freeglut3-dev`  This will give us the stuff we need to compile BearLibTerminal from scratch, including the openGL headers we will need.   NOTE:  This is on Ubuntu Linux 21.04.  Your own computer might be different.
+* `cd BearLibTerminal` Or to wheresoever you put your cloned copy.
+* `cmake .`  Build the things that tell it how to build the thing!
+* `make` Now actually build the thing!
+* `sudo cp Terminal/Output/Linux64/libBearLibTerminal.so /usr/lib/libBearLibTerminal.so` Put the newly crafted BearLibTerminal in the place that Lisp knows to look for it.
+* Now, RESTART your lisp REPL.  I'm sure there's a better way, but for me this is the only thing that worked.
+* `(ql:quickload :roguelikedev-2021)`  Load our project
+* `(in-package :roguelikedev-2021)`    Work within our Project
+* `(main)`  Make sure it runs now!
+### Player Health Try 2. Or: Back to our code already in progress.
+* It seems to be working now, though I missed a step earlier.  I'm never setting the Max-HP of my entities, so my display is wrong.   Easy fix though!
+  * Pop into components, and create an initialize-instance function to set max-HP if it's not provided.
+### Rendering Order
+![Part 7.2](./screenshots/Part7.2.png?raw=true "Walking all over them!")
+Everything just gets drawn on screen in the order it's added to the Entities list.  Unfortunately, Player comes first, so we get covered with all sorts of unpleasantness if we share a tile with a body.    To fix that, let's add a concept of render order and make sure the dead come last when we do that.
+* First off, we'll create a render-order global in our rendering-functions file.
+* We'll define 3 types of renderable entities:  Corpses, Items, and Actors.  Lower on the list means it gets drawn first, so it's covered up by other stuff.
+* Entities need to know their render-order, so let's modify them to add a new slot.  We'll default everything to the "corpse" render layer.
+* Set the various render orders, and remember that death changes the order.
+* Create a utility to sort entities by their render order.
+* Actually use our new sort function in our rendering pipeline.
+* And we're done!  You can now walk _on top_ of corpses!
+### Healthbar
+![Part 7.3](./screenshots/Part7.3.png?raw=true "Healthbar: The New sensation!")
+Our little HP tracker is somewhat boring.  To make it more exciting we're going to turn it into a health bar that shrinks as our Player loses HP. Rather than just draw this wherever, we're going to divide our screen into a series of "Panels" to simplify the display of information.
+* First up, we'll create a new "UI" file (and register it in our ASD), then do some work to define this Panel concept.
+  * While we're at it, we created a panel-component class to store things that go inside panels, and we created a quick little function to create panels for us.
+* Now we can design a component for our healthbars.
+  * In our UI file, create a class for "bar" which has a name, and some settings for what it holds.
+  * While we're there, let's write up some tools to render panels and bars.   And make sure the panel renderer calls render on all its components.
+* Let's draw some panels.  We'll start by creating our main panel and health bar over in Main, then pop into game-tick to handle more of what we do.  Mostly just passing everything along to Render-All to do the real magic.

@@ -37,6 +37,7 @@
                (nconc entities (list (make-instance 'entity :name "Orc"
                                                     :x x :y y :color (blt:green)
                                                     :char #\o :blocks t
+                                                    :render-order :actor
                                                     :fighter fighter-component
                                                     :ai ai-component)))))
 
@@ -47,6 +48,7 @@
                (nconc entities (list (make-instance 'entity :name "Troll"
                                                     :x x :y y :color (blt:yellow)
                                                     :char #\T :blocks t
+                                                    :render-order :actor
                                                     :fighter fighter-component
                                                     :ai ai-component)))))))))))
 

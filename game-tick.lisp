@@ -16,9 +16,9 @@
                   (:escape (list :quit t))
                   (:close (list :quit t)))))
 
-(defun game-tick (player entities map game-state)
+(defun game-tick (player entities map game-state stats-panel)
   (declare (type game-states game-state))
-  (render-all entities map)
+  (render-all entities player map stats-panel *screen-width* *screen-height*)
   (let* ((player-turn-results nil)
          (action (handle-keys))
          (move (getf action :move))
