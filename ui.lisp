@@ -12,6 +12,12 @@
     (with-slots (x y width height) object
       (format stream "(~A,~A) ~Ax~A" x y width height))))
 
+(defmethod render-panel ((panel panel))
+  (with-slots (x y width height components) panel
+    (blt:draw-box x y width height)
+    (dolist (component components)
+      (render component))))
+
 (defun make-panel (x y width height)
   (make-instance 'panel
                  :x x :y y :width width :height height))
@@ -20,6 +26,8 @@
   ((panel :initarg :panel :accessor :panel-component/panel)
    (x :initarg :x :accessor panel-component/x)
    (y :initarg :y :accessor panel-component/y)))
+
+(defgeneric render (panel-component))
 
 (defclass bar (panel-component)
   ((name :initarg :name :accessor bar/name)
@@ -46,3 +54,23 @@
                             :color color :bg-color bg-color)))
     (setf (panel/components panel) (append (panel/components panel)
                                            (list bar)))))
+
+(defmethod render ((bar bar))
+  (with-slots (name panel x y total-width value value-bind maximum max-bind
+                    color bg-color) bar
+    (when value-bind
+      (setf value (funcall value-bind)))
+    (when max-bind
+      (setf maximum (funcall max-bind)))
+    (let ((x-pos (+ (panel/x panel) x))
+          (y-pos (+ (panel/y panel) y))
+          (fill-width (round (* (/ value maximum) total-width)))
+          (content (format nil "~A: ~A/~A" name value maximum)))
+      (blt:draw-box x-pos y-pos total-width 1 :background-color bg-color
+                    :border nil)
+      (unless (zerop value)
+        (setf fill-width (max 1 fill-width))
+        (blt:draw-box x-pos y-pos fill-width 1 :background-color color :border nil))
+      (setf (blt:color) (blt:rgba 255 255 255))
+      (blt:draw-box x-pos (1- y-pos) total-width 2 :background-color nil
+                    :border nil :contents content))))

@@ -263,3 +263,4 @@ Our little HP tracker is somewhat boring.  To make it more exciting we're going 
   * While we're at it, we created a panel-component class to store things that go inside panels, and we created a quick little function to create panels for us.
 * Now we can design a component for our healthbars.
   * In our UI file, create a class for "bar" which has a name, and some settings for what it holds.
+  * While we're there, let's write up some tools to render panels and bars.   And make sure the panel renderer calls render on all its components.
