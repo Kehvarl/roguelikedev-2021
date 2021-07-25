@@ -20,3 +20,29 @@
   ((panel :initarg :panel :accessor :panel-component/panel)
    (x :initarg :x :accessor panel-component/x)
    (y :initarg :y :accessor panel-component/y)))
+
+(defclass bar (panel-component)
+  ((name :initarg :name :accessor bar/name)
+   (total-width :initarg :total-width :accessor bar/total-width)
+   (value :initarg :value :accessor bar/value)
+   (value-bind :initarg :value-bind)
+   (maximum :initarg :maximum :accessor bar/maximum)
+   (maximum-bind :initarg :maximum-bind)
+   (color :initarg :color :accessor bar/color)
+   (bg-color :initarg :bg-color :accessor bar/bg-color)))
+
+(defmethod print-object ((object bar) stream)
+  (print-unreadable-object (object stream :type t)
+    (with-slots (name total-width value maximum) object
+      (format stream "~A ~Aw ~A/~A" name total-width value maximum))))
+
+(defun make-bar (name panel x y total-width value color bg-color
+                      &key (value-bind nil) (max-bind nil))
+  (let ((bar (make-instance 'bar :name name :panel panel
+                            :x x :y y :total-width total-width
+                            :value value :maximum value
+                            :value-bind value-bind
+                            :max-bind max-bind
+                            :color color :bg-color bg-color)))
+    (setf (panel/components panel) (append (panel/components panel)
+                                           (list bar)))))
