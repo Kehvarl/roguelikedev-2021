@@ -241,3 +241,14 @@ The bug only activates if the first creature I kill is a Troll. It sometimes sto
 
 Based on some work I did after setting a Break in my code, it appears that corpses just occasionally vanish from my entity list.  This bears further investigation.
 ### Messages
+![Part 7.4](./screenshots/Part7.4.png?raw=true "We've got Fun and Games")
+* We'll start out by creating some classes in our UI file (Though I really feel this should be its own file since there's so much going on)
+  * First up a Message Log which is a Panel-Component just like our healthbar is.
+  * Next a message to store in our log.
+* Now that we have those, we need to manipulate them, so there's some useful tools as Well
+  * A way to initialize our log.
+  * A way to add messages to the log.
+  * Some simple word-wrapping to make sure that text actually fits.
+  * A render function that knows how to draw the contents of a log.
+* Penultimately, we create a message log back in our Main function.
+* And finally, we will add a message to the log!
