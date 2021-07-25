@@ -31,6 +31,7 @@
                                  :char #\@
                                  :color (blt:white)
                                  :blocks t
+                                 :render-order :actor
                                  :fighter fighter-component))
           (entities (list player))
           (map (make-instance 'game-map :w *map-width* :h *map-height*)))
