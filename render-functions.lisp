@@ -36,7 +36,8 @@
                 (setf (blt:cell-char x y) #\Space))))))
 
 
-  (mapc #'(lambda (entity) (draw entity map)) entities)
+  (mapc #'(lambda (entity) (draw entity map))
+        (sort entities #'render-order-compare))
   (setf (blt:background-color) (blt:black)
           (blt:color) (blt:white))
   (blt:print 1 (1- screen-height) (format nil "HP: ~2d/~2d"
