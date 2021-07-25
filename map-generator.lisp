@@ -23,9 +23,17 @@
                          :y-start start-y :y-end (1+ end-y))
       (set-tile-slots tile :blocked nil :block-sight nil))))
 
+(defgeneric place-entities (map room entities max-enemies-per-room max-items-per-room))
+
 (defmethod place-entities ((map game-map) (room rect) entities
-                                          max-enemies-per-room)
-  (let ((num-monsters (random max-enemies-per-room)))
+                                          max-enemies-per-room
+                                          max-items-per-room)
+  (let ((num-monsters (random max-enemies-per-room))
+        (num-items    (random (1+ max-items-per-room))))
+    (place-monsters room entities num-monsters)
+    (place-items    room entities num-items)))
+
+(defun place-monsters (room entities num-monsters)
     (dotimes (monster-index num-monsters)
       (multiple-value-bind (x y) (rect/random room)
         (unless (entity-at entities x y)
@@ -50,13 +58,31 @@
                                                     :char #\T :blocks t
                                                     :render-order :actor
                                                     :fighter fighter-component
-                                                    :ai ai-component)))))))))))
+                                                    :ai ai-component))))))))))
+
+(defun place-items (room entities num-items)
+  (dotimes (item-index num-items)
+    (multiple-value-bind (x y) (rect/random room)
+      (unless (entity-at entities x y)
+        (let ((potion (make-instance 'entity :name "Healing Potion"
+                                     :x x :y y :color (blt:purple)
+                                     :char #\! :blocks nil
+                                     :render-order :item)))
+          (nconc entities (list potion)))))))
+
+(defgeneric make-map (map max-rooms
+                          room-min-size room-max-size
+                          map-width map-height
+                          player entities
+                          max-enemies-per-room
+                          max-items-per-room))
 
 (defmethod make-map ((map game-map) max-rooms
                                    room-min-size room-max-size
                                    map-width map-height
                                    player entities
-                                   max-enemies-per-room)
+                                   max-enemies-per-room
+                                   max-items-per-room)
 
  (do* ((rooms nil)
        (num-rooms 0)
@@ -89,7 +115,7 @@
                    (t
                     (create-v-tunnel map prev-y new-y prev-x)
                     (create-h-tunnel map prev-x new-x new-y)))))
-       (place-entities map new-room entities max-enemies-per-room)
+       (place-entities map new-room entities max-enemies-per-room max-items-per-room)
        (if (null rooms)
            (setf rooms (list new-room))
            (push new-room (cdr (last rooms))))
