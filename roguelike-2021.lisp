@@ -5,7 +5,7 @@
 (defparameter *screen-width* 80)
 (defparameter *screen-height* 50)
 (defparameter *map-width* *screen-width*)
-(defparameter *map-height* (- *screen-height* 6))
+(defparameter *map-height* (- *screen-height* 8))
 
 (defparameter *room-max-size* 10)
 (defparameter *room-min-size* 6)
@@ -15,6 +15,8 @@
 (defun config ()
   (blt:set "window.resizeable = true")
   (blt:set "window.size = ~AX~A" *screen-width* *screen-height*)
+  (blt:set "output.vsync = true")
+  (blt:set "input.filter = keyboard, mouse")
   (blt:set "window.title = Roguelike 2021"))
 
 (defun main ()
@@ -39,7 +41,7 @@
                                    (- *screen-height* *map-height*)))
           (message-log (make-message-log stats-panel 20 2 (- *screen-width* 20)
                                          (- *screen-height* *map-height* 1))))
-     (make-bar "HP" stats-panel 1 1 15
+     (make-bar "HP" stats-panel 1 2 15
                (fighter/hp fighter-component)
                (blt:rgba 0 128 0) (blt:rgba 100 100 100)
                :value-bind #'(lambda () (fighter/hp fighter-component))
