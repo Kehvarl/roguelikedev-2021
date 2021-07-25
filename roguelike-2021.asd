@@ -16,6 +16,7 @@
                (:file "components")
                (:file "map-generator")
                (:file "fov")
+               (:file "ui")
                (:file "render-functions")
                (:file "game-tick")
                (:file "death-functions")
