@@ -258,9 +258,11 @@ Everything just gets drawn on screen in the order it's added to the Entities lis
 * Actually use our new sort function in our rendering pipeline.
 * And we're done!  You can now walk _on top_ of corpses!
 ### Healthbar
+![Part 7.3](./screenshots/Part7.3.png?raw=true "Healthbar: The New sensation!")
 Our little HP tracker is somewhat boring.  To make it more exciting we're going to turn it into a health bar that shrinks as our Player loses HP. Rather than just draw this wherever, we're going to divide our screen into a series of "Panels" to simplify the display of information.
 * First up, we'll create a new "UI" file (and register it in our ASD), then do some work to define this Panel concept.
   * While we're at it, we created a panel-component class to store things that go inside panels, and we created a quick little function to create panels for us.
 * Now we can design a component for our healthbars.
   * In our UI file, create a class for "bar" which has a name, and some settings for what it holds.
   * While we're there, let's write up some tools to render panels and bars.   And make sure the panel renderer calls render on all its components.
+* Let's draw some panels.  We'll start by creating our main panel and health bar over in Main, then pop into game-tick to handle more of what we do.  Mostly just passing everything along to Render-All to do the real magic.

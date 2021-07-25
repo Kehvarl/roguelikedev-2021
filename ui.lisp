@@ -2,7 +2,7 @@
 
 (defclass panel ()
   ((x :initarg :x :accessor panel/x)
-   (y :initarg :x :accessor panel/y)
+   (y :initarg :y :accessor panel/y)
    (width :initarg :width :accessor panel/width)
    (height :initarg :height :accessor panel/height)
    (components :initarg :components :accessor panel/components :initform nil)))
@@ -35,7 +35,7 @@
    (value :initarg :value :accessor bar/value)
    (value-bind :initarg :value-bind)
    (maximum :initarg :maximum :accessor bar/maximum)
-   (maximum-bind :initarg :maximum-bind)
+   (max-bind :initarg :max-bind)
    (color :initarg :color :accessor bar/color)
    (bg-color :initarg :bg-color :accessor bar/bg-color)))
 
