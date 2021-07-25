@@ -7,6 +7,9 @@
    (char :initarg :char :accessor entity/char)
    (color :initarg :color :accessor entity/color)
    (blocks :initarg :blocks :accessor entity/blocks)
+   (render-order :initarg :render-order
+                 :accessor entity/render-order
+                 :initform :corpse)
    (fighter :initarg :fighter :accessor entity/fighter :initform nil)
    (ai :initarg :ai :accessor entity/ai :initform nil)))
 

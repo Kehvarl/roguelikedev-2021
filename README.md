@@ -252,3 +252,4 @@ Well that was an exciting diversion!  It turns out that cl-blt can't print with 
 Everything just gets drawn on screen in the order it's added to the Entities list.  Unfortunately, Player comes first, so we get covered with all sorts of unpleasantness if we share a tile with a body.    To fix that, let's add a concept of render order and make sure the dead come last when we do that.
 * First off, we'll create a render-order global in our rendering-functions file.
 * We'll define 3 types of renderable entities:  Corpses, Items, and Actors.  Lower on the list means it gets drawn first, so it's covered up by other stuff.
+* Entities need to know their render-order, so let's modify them to add a new slot.  We'll default everything to the "corpse" render layer.
