@@ -255,3 +255,9 @@ Based on some work I did after setting a Break in my code, it appears that corps
 * ![Part 7.5](./screenshots/Part7.5.png?raw=true "Logging our Messages")  
 * Finally finally, we replace our format statements with add-to-log statements
   * Make sure we pass our new message-log into game-tick, and use that when we append messages, otherwise we won't actually have a working solution.
+### Entities under the cursor
+![Part 7.6](./screenshots/Part7.6.png?raw=true "Look around with your mouse.")  
+Let's use that silly mouse that all our players have on their desk!
+* We'll start off by configuring BLT to watch the mouse movements.
+* Then we create a function that will scan our list of entities and find everything under the mouse position.
+* And lastly we update Render-All to print that list in our message box.

@@ -42,4 +42,22 @@
           (blt:color) (blt:white))
   (render-panel stats-panel)
 
+  (let ((entity-names (get-names-under-mouse (blt:mouse-x) (blt:mouse-y)
+                                             entities map)))
+    (when entity-names
+      (setf (blt:color) (blt:yellow))
+      (blt:print (1+ (panel/x stats-panel)) (1+ (panel/y stats-panel)) entity-names)))
+
   (blt:refresh))
+
+(defun get-names-under-mouse (x y entities map)
+  (when (and (< y (game-map/h map))
+             (< x (game-map/w map)))
+    (let ((names nil)
+          (in-fov (tile/visible (aref (game-map/tiles map) x y))))
+      (when in-fov
+        (dolist (entity entities)
+          (when ( and (= (entity/x entity) x)
+                      (= (entity/y entity) y))
+            (setf names (append names (list (entity/name entity)))))))
+      (format nil "~{~A~^, ~}" names))))
