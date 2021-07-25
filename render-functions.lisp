@@ -10,6 +10,10 @@
                                 :lit-wall (blt:rgba 130 110 50)
                                 :lit-ground (blt:rgba 200 180 50)))
 
+(defun render-order-compare (entity-1 entity-2)
+  (< (getf *render-order* (entity/render-order entity-1))
+     (getf *render-order* (entity/render-order entity-2))))
+
 (defun render-all (entities player map screen-width screen-height)
   (declare (ignore screen-width))
   (blt:clear)

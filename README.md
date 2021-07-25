@@ -253,3 +253,5 @@ Everything just gets drawn on screen in the order it's added to the Entities lis
 * First off, we'll create a render-order global in our rendering-functions file.
 * We'll define 3 types of renderable entities:  Corpses, Items, and Actors.  Lower on the list means it gets drawn first, so it's covered up by other stuff.
 * Entities need to know their render-order, so let's modify them to add a new slot.  We'll default everything to the "corpse" render layer.
+* Set the various render orders, and remember that death changes the order.
+* Create a utility to sort entities by their render order.
