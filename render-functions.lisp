@@ -1,5 +1,10 @@
 (in-package #:roguelike-2021)
 
+(defparameter *render-order*
+  '(:corpse 1
+    :item 2
+    :actor 3))
+
 (defparameter *color-map* (list :dark-wall (blt:rgba 0 0 100)
                                 :dark-ground (blt:rgba 50 50 150)
                                 :lit-wall (blt:rgba 130 110 50)
