@@ -23,7 +23,7 @@
                  :x x :y y :width width :height height))
 
 (defclass panel-component ()
-  ((panel :initarg :panel :accessor :panel-component/panel)
+  ((panel :initarg :panel :accessor panel-component/panel)
    (x :initarg :x :accessor panel-component/x)
    (y :initarg :y :accessor panel-component/y)))
 
@@ -74,3 +74,51 @@
       (setf (blt:color) (blt:rgba 255 255 255))
       (blt:draw-box x-pos (1- y-pos) total-width 2 :background-color nil
                     :border nil :contents content))))
+
+
+(defclass message ()
+  ((text :initarg :text :accessor message/text)
+   (color :initarg :color :accessor message/color)))
+
+(defclass message-log (panel-component)
+  ((messages :initarg :messages :accessor message-log/messages :initform nil)
+   (width :initarg :width :accessor message-log/width)
+   (height :initarg :height :accessor message-log/height)))
+
+(defgeneric add-message (log message &key color))
+
+(defmethod add-message ((log message-log) message
+                                          &key (color (blt:rgba 255 255 255)))
+  (with-slots (messages width height) log
+    (let ((wrapped-text (word-wrap message width)))
+      (dolist (text wrapped-text)
+        (setf messages (append messages (list (make-instance 'message :text text
+                                                             :color color))))
+        (when (>= (length messages) (1- height))
+          (setf messages (rest messages)))))))
+
+(defmethod render ((log message-log))
+  (let ((x (+ (panel-component/x log) (panel/x (panel-component/panel log))))
+        (y (+ (panel-component/y log) (panel/y (panel-component/panel log)))))
+    (dolist (message (message-log/messages log))
+      (setf (blt:color) (message/color message))
+      (blt:print x y (message/text message))
+      (incf y))))
+
+(defun make-message-log (panel x y width height)
+  (let ((log (make-instance 'message-log :panel panel :x x :y y
+                            :width width :height height)))
+    (setf (panel/components panel) (append (panel/components panel) (list log)))
+    log))
+
+(defun word-wrap (full-line width)
+  (do ((lines nil)
+       (line full-line))
+      ((zerop (length line)) lines)
+    (cond
+      ((< (length line) width)
+       (setf lines (append lines (list line))
+             line nil))
+      (t
+       (setf lines (append lines (list (subseq line 0 width)))
+             line (subseq line width))))))
