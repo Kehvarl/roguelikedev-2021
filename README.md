@@ -30,4 +30,4 @@ This roguelike is going to follow the Common-Lisp + BearLibTerminal tutorial thr
   * (ql:quickload :roguelikedev-2021)
   * (in-package :roguelikedev-2021)
 
-[Extensive Progress Log](Progress_Log.md)
+**[Extensive Progress Log](Progress_Log.md)**
