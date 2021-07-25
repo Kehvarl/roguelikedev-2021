@@ -49,5 +49,6 @@
 
      (add-message message-log "Welcome to the dungeon!")
 
-     (do ((game-state :player-turn (game-tick player entities map game-state stats-panel)))
+     (do ((game-state :player-turn (game-tick player entities map game-state
+                                              stats-panel message-log)))
        ((eql game-state :exit))))))
