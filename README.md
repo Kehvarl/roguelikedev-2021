@@ -266,3 +266,7 @@ Our little HP tracker is somewhat boring.  To make it more exciting we're going 
   * In our UI file, create a class for "bar" which has a name, and some settings for what it holds.
   * While we're there, let's write up some tools to render panels and bars.   And make sure the panel renderer calls render on all its components.
 * Let's draw some panels.  We'll start by creating our main panel and health bar over in Main, then pop into game-tick to handle more of what we do.  Mostly just passing everything along to Render-All to do the real magic.
+### Interlude
+Somewhere I have introduced a new bug!  Our corpses are disappearing instead of remaining on screen.  It worked fine before the introduction of the Panels, so I suspect it's a simple matter of a change in the renderer.
+The bug only activates if the first creature I kill is a Troll. It sometimes stops activating after I kill a few Orcs.
+Based on some work I did after setting a Break in my code, it appears that corpses just occasionally vanish from my entity list.  This bears further investigation.

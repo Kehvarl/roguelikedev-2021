@@ -30,9 +30,9 @@
                    (setf (blt:background-color) (getf *color-map* :lit-ground)))
                 (setf (blt:cell-char x y) #\Space))
                (explored
-                       (if wall
-                         (setf (blt:background-color) (getf *color-map* :dark-wall))
-                         (setf (blt:background-color) (getf *color-map* :dark-ground)))
+                 (if wall
+                   (setf (blt:background-color) (getf *color-map* :dark-wall))
+                   (setf (blt:background-color) (getf *color-map* :dark-ground)))
                 (setf (blt:cell-char x y) #\Space))))))
 
 
