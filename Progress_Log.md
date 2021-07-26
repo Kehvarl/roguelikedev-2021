@@ -269,3 +269,9 @@ Now that our player can explore the map, encounter strange and unusual creatures
 * For starters let's scatter some healing potions around the map.
 * Alongside our place monsters, it's time to create a place-items function we'll call during map generation.
 * While we're at it, let's move monsters out of "entities" and into their own generator.
+#### Picking things up
+* Now that we can scatter items like a crazed animal, let's find a way to pick them up!
+* First we'll define a couple of new components:  Inventory and Item
+* Then we'll add slots for these to our Entity.
+* And initialize an Inventory component in our Player entity so we can eventually pick stuff up.
+* Next up we'll make sure those potions we're dropping all over the place have an Item component so we can use them later.

@@ -27,6 +27,8 @@
                                             :hp 30
                                             :defense 2
                                             :power 5))
+          (inventory-component (make-instance 'inventory
+                                              :capacity 26))
           (player (make-instance 'entity
                                  :name "Player"
                                  :x (/ *screen-width* 2)
@@ -35,7 +37,8 @@
                                  :color (blt:white)
                                  :blocks t
                                  :render-order :actor
-                                 :fighter fighter-component))
+                                 :fighter fighter-component
+                                 :inventory inventory-component))
           (entities (list player))
           (map (make-instance 'game-map :w *map-width* :h *map-height*))
           (stats-panel (make-panel 0 *map-height* *screen-width*
