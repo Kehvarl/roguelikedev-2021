@@ -11,7 +11,10 @@
                  :accessor entity/render-order
                  :initform :corpse)
    (fighter :initarg :fighter :accessor entity/fighter :initform nil)
-   (ai :initarg :ai :accessor entity/ai :initform nil)))
+   (ai :initarg :ai :accessor entity/ai :initform nil)
+   (item :initarg :item :accessor entity/item :initform nil)
+   (inventory :initarg :inventory :accessor entity/inventory :initform nil)))
+
 
 (defmethod initialize-instance :after ((entity entity) &rest initargs)
   (declare (ignore initargs))

@@ -60,3 +60,10 @@
                                             (entity/name (component/owner component))
                                             (entity/name target))))))
     results))
+
+(defclass inventory (component)
+  ((capacity :initarg :capacity :accessor inventory/capacity)
+   (items :initarg :items :accessor inventory/items :initform nil)))
+
+(defclass item (component)
+  ())
