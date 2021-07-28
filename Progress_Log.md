@@ -275,3 +275,12 @@ Now that our player can explore the map, encounter strange and unusual creatures
 * Then we'll add slots for these to our Entity.
 * And initialize an Inventory component in our Player entity so we can eventually pick stuff up.
 * Next up we'll make sure those potions we're dropping all over the place have an Item component so we can use them later.
+* We'll give the player a "Get" key mapped to 'G', which sends the Pickup message to our game loop.
+* The inventory class will need a way for us to add items to it, so let's implement that Now
+##### Simplifying Game Tick
+Our game-tick class is getting very complicated, so while we're hacking on the player code, let's go ahead and move that to its own function to streamline things a little.
+* define Player-Turn in the file with Game-Tick
+* Some of the changes don't make sense yet, but we'll implement them later!
+#### Picking things up II
+* With the groundwork laid, we can now actually grab those bottles.
+* Modify Player-Turn with a "when pickup" block that adds the item to your inventory.
