@@ -284,3 +284,14 @@ Our game-tick class is getting very complicated, so while we're hacking on the p
 #### Picking things up II
 * With the groundwork laid, we can now actually grab those bottles.
 * Modify Player-Turn with a "when pickup" block that adds the item to your inventory.
+#### Backtracking
+* The tutorial we've been following actually made a big change a few parts back, but they weren't well documented.
+  * Instead of being an Enum, GameState is a class which tracks several things:
+  * The current-turn/game-state
+  * The previous state (for use with menus)
+  * The list of entities
+  * A flag to track if the game is Running
+* Given how much this class does that is impacted by our current changes, it behooves us to implement it now and get things working with as little fuss as possible.
+* First we'll create a new file (game-state.lisp), and be sure to in-package it and add it to our ASD right before the main file.
+* Next up we define a class for game-state and some slots to track our important information
+* When we initialize game-state, if we don't set the previous state, let's make sure to set it to our starting state.
