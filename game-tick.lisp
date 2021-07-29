@@ -23,15 +23,16 @@
     (when move
       (let ((destination-x (+ (entity/x player) (car move)))
             (destination-y (+ (entity/y player) (cdr move))))
-           (unless (blocked-p map destination-x destination-y)
-             (let ((target (blocking-entity-at (game-state/entities game-state)
-                                               destination-x destination-y)))
-               (cond (target
-                      (setf player-turn-results (attack (entity/fighter player) target)))
-                     (t
-                      (move player (car move) (cdr move))
-                      (fov map (entity/x player) (entity/y player)))))
-            (setf (game-state/state game-state) :enemy-turn))))
+        (unless (blocked-p map destination-x destination-y)
+          (let ((target (blocking-entity-at (game-state/entities game-state)
+                                            destination-x destination-y)))
+            (cond (target
+                   (setf player-turn-results (attack (entity/fighter player)
+                                                     target)))
+                  (t
+                   (move player (car move) (cdr move))
+                   (fov map (entity/x player) (entity/y player)))))
+         (setf (game-state/state game-state) :enemy-turn))))
 
     (when pickup
       (dolist (entity (remove-if-not #'entity/item (game-state/entities game-state)))
@@ -59,10 +60,11 @@
          (setf message (kill-monster dead-entity))))
       (add-message log message :color (blt:orange)))
     (when item-added
-      (setf (game-state/entities game-state) (remove-if
-                                              #'(lambda (entity)
-                                                        (eql entity item-added))
-                                                (game-state/entities game-state))
+      (setf (game-state/entities game-state)
+            (remove-if #'(lambda (entity)
+                                 (and (eql entity item-added)
+                                      (entity/item entity)))
+                       (game-state/entities game-state))
             (game-state/state game-state) :enemy-turn)))
   game-state)
 
@@ -88,7 +90,9 @@
 (defun game-tick (player map game-state stats-panel log)
   (declare (type game-state game-state))
   (declare (type message-log log))
+
   (render-all game-state player map stats-panel *screen-width* *screen-height*)
+
   (let* ((player-turn-results nil)
          (action (handle-keys game-state))
          (exit (getf action :quit)))
@@ -105,11 +109,10 @@
 
     (setf game-state (handle-player-results game-state player player-turn-results log)))
 
-
   (when (eql (game-state/state game-state)  :enemy-turn)
-
     (setf (game-state/state game-state)  (enemy-turn game-state player map log))
     (when (eql (game-state/state game-state) :player-dead)
+      (format t "Dead...")
       (return-from game-tick game-state))
     (setf (game-state/state game-state) :player-turn))
 
