@@ -36,18 +36,22 @@
                 (setf (blt:cell-char x y) #\Space))))))
 
 
-  (mapc #'(lambda (entity) (draw entity map))
-        (sort (game-state/entities game-state)  #'render-order-compare))
-  (setf (blt:background-color) (blt:black)
+  (let ((entities (game-state/entities game-state)))
+    (mapc #'(lambda (entity) (draw entity map))
+          (sort (copy-seq entities) #'render-order-compare))
+    (setf (blt:background-color) (blt:black)
           (blt:color) (blt:white))
-  (render-panel stats-panel)
+    (render-panel stats-panel)
 
-  (let ((entity-names (get-names-under-mouse (blt:mouse-x) (blt:mouse-y)
-                                             (game-state/entities game-state)  map)))
-    (when entity-names
-      (setf (blt:color) (blt:yellow))
-      (blt:print (1+ (panel/x stats-panel)) (1+ (panel/y stats-panel)) entity-names)))
+    (let ((entity-names (get-names-under-mouse (blt:mouse-x) (blt:mouse-y)
+                                               entities map)))
+      (when entity-names
+        (setf (blt:color) (blt:yellow))
+        (blt:print (1+ (panel/x stats-panel)) (1+ (panel/y stats-panel)) entity-names))))
 
+  (setf (blt:color) (blt:green))
+  (blt:print (1+ (panel/x stats-panel)) (panel/y stats-panel)
+             (format nil "~A" (length (game-state/entities game-state))))
   (blt:refresh))
 
 (defun get-names-under-mouse (x y entities map)

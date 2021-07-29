@@ -12,12 +12,13 @@
 (defparameter *room-max-size* 10)
 (defparameter *room-min-size* 6)
 (defparameter *max-rooms* 30)
-(defparameter *max-enemies-per-room* 6)
+
+(defparameter *max-enemies-per-room* 5)
 (defparameter *max-items-per-room* 2)
 
 (defun config ()
   (blt:set "window.resizeable = true")
-  (blt:set "window.size = ~AX~A" *screen-width* *screen-height*)
+  (blt:set "window.size = ~Ax~A" *screen-width* *screen-height*)
   (blt:set "output.vsync = true")
   (blt:set "input.filter = keyboard, mouse")
   (blt:set "window.title = Roguelike 2021"))
