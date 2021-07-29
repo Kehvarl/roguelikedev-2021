@@ -14,7 +14,7 @@
   (< (getf *render-order* (entity/render-order entity-1))
      (getf *render-order* (entity/render-order entity-2))))
 
-(defun render-all (entities player map stats-panel screen-width screen-height)
+(defun render-all (game-state player map stats-panel screen-width screen-height)
   (declare (ignore screen-width screen-height player))
   (blt:clear)
   (dotimes (y (game-map/h map))
@@ -37,13 +37,13 @@
 
 
   (mapc #'(lambda (entity) (draw entity map))
-        (sort entities #'render-order-compare))
+        (sort (game-state/entities game-state)  #'render-order-compare))
   (setf (blt:background-color) (blt:black)
           (blt:color) (blt:white))
   (render-panel stats-panel)
 
   (let ((entity-names (get-names-under-mouse (blt:mouse-x) (blt:mouse-y)
-                                             entities map)))
+                                             (game-state/entities game-state)  map)))
     (when entity-names
       (setf (blt:color) (blt:yellow))
       (blt:print (1+ (panel/x stats-panel)) (1+ (panel/y stats-panel)) entity-names)))
