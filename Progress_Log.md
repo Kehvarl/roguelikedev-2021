@@ -264,6 +264,7 @@ Let's use that silly mouse that all our players have on their desk!
 
 ## Part 8
 ### Items and Inventory
+![Part 8.1](./screenshots/Part8.1.png?raw=true "Bottles bottles everywhere!")  
 Now that our player can explore the map, encounter strange and unusual creatures, fight them to the death, and be told about it in glorious messages, it's time to add some stuff for them to pick up
 #### Placing Items
 * For starters let's scatter some healing potions around the map.
@@ -295,3 +296,16 @@ Our game-tick class is getting very complicated, so while we're hacking on the p
 * First we'll create a new file (game-state.lisp), and be sure to in-package it and add it to our ASD right before the main file.
 * Next up we define a class for game-state and some slots to track our important information
 * When we initialize game-state, if we don't set the previous state, let's make sure to set it to our starting state.
+### Inventory menu
+![Part 8.2](./screenshots/Part8.2.png?raw=true "I've been down to the bottom of every bottle")  
+#### Drawing the menu
+We have a working game again, and we can pick up items that are lying around!  Let's do something with those items.
+* First off, create a new menus.lisp file and in-package it.  Add to our ASD tool
+* In our menu, let's set up a quick menu rendering tool.
+* Let's also create a function to make a menu using our inventory.
+* Now that we can draw menus (in theory), let's set up a key to draw them.
+* Update player-turn to handle that new key and do something useful.  (set our game-state to the inventory state)
+* Now jump to our tick and decide what to do with that new state!
+  * What we decided is that if you press "esc" while in the menu it exits the menu and resumes the game.
+* For actually showing our menu, we'll pass our game-state to the renderer and let it decide what to show.
+* We now nicely list items in our inventory!  Of course nothing happens when you try to choose one.  That's next!

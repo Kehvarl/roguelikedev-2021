@@ -15,7 +15,6 @@
      (getf *render-order* (entity/render-order entity-2))))
 
 (defun render-all (game-state player map stats-panel screen-width screen-height)
-  (declare (ignore screen-width screen-height player))
   (blt:clear)
   (dotimes (y (game-map/h map))
     (dotimes (x (game-map/w map))
@@ -49,9 +48,12 @@
         (setf (blt:color) (blt:yellow))
         (blt:print (1+ (panel/x stats-panel)) (1+ (panel/y stats-panel)) entity-names))))
 
-  (setf (blt:color) (blt:green))
-  (blt:print (1+ (panel/x stats-panel)) (panel/y stats-panel)
-             (format nil "~A" (length (game-state/entities game-state))))
+  (when (or (eql (game-state/state game-state) :show-inventory))
+    (let ((inventory-title
+           "Press key next to item to use it, or Esc to cancel."))
+      (inventory-menu inventory-title (entity/inventory player) 50
+                      screen-width screen-height)))
+
   (blt:refresh))
 
 (defun get-names-under-mouse (x y entities map)

@@ -18,6 +18,7 @@
                (:file "map-generator")
                (:file "fov")
                (:file "ui")
+               (:file "menu")
                (:file "render-functions")
                (:file "game-tick")
                (:file "death-functions")
