@@ -2,6 +2,8 @@
 
 (in-package #:roguelike-2021)
 
+(defparameter *state* nil)
+
 (defparameter *screen-width* 80)
 (defparameter *screen-height* 50)
 (defparameter *map-width* *screen-width*)
@@ -19,6 +21,9 @@
   (blt:set "output.vsync = true")
   (blt:set "input.filter = keyboard, mouse")
   (blt:set "window.title = Roguelike 2021"))
+
+(defun stop ()
+  (setf (game-state/running *state*) nil))
 
 (defun main ()
   (blt:with-terminal
@@ -57,6 +62,8 @@
 
      (add-message message-log "Welcome to the dungeon!")
 
-     (do ((game-state :player-turn (game-tick player entities map game-state
-                                              stats-panel message-log)))
-       ((eql game-state :exit))))))
+     (do ((*state* (make-instance 'game-state :running t
+                                  :state :player-turn
+                                  :entities entities)
+                   (game-tick player map *state* stats-panel message-log)))
+         ((null (game-state/running *state*)))))))

@@ -69,7 +69,7 @@
 
 (defmethod add-item ((inventory inventory) (item entity))
   (let ((results nil))
-    (with-slots (item capacity) inventory
+    (with-slots (items capacity) inventory
       (cond
         ((>= (length items) capacity)
          (setf results (list :item-added nil

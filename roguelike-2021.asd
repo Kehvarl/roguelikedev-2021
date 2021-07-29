@@ -10,6 +10,7 @@
   :components ((:file "package")
                (:file "rect")
                (:file "tile")
+               (:file "game-states")
                (:file "game-map")
                (:file "pathfinding")
                (:file "entity")

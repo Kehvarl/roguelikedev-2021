@@ -64,12 +64,12 @@
   (dotimes (item-index num-items)
     (multiple-value-bind (x y) (rect/random room)
       (unless (entity-at entities x y)
-        (let ((item-component (make-instance 'item))
-              (potion (make-instance 'entity :name "Healing Potion"
-                                     :x x :y y :color (blt:purple)
-                                     :item item-component
-                                     :char #\! :blocks nil
-                                     :render-order :item)))
+        (let* ((item-component (make-instance 'item))
+               (potion (make-instance 'entity :name "Healing Potion"
+                                      :x x :y y :color (blt:purple)
+                                      :item item-component
+                                      :char #\! :blocks nil
+                                      :render-order :item)))
           (nconc entities (list potion)))))))
 
 (defgeneric make-map (map max-rooms
