@@ -48,6 +48,9 @@
       (setf (blt:color) (blt:yellow))
       (blt:print (1+ (panel/x stats-panel)) (1+ (panel/y stats-panel)) entity-names)))
 
+  (setf (blt:color) (blt:green))
+  (blt:print (1+ (panel/x stats-panel)) (panel/y stats-panel)
+             (format nil "~A" (length (game-state/entities game-state)))) 
   (blt:refresh))
 
 (defun get-names-under-mouse (x y entities map)
