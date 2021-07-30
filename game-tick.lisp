@@ -13,13 +13,15 @@
                   (:m (list :move (cons -1 1)))
                   (:period (list :move (cons 1 1)))
                   (:g (list :pickup t))
+                  (:e (list :show-inventory t))
                   (:escape (list :quit t))
                   (:close (list :quit t)))))
 
 (defun player-turn (game-state map player action)
   (let ((player-turn-results nil)
         (move (getf action :move))
-        (pickup (getf action :pickup)))
+        (pickup (getf action :pickup))
+        (show-inventory (getf action :show-inventory)))
     (when move
       (let ((destination-x (+ (entity/x player) (car move)))
             (destination-y (+ (entity/y player) (cdr move))))
@@ -40,6 +42,11 @@
                    (= (entity/y entity) (entity/y player)))
           (setf player-turn-results (add-item (entity/inventory player)
                                               entity)))))
+
+    (when show-inventory
+      (with-slots (previous-state state) game-state
+        (setf previous-state state
+              state :show-inventory)))
     (values player-turn-results game-state)))
 
 (defun handle-player-results (game-state player player-turn-results log)
@@ -95,6 +102,7 @@
 
   (let* ((player-turn-results nil)
          (action (handle-keys game-state))
+         (inventory-index (getf action :inventory-index))
          (exit (getf action :quit)))
 
     (when (eql (game-state/state game-state) :player-turn)
@@ -106,6 +114,9 @@
               (eql (game-state/state game-state) :drop-inventory))
         (setf (game-state/state game-state) (game-state/previous-state game-state))
         (setf (game-state/running game-state) nil)))
+
+    (when inventory-index
+      (setf (game-state/state game-state) :player-turn))
 
     (setf game-state (handle-player-results game-state player player-turn-results log)))
 
