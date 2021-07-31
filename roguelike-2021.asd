@@ -18,6 +18,7 @@
                (:file "map-generator")
                (:file "entity")
                (:file "components")
+               (:file "components-ai")
                (:file "components-item")
                (:file "components-inventory")
                (:file "fov")
