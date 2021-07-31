@@ -102,7 +102,16 @@
                (not (eql (game-state/previous-state game-state) :player-dead))
                (< inventory-index (length (inventory/items (entity/inventory player)))))
       (let ((item (nth inventory-index (inventory/items (entity/inventory player)))))
-        (format t "~A~%" (entity/name item))))
+        (let ((use-result (funcall (item/use-function (entity/item item))
+                                  (entity/item item) player)))
+          (setf player-turn-results use-result)
+          (when (getf use-result :consumed)
+              (setf (game-state/state game-state) :enemy-turn)
+              (setf (inventory/items (entity/inventory player))
+                    (remove-if #'(lambda (i)
+                                         (eql i item))
+                               (inventory/items (entity/inventory player))))))))
+
 
     (setf game-state (handle-player-results game-state player player-turn-results log)))
 

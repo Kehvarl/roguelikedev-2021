@@ -318,6 +318,8 @@ We can display neat menus and show off the player's inventory (as long as it's 2
 * Next up we'll create a function to handle those pesky inventory keys
 * With our key handler doing something useful and telling us what the player picked, let's jump back to the game-tick and do something with that value.
   * What we choose to do at the moment is print the item to the REPL.
+#### Using the menu revisited
+![Part 8.4](./screenshots/Part8.4.png?raw=true "Quaffing and Feeling Great.")
 * To really use our items, let's put a use-item function into them!
   * We'll define a slot that can hold a function for later use, and another slot with arguments for that function.
   * As before, when things get complicated the complicated make more files!
