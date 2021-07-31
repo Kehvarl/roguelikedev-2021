@@ -6,7 +6,8 @@
      (handle-player-turn-keys))
     ((eql (game-state/state game-state) :player-dead)
      (handle-player-dead-keys))
-    ((eql (game-state/state game-state) :show-inventory)
+    ((or (eql (game-state/state game-state) :show-inventory)
+         (eql (game-state/state game-state) :drop-inventory))
      (handle-inventory-keys))))
 
 (defun handle-player-turn-keys ()
@@ -23,6 +24,7 @@
 
                   (:g (list :pickup t))
                   (:e (list :show-inventory t))
+                  (:d (list :drop-inventory t))
 
                   (:escape (list :quit t))
                   (:close (list :quit t)))))

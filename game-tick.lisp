@@ -4,7 +4,8 @@
   (let ((player-turn-results nil)
         (move (getf action :move))
         (pickup (getf action :pickup))
-        (show-inventory (getf action :show-inventory)))
+        (show-inventory (getf action :show-inventory))
+        (drop-inventory (getf action :drop-inventory)))
     (when move
       (let ((destination-x (+ (entity/x player) (car move)))
             (destination-y (+ (entity/y player) (cdr move))))
@@ -30,7 +31,14 @@
       (with-slots (previous-state state) game-state
         (setf previous-state state
               state :show-inventory)))
+
+    (when drop-inventory
+      (with-slots (previous-state state) game-state
+        (setf previous-state state
+              state :drop-inventory)))
+
     (values player-turn-results game-state)))
+
 
 (defun handle-player-results (game-state player player-turn-results log)
   (let ((message (getf player-turn-results :message))
@@ -102,15 +110,25 @@
                (not (eql (game-state/previous-state game-state) :player-dead))
                (< inventory-index (length (inventory/items (entity/inventory player)))))
       (let ((item (nth inventory-index (inventory/items (entity/inventory player)))))
-        (let ((use-result (funcall (item/use-function (entity/item item))
-                                  (entity/item item) player)))
-          (setf player-turn-results use-result)
-          (when (getf use-result :consumed)
-              (setf (game-state/state game-state) :enemy-turn)
-              (setf (inventory/items (entity/inventory player))
-                    (remove-if #'(lambda (i)
-                                         (eql i item))
-                               (inventory/items (entity/inventory player))))))))
+        (cond
+          ((eql (game-state/state game-state) :show-inventory)
+           (let ((use-result (funcall (item/use-function (entity/item item))
+                                     (entity/item item) player)))
+             (setf player-turn-results use-result)
+             (when (getf use-result :consumed)
+                 (setf (game-state/state game-state) :enemy-turn)
+                 (setf (inventory/items (entity/inventory player))
+                       (remove-if #'(lambda (i)
+                                            (eql i item))
+                                  (inventory/items (entity/inventory player)))))))
+          ((eql (game-state/state game-state) :drop-inventory)
+           (let ((drop-result (drop-item (entity/inventory player) item)))
+             (setf player-turn-results drop-result)
+             (when (getf drop-result :item-dropped)
+               (setf (game-state/state game-state) :enemy-turn)
+               (setf (game-state/entities game-state)
+                     (append (game-state/entities game-state) 
+                             (list (getf drop-result :item-dropped))))))))))
 
 
     (setf game-state (handle-player-results game-state player player-turn-results log)))
