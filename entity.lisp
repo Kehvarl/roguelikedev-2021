@@ -18,11 +18,13 @@
 
 (defmethod initialize-instance :after ((entity entity) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fighter ai) entity
+  (with-slots (fighter ai inventory) entity
     (when fighter
       (setf (component/owner fighter) entity))
     (when ai
-      (setf (component/owner ai) entity))))
+      (setf (component/owner ai) entity))
+    (when inventory
+      (setf (component/owner inventory) entity))))
 
 (defmethod draw ((e entity) (map game-map))
   (with-slots (x y char color) e

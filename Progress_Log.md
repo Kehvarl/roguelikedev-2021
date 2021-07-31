@@ -325,3 +325,15 @@ We can display neat menus and show off the player's inventory (as long as it's 2
   * As before, when things get complicated the complicated make more files!
   * Per the tutorial I should actually put the functions in a new file and leave the item component in components.  I'm not doing either of those things!  Item functions in the Components-Item file!
   * Now that we have a way to heal, let's apply it to those purple potions prominently placed!
+#### Dropping Items
+![Part 8.5](./screenshots/Part8.5.png?raw=true "Just put that down anywhere.")
+* Next up we're going to add a way to make space in your inventory:  dropping the junk!
+* We'll start off my taking another look at our key handler, and adding a "drop" command.
+* With our keys handled for entering the state, let's add a clause to the player-tick to jump into an inventory-drop state.
+* Now in the inventory-drop state, we'll make sure to re-use the show-inventory key handler since it already lets us pick any item from our carried stuff (Is it weird that we have 26 hands?).
+* If our game-tick can't kick us out of drop-inventory, make sure that happens now.  It's one line that I added a bit ahead of schedule.
+* Next up we hack our renderer to show the menu title with "drop" instead of "use".
+* Our inventory needs to know how to drop items, so let's add a method for that. (Once more, I think I'll split to a new file.  More files more better, right?
+* Now our game-tick can do something with that drop action, and put things back on the map.
+* I actually had to jump back to the Entity definition and remember to set inventory/owner during initialization.
+* Now we can scatter our wild oats!  Or at least those potion bottles we keep finding.
