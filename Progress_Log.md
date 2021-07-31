@@ -297,8 +297,8 @@ Our game-tick class is getting very complicated, so while we're hacking on the p
 * Next up we define a class for game-state and some slots to track our important information
 * When we initialize game-state, if we don't set the previous state, let's make sure to set it to our starting state.
 ### Inventory menu
-![Part 8.2](./screenshots/Part8.2.png?raw=true "I've been down to the bottom of every bottle")  
 #### Drawing the menu
+![Part 8.2](./screenshots/Part8.2.png?raw=true "I've been down to the bottom of every bottle")
 We have a working game again, and we can pick up items that are lying around!  Let's do something with those items.
 * First off, create a new menus.lisp file and in-package it.  Add to our ASD tool
 * In our menu, let's set up a quick menu rendering tool.
@@ -309,3 +309,12 @@ We have a working game again, and we can pick up items that are lying around!  L
   * What we decided is that if you press "esc" while in the menu it exits the menu and resumes the game.
 * For actually showing our menu, we'll pass our game-state to the renderer and let it decide what to show.
 * We now nicely list items in our inventory!  Of course nothing happens when you try to choose one.  That's next!
+#### Using the menu
+![Part 8.3](./screenshots/Part8.3.png?raw=true "Making bad choices") 
+We can display neat menus and show off the player's inventory (as long as it's 26 items or less).  Now let's use those items!
+* First up we'll move our key handler to a new file!
+* Then modify our key handler based on our game-state.
+* Now we'll create a new key-handler for the player-dead state.
+* Next up we'll create a function to handle those pesky inventory keys
+* With our key handler doing something useful and telling us what the player picked, let's jump back to the game-tick and do something with that value.
+  * What we choose to do at the moment is print the item to the REPL.
