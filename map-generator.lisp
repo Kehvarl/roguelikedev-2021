@@ -41,7 +41,7 @@
             ((< (random 100) 80)
              (let* ((fighter-component (make-instance 'fighter :hp 10
                                                       :defense 0 :power 3))
-                    (ai-component (make-instance 'basic-monster)))
+                    (ai-component (make-instance 'basic-monster :active-range 5)))
                (nconc entities (list (make-instance 'entity :name "Orc"
                                                     :x x :y y :color (blt:green)
                                                     :char #\o :blocks t
@@ -52,7 +52,7 @@
             (t
              (let* ((fighter-component (make-instance 'fighter :hp 16
                                                       :defense 1 :power 4))
-                    (ai-component (make-instance 'basic-monster)))
+                    (ai-component (make-instance 'basic-monster :active-range 10)))
                (nconc entities (list (make-instance 'entity :name "Troll"
                                                     :x x :y y :color (blt:yellow)
                                                     :char #\T :blocks t
