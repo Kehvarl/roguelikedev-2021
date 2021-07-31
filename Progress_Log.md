@@ -350,4 +350,11 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
   * First we'll add an Activation Range slot to our AI and set it during creation.
   * Now we'll modify take-turn to wander if we're in range, but attack if we're in sight.
   * My wandering breaks things, but if I just always move towards the player there's a bit of unpleasantness.
+* New AI: Dead
+![Part 9.1](./screenshots/Part9.1.png?raw=true "Self-cleaning corpses.")
+  * The Dead AI basically just counts down through some states of decay and ends with the monster being removed from the map.
+  * Changes made to a large number of files for this one.
+  * First we broke AI out into separate files
+  * Then when a creature dies we create a new "Dead-Monster" AI component for it.
+  * Each tick, if the monster is in range of the player, it slowly decays, moving through phases until it fades away.
 * New AI:  Regenerating.   A Dead Troll has a chance each turn of gaining back 1 HP.  If it regains 5, it returns to life.

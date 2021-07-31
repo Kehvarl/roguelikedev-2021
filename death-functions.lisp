@@ -6,12 +6,14 @@
   (values "You died!" :player-dead))
 
 (defun kill-monster (monster)
-  (with-slots (char color blocks render-order ai name) monster
-    (let ((message (format nil "~A is dead!~%" name)))
+  (with-slots (char color blocks render-order ai name descriptor) monster
+    (let ((message (format nil "~A is dead!~%" name))
+          (dead-ai (make-instance 'dead-monster)))
       (setf char #\%
             color (blt:red)
             blocks nil
             render-order :corpse
-            ai nil
-            name (format nil "remains of ~A" name))
+            ai dead-ai
+            (component/owner ai) monster
+            descriptor "corpse")
       message)))

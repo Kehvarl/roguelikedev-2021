@@ -67,5 +67,5 @@
         (dolist (entity entities)
           (when ( and (= (entity/x entity) x)
                       (= (entity/y entity) y))
-            (setf names (append names (list (entity/name entity)))))))
+            (setf names (append names (list (describe-entity entity)))))))
       (format nil "~{~A~^, ~}" names))))

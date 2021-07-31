@@ -71,9 +71,16 @@
     (let* ((enemy-turn-results (take-turn (entity/ai entity)
                                           player map (game-state/entities game-state)))
            (message (getf enemy-turn-results :message))
-           (dead-entity (getf enemy-turn-results :dead)))
+           (dead-entity (getf enemy-turn-results :dead))
+           (decay (getf enemy-turn-results :decay)))
       (when message
         (add-message log message))
+      (when decay
+        (setf (game-state/entities game-state)
+              (remove-if #'(lambda (e) (eql e decay))
+               (game-state/entities game-state)))
+        (setf message (format nil "~A decays away~%" (describe-entity decay)))
+        (add-message log message :color (blt:orange)))
       (when dead-entity
         (cond
           ((equal dead-entity player)
