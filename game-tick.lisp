@@ -127,7 +127,7 @@
              (when (getf drop-result :item-dropped)
                (setf (game-state/state game-state) :enemy-turn)
                (setf (game-state/entities game-state)
-                     (append (game-state/entities game-state) 
+                     (append (game-state/entities game-state)
                              (list (getf drop-result :item-dropped))))))))))
 
 

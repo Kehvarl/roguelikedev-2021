@@ -15,7 +15,8 @@
     (unless max-hp
       (setf max-hp hp))))
 
-(defclass basic-monster (component) ())
+(defclass basic-monster (component)
+  ((activation-range :initarg :active-range :accessor ai/active-range :initform 5)))
 
 (defgeneric take-turn (component target map entities))
 (defgeneric take-damage (component amount))
@@ -24,16 +25,22 @@
 (defmethod take-turn ((component basic-monster) target map entities)
   (let* ((results nil)
          (monster (component/owner component))
+         (in-range (<= (distance-to monster target)
+                       (ai/active-range (entity/ai monster))))
          (in-sight (tile/visible (aref (game-map/tiles map)
                                        (entity/x monster)
                                        (entity/y monster)))))
+
+    (unless in-sight
+      (when in-range
+        (move-towards monster (entity/x target) (entity/y target) map entities)))
+
     (when in-sight
+       (cond ((>= (distance-to monster target) 2)
+              (move-towards monster (entity/x target) (entity/y target) map entities))
 
-      (cond ((>= (distance-to monster target) 2)
-             (move-towards monster (entity/x target) (entity/y target) map entities))
-
-            ((> (fighter/hp (entity/fighter target)) 0)
-             (setf results (attack (entity/fighter monster) target)))))
+             ((> (fighter/hp (entity/fighter target)) 0)
+              (setf results (attack (entity/fighter monster) target)))))
     results))
 
 (defmethod take-damage ((component fighter) amount)

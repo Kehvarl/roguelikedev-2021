@@ -337,3 +337,17 @@ We can display neat menus and show off the player's inventory (as long as it's 2
 * Now our game-tick can do something with that drop action, and put things back on the map.
 * I actually had to jump back to the Entity definition and remember to set inventory/owner during initialization.
 * Now we can scatter our wild oats!  Or at least those potion bottles we keep finding.
+
+## Part 9
+### Off on our own:  Or how I panicked when I didn't have any more tutorial to follow.
+The cl-rltut ends with inventory.  Ideally we'd follow the libtcod tutorial here, and get things in place for magic, mayhem, and remote targeting.
+Instead, I want to try to implement some new feature that I've teased people with on the reddit
+#### The AI From Beyond The Grave
+Instead of removing the AI from dead creatures, we're going to set up 2 new AIs, and some new action rules
+* New action Rule: Each AI will have an "Active Range".  If it's within that radius of the player, then it can act, even if it can't see the player.
+  * For this, let's dive into our Basic Monster ai and see how action is currently handled.
+  * Take-Turn checks to see if the monster is currently in a square the player can see.  So let's change things a bit!
+  * First we'll add an Activation Range slot to our AI and set it during creation.
+  * Now we'll modify take-turn to wander if we're in range, but attack if we're in sight.
+  * My wandering breaks things, but if I just always move towards the player there's a bit of unpleasantness.
+* New AI:  Regenerating.   A Dead Troll has a chance each turn of gaining back 1 HP.  If it regains 5, it returns to life.

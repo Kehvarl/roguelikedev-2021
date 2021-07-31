@@ -37,8 +37,17 @@
   (incf (entity/x e) dx)
   (incf (entity/y e) dy))
 
+(defgeneric move (e dx dy))
+(defgeneric move-safe (e dx dy map entities))
 (defgeneric move-towards (e target-x target-y map entities))
 (defgeneric distance-to (e other))
+
+(defmethod move-safe ((e entity) dx dy map entities)
+  (with-slots (x y) e
+    (unless (blocking-entity-at entities (+ x dx) (+ y dy))
+      (unless (tile/blocked (aref (game-map/tiles map) (+ x dx) (+ y dy)))
+        (move e dx dy)))))
+
 
 (defmethod move-towards ((e entity) target-x target-y  map entities)
   (with-slots (x y) e
