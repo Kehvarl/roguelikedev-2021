@@ -1,5 +1,22 @@
 (in-package #:roguelike-2021)
 
+(defmacro map-tiles-loop ((map tile-val &key (row-val (gensym))
+                                          (col-val (gensym))
+                                          (x-start 0) (y-start 0)
+                                          (x-end nil) (y-end nil))
+                          &body body)
+  `(loop :for ,col-val
+         :from ,x-start
+           :below (if (null ,x-end) (game-map/w ,map) ,x-end)
+    :do
+      (loop :for ,row-val
+             :from ,y-start
+               :below (if (null ,y-end) (game-map/h ,map) ,y-end)
+       :do
+          (let ((,tile-val (aref (game-map/tiles ,map) ,col-val ,row-val)))
+              (declare (ignorable ,tile-val))
+              ,@body))))
+
 (defclass game-map ()
   ((width :initarg :w
           :accessor game-map/w)
@@ -28,20 +45,3 @@
   (let ((entity (entity-at entities x y)))
     (if (and entity (entity/blocks entity))
       entity)))
-
-(defmacro map-tiles-loop ((map tile-val &key (row-val (gensym))
-                                          (col-val (gensym))
-                                          (x-start 0) (y-start 0)
-                                          (x-end nil) (y-end nil))
-                          &body body)
-  `(loop :for ,col-val
-         :from ,x-start
-           :below (if (null ,x-end) (game-map/w ,map) ,x-end)
-    :do
-      (loop :for ,row-val
-             :from ,y-start
-               :below (if (null ,y-end) (game-map/h ,map) ,y-end)
-       :do
-          (let ((,tile-val (aref (game-map/tiles ,map) ,col-val ,row-val)))
-              (declare (ignorable ,tile-val))
-              ,@body))))

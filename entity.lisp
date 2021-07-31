@@ -1,7 +1,8 @@
 (in-package #:roguelike-2021)
 
 (defclass entity()
-  ((name :initarg :name :accessor entity/name)
+  ((descriptor :initarg :descriptor :accessor entity/descriptor :initform nil)
+   (name :initarg :name :accessor entity/name)
    (x :initarg :x :accessor entity/x)
    (y :initarg :y :accessor entity/y)
    (char :initarg :char :accessor entity/char)
@@ -26,6 +27,12 @@
     (when inventory
       (setf (component/owner inventory) entity))))
 
+(defmethod describe-entity ((e entity))
+  (with-slots (descriptor name) e
+    (if descriptor
+      (format nil "~A of ~A" descriptor name)
+      name)))
+
 (defmethod draw ((e entity) (map game-map))
   (with-slots (x y char color) e
    (if (tile/visible (aref (game-map/tiles map) x y))
@@ -45,9 +52,8 @@
 (defmethod move-safe ((e entity) dx dy map entities)
   (with-slots (x y) e
     (unless (blocking-entity-at entities (+ x dx) (+ y dy))
-      (unless (tile/blocked (aref (game-map/tiles map) (+ x dx) (+ y dy)))
-        (move e dx dy)))))
-
+         (unless (tile/blocked (aref (game-map/tiles map) (+ x dx) (+ y dy)))
+           (move e dx dy)))))
 
 (defmethod move-towards ((e entity) target-x target-y  map entities)
   (with-slots (x y) e
