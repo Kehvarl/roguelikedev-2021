@@ -20,6 +20,7 @@
                (:file "ui")
                (:file "menu")
                (:file "render-functions")
+               (:file "handle-keys")
                (:file "game-tick")
                (:file "death-functions")
                (:file "roguelike-2021")))

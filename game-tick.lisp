@@ -1,22 +1,5 @@
 (in-package #:roguelike-2021)
 
-(defun handle-keys (game-state)
-  (declare (ignore game-state))
-  (when (blt:has-input-p)
-    (blt:key-case (blt:read)
-                  ((or :up :i) (list :move (cons 0 -1)))
-                  ((or :down :comma) (list :move (cons 0 1)))
-                  ((or :left :j) (list :move (cons -1 0)))
-                  ((or :right :l) (list :move (cons 1 0)))
-                  (:u (list :move (cons -1 -1)))
-                  (:o (list :move (cons 1 -1)))
-                  (:m (list :move (cons -1 1)))
-                  (:period (list :move (cons 1 1)))
-                  (:g (list :pickup t))
-                  (:e (list :show-inventory t))
-                  (:escape (list :quit t))
-                  (:close (list :quit t)))))
-
 (defun player-turn (game-state map player action)
   (let ((player-turn-results nil)
         (move (getf action :move))
@@ -115,8 +98,11 @@
         (setf (game-state/state game-state) (game-state/previous-state game-state))
         (setf (game-state/running game-state) nil)))
 
-    (when inventory-index
-      (setf (game-state/state game-state) :player-turn))
+    (when (and inventory-index
+               (not (eql (game-state/previous-state game-state) :player-dead))
+               (< inventory-index (length (inventory/items (entity/inventory player)))))
+      (let ((item (nth inventory-index (inventory/items (entity/inventory player)))))
+        (format t "~A~%" (entity/name item))))
 
     (setf game-state (handle-player-results game-state player player-turn-results log)))
 
