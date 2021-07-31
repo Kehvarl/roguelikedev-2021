@@ -33,7 +33,8 @@
 
     (unless in-sight
       (when in-range
-        (move-towards monster (entity/x target) (entity/y target) map entities)))
+        (let ((target (nth (random (length entities)) entities)))
+          (move-towards monster (entity/x target) (entity/y target) map entities))))
 
     (when in-sight
        (cond ((>= (distance-to monster target) 2)
