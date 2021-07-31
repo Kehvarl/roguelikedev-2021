@@ -310,7 +310,7 @@ We have a working game again, and we can pick up items that are lying around!  L
 * For actually showing our menu, we'll pass our game-state to the renderer and let it decide what to show.
 * We now nicely list items in our inventory!  Of course nothing happens when you try to choose one.  That's next!
 #### Using the menu
-![Part 8.3](./screenshots/Part8.3.png?raw=true "Making bad choices") 
+![Part 8.3](./screenshots/Part8.3.png?raw=true "Making bad choices")
 We can display neat menus and show off the player's inventory (as long as it's 26 items or less).  Now let's use those items!
 * First up we'll move our key handler to a new file!
 * Then modify our key handler based on our game-state.
@@ -318,3 +318,10 @@ We can display neat menus and show off the player's inventory (as long as it's 2
 * Next up we'll create a function to handle those pesky inventory keys
 * With our key handler doing something useful and telling us what the player picked, let's jump back to the game-tick and do something with that value.
   * What we choose to do at the moment is print the item to the REPL.
+#### Using the menu revisited
+![Part 8.4](./screenshots/Part8.4.png?raw=true "Quaffing and Feeling Great.")
+* To really use our items, let's put a use-item function into them!
+  * We'll define a slot that can hold a function for later use, and another slot with arguments for that function.
+  * As before, when things get complicated the complicated make more files!
+  * Per the tutorial I should actually put the functions in a new file and leave the item component in components.  I'm not doing either of those things!  Item functions in the Components-Item file!
+  * Now that we have a way to heal, let's apply it to those purple potions prominently placed!

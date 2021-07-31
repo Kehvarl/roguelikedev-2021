@@ -64,7 +64,8 @@
   (dotimes (item-index num-items)
     (multiple-value-bind (x y) (rect/random room)
       (unless (entity-at entities x y)
-        (let* ((item-component (make-instance 'item))
+        (let* ((item-component (make-instance 'item :use-function #'heal
+                                              :use-args '(:heal-amount 4)))
                (potion (make-instance 'entity :name "Healing Potion"
                                       :x x :y y :color (blt:purple)
                                       :item item-component

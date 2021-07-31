@@ -80,7 +80,3 @@
                              :message-color (blt:yellow)))
          (setf items (append items (list item))))))
     results))
-
-
-(defclass item (component)
-  ())
