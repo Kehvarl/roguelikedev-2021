@@ -15,6 +15,7 @@
                (:file "pathfinding")
                (:file "entity")
                (:file "components")
+               (:file "components-item")
                (:file "map-generator")
                (:file "fov")
                (:file "ui")
