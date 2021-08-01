@@ -26,7 +26,8 @@
 (defun stop ()
   (setf (game-state/running *state*) nil))
 
-(defun main ()
+(defun main (&rest initargs)
+  (declare (ignore initargs))  
   (blt:with-terminal
    (config)
    (let* ((fighter-component (make-instance 'fighter

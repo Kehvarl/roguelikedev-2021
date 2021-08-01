@@ -15,6 +15,7 @@
 
 (defmethod take-turn ((component dead-monster) target map entities)
   (let* ((results nil)
+         (monster (component/owner component))
          (in-range (<= (distance-to monster target)
                        (* 2 (ai/active-range (entity/ai monster))))))
     (when in-range
