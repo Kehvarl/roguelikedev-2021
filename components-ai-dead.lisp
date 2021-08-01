@@ -14,29 +14,56 @@
                :initform :decay-skeleton)))
 
 (defmethod take-turn ((component dead-monster) target map entities)
+  (let* ((results nil))
+
+    (when in-range
+      (setf results (decay component target map entities)))
+
+    results))
+
+(defmethod decay ((component dead-monster) target map entities)
+  (let* ((results nil)
+         (monster (component/owner component)))
+
+    (with-slots (state count next-state) component
+       (decf count)
+       (when (and (not next-state)
+                  (<= count 0))
+           (setf results (list :decay monster)))
+
+       (when (and next-state
+                    (<= count 0))
+           (let ((state-results (getf *decay-states* next-state))
+                 (prev (describe-entity monster)))
+             (setf count 5
+                   (entity/descriptor monster) (nth 1 state-results)
+                   state next-state
+                   next-state (nth 2 state-results))
+
+             (setf results (list :message
+                                   (format nil "The ~A decays to a ~A" prev
+                                             (describe-entity monster)))))))
+    results))
+
+(defclass dead-monster-regenerating (basic-monster)
+  ((state :initarg :state :accessor dead-monster/state :initform :decay-corpse)
+   (count :initarg :count :accessor dead-monster/count :initform 5)
+   (next-state :initarg :next-state
+               :accessor dead-monster/next-state
+               :initform :decay-skeleton)))
+
+(defmethod take-turn ((component dead-monster-regenerating) target map entities)
   (let* ((results nil)
          (monster (component/owner component))
          (in-range (<= (distance-to monster target)
-                       (* 2 (ai/active-range (entity/ai monster))))))
+                       (ai/active-range (entity/ai monster))))
+         (in-sight (tile/visible (aref (game-map/tiles map)
+                                       (entity/x monster)
+                                       (entity/y monster)))))
 
-    (when in-range
-      (with-slots (state count next-state) component
-        (decf count)
-        (when (and (not next-state)
-                   (<= count 0))
-          (setf results (list :decay monster)))
-        
-        (when (and next-state
-                   (<= count 0))
-          (let ((state-results (getf *decay-states* next-state))
-                (prev (describe-entity monster)))
-            (setf count 5
-                  (entity/descriptor monster) (nth 1 state-results)
-                  state next-state
-                  next-state (nth 2 state-results))
+    (unless in-sight
+      (when in-range
+        (let ((direction (nth (random (length *all-directions*)) *all-directions*)))
+          (move-safe monster (car direction) (cdr direction) map entities))))
 
-            (setf results (list :message
-                                (format nil "The ~A decays to a ~A" prev
-                                        (describe-entity monster))))))))
-
-    results))
+    (when in-sight)))

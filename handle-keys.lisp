@@ -17,7 +17,7 @@
                   ((or :down :comma) (list :move (cons 0 1)))
                   ((or :left :j) (list :move (cons -1 0)))
                   ((or :right :l) (list :move (cons 1 0)))
-                  (:k (list :move (cons 0 0)))
+                  (:k (list :stay t))
                   (:u (list :move (cons -1 -1)))
                   (:o (list :move (cons 1 -1)))
                   (:m (list :move (cons -1 1)))

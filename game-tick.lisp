@@ -3,9 +3,12 @@
 (defun player-turn (game-state map player action)
   (let ((player-turn-results nil)
         (move (getf action :move))
+        (stay (getf action :stay))
         (pickup (getf action :pickup))
         (show-inventory (getf action :show-inventory))
         (drop-inventory (getf action :drop-inventory)))
+    (when stay
+      (setf (game-state/state game-state) :enemy-turn))
     (when move
       (let ((destination-x (+ (entity/x player) (car move)))
             (destination-y (+ (entity/y player) (cdr move))))
