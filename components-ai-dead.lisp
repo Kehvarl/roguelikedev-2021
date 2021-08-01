@@ -14,12 +14,13 @@
                :initform :decay-skeleton)))
 
 (defmethod take-turn ((component dead-monster) target map entities)
-  (let* ((results nil))
-
+  (let* ((results nil)
+         (in-range (<= (distance-to monster target)
+                       (* 2 (ai/active-range (entity/ai monster))))))
     (when in-range
-      (setf results (decay component target map entities)))
+      (setf results (decay component target map entities))
 
-    results))
+     results)))
 
 (defmethod decay ((component dead-monster) target map entities)
   (let* ((results nil)
@@ -55,15 +56,22 @@
 (defmethod take-turn ((component dead-monster-regenerating) target map entities)
   (let* ((results nil)
          (monster (component/owner component))
+         (count (dead-monster/count component))
          (in-range (<= (distance-to monster target)
-                       (ai/active-range (entity/ai monster))))
+                       (* 2 (ai/active-range (entity/ai monster)))))
          (in-sight (tile/visible (aref (game-map/tiles map)
                                        (entity/x monster)
                                        (entity/y monster)))))
+    (when in-range (decf count))
 
     (unless in-sight
-      (when in-range
-        (let ((direction (nth (random (length *all-directions*)) *all-directions*)))
-          (move-safe monster (car direction) (cdr direction) map entities))))
+      (when (and in-range
+                 (<= count 0))
+        (setf count 5)
+        (format t "~A might regenerate" (describe-entity monster))
+        (setf results (decay component target map entities))))
 
-    (when in-sight)))
+    (when (and in-sight
+               (<= count 0))
+      (setf count 5)
+      (setf results (decay component target map entities)))))
