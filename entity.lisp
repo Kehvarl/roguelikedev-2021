@@ -13,6 +13,7 @@
                  :initform :corpse)
    (fighter :initarg :fighter :accessor entity/fighter :initform nil)
    (ai :initarg :ai :accessor entity/ai :initform nil)
+   (regenerating :initarg :regenerating :accessor entity/regenerating :initform nil)
    (item :initarg :item :accessor entity/item :initform nil)
    (inventory :initarg :inventory :accessor entity/inventory :initform nil)))
 
