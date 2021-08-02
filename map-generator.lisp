@@ -58,7 +58,8 @@
                                                     :char #\T :blocks t
                                                     :render-order :actor
                                                     :fighter fighter-component
-                                                    :ai ai-component))))))))))
+                                                    :ai ai-component
+                                                    :regenerating t))))))))))
 
 (defun place-items (room entities num-items)
   (dotimes (item-index num-items)

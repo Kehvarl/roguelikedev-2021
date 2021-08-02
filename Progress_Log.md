@@ -358,3 +358,7 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
   * Then when a creature dies we create a new "Dead-Monster" AI component for it.
   * Each tick, if the monster is in range of the player, it slowly decays, moving through phases until it fades away.
 * New AI:  Regenerating.   A Dead Troll has a chance each turn of gaining back 1 HP.  If it regains 5, it returns to life.
+![Part 9.2](./screenshots/Part9.2.png?raw=true "The Walking Trolls.")
+  * I just made it 100% certain that the troll would regain HP or decay every 5 turns.   with 5 HP it becomes a Risen Troll.
+  * We now have generic Decay and Regenerate features for dead monsters.  And a Resurrect function in the Death functions.  
+  * I may give Live trolls a regeneration feature too.  Might be time to strip some of this out of hard-code and into configurable settings.
