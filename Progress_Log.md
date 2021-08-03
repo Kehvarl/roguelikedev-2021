@@ -362,3 +362,5 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
   * I just made it 100% certain that the troll would regain HP or decay every 5 turns.   with 5 HP it becomes a Risen Troll.
   * We now have generic Decay and Regenerate features for dead monsters.  And a Resurrect function in the Death functions.  
   * I may give Live trolls a regeneration feature too.  Might be time to strip some of this out of hard-code and into configurable settings.
+  * Dead monsters track some of the state of their past life
+  * On resurrect, we put those settings back into place
