@@ -7,7 +7,10 @@
     :decay-remains (list "scattered remains" nil)))
 
 (defclass dead-monster (basic-monster)
-  ((state :initarg :state :accessor dead-monster/state :initform :decay-corpse)
+  ((previous-ai :initarg :previous-ai :accessor dead-monster/previous-ai :initform nil)
+   (previous-name :initarg :previous-name :accessor dead-monster/previous-name :initform nil)
+   (previous-char :initarg :previous-char :accessor dead-monster/previous-char :initform nil)
+   (state :initarg :state :accessor dead-monster/state :initform :decay-corpse)
    (count :initarg :count :accessor dead-monster/count :initform 5)
    (next-state :initarg :next-state
                :accessor dead-monster/next-state

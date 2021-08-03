@@ -9,8 +9,10 @@
   (with-slots (char color blocks render-order ai regenerating name descriptor) monster
     (let ((message (format nil "~A is dead!~%" name))
           (dead-ai (if regenerating
-                     (make-instance 'dead-monster-regenerating)
-                     (make-instance 'dead-monster))))
+                     (make-instance 'dead-monster-regenerating :previous-ai ai
+                                    :previous-name name :previous-char char)
+                     (make-instance 'dead-monster :previous-ai ai
+                                    :previous-name name :previous-char char))))
       (setf char #\%
             color (blt:red)
             blocks nil
@@ -23,8 +25,13 @@
 (defun resurrect-monster (monster)
   (with-slots (char color blocks render-order ai regenerating name descriptor) monster
     (let ((message (format nil "~A rises!~%" name))
-          (ai-component (make-instance 'basic-monster :active-range 10)))
-      (setf char #\R
+          (ai-component (dead-monster/previous-ai ai)))
+      (setf char (if (dead-monster/previous-char ai)
+                   (dead-monster/previous-char ai)
+                   #/R)
+            name (if (dead-monster/previous-name ai)
+                    (dead-monster/previous-name ai)
+                    #/z)
             color (blt:red)
             blocks t
             render-order :actor
