@@ -27,7 +27,7 @@
   (setf (game-state/running *state*) nil))
 
 (defun main (&rest initargs)
-  (declare (ignore initargs))  
+  (declare (ignore initargs))
   (blt:with-terminal
    (config)
    (let* ((fighter-component (make-instance 'fighter
@@ -36,7 +36,7 @@
                                             :power 5))
           (inventory-component (make-instance 'inventory
                                               :capacity 26))
-          (player (make-instance 'entity
+          (player (make-instance 'player
                                  :name "Player"
                                  :x (/ *screen-width* 2)
                                  :y (/ *screen-height* 2)
