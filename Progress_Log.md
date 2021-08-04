@@ -371,3 +371,12 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
   * Create a new Player class descending from Entity.  Which is an Entity with a Track score
   * Update the player Move to increment the player's Track and set the map tile's Track
   * Temporary renderer hack to display the current track using HSV values to make them look cool.
+
+## AI Tracking
+We have some interesting features in place, now let's make some more interesting AI.  I really have a few types I want, I think:
+* Tracking:  This AI will try to follow the player.  
+ * If the player is in sight, it will move towards them normally.
+ * If the player is out of sight, and if the AI can find the scent trail, it will move towards the player
+ * Otherwise the AI will move randomly
+* Fleeing: This AI will attempt to evade the player.
+* Following:  This AI will try to follow the player, but never approach closer than some Distance
