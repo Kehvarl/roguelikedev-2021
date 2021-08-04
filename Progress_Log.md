@@ -364,3 +364,10 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
   * I may give Live trolls a regeneration feature too.  Might be time to strip some of this out of hard-code and into configurable settings.
   * Dead monsters track some of the state of their past life
   * On resurrect, we put those settings back into place
+### Scent trails
+![Part 9.3](./screenshots/Part9.3.png?raw=true "Getting Warmer.)
+  As the player walks, they will lay down a scent trail which mostly follows a logical progression.   If they cross their own trail, the value resets so the trails are vaguely branching.
+  * Update Tile to hold a Track value
+  * Create a new Player class descending from Entity.  Which is an Entity with a Track score
+  * Update the player Move to increment the player's Track and set the map tile's Track
+  * Temporary renderer hack to display the current track using HSV values to make them look cool.

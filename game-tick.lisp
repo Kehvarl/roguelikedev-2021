@@ -20,6 +20,16 @@
                                                      target)))
                   (t
                    (move player (car move) (cdr move))
+                   (if (tile/track (aref (game-map/tiles map)
+                                         (entity/x player) (entity/y player)))
+                     (setf (player/track player) (tile/track
+                                                  (aref (game-map/tiles map)
+                                                        (entity/x player)
+                                                        (entity/y player))))
+                     (setf (tile/track (aref (game-map/tiles map)
+                                             (entity/x player) (entity/y player)))
+                           (player/track player)))
+                   (incf (player/track player))
                    (fov map (entity/x player) (entity/y player)))))
          (setf (game-state/state game-state) :enemy-turn))))
 

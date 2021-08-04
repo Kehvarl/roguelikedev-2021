@@ -8,7 +8,8 @@
 (defparameter *color-map* (list :dark-wall (blt:rgba 0 0 100)
                                 :dark-ground (blt:rgba 50 50 150)
                                 :lit-wall (blt:rgba 130 110 50)
-                                :lit-ground (blt:rgba 200 180 50)))
+                                :lit-ground (blt:rgba 200 180 50)
+                                :track-ground (blt:rgba 200 180 180)))
 
 (defun render-order-compare (entity-1 entity-2)
   (< (getf *render-order* (entity/render-order entity-1))
@@ -21,7 +22,8 @@
       (let* ((tile (aref (game-map/tiles map) x y))
              (wall (tile/blocked tile))
              (visible (tile/visible tile))
-             (explored (tile/explored tile)))
+             (explored (tile/explored tile))
+             (track (tile/track tile)))
 
          (cond (visible
                  (if wall
@@ -32,7 +34,14 @@
                  (if wall
                    (setf (blt:background-color) (getf *color-map* :dark-wall))
                    (setf (blt:background-color) (getf *color-map* :dark-ground)))
-                (setf (blt:cell-char x y) #\Space))))))
+                (setf (blt:cell-char x y) #\Space)))
+         (when track
+           (if wall
+             (setf (blt:background-color) (getf *color-map* :dark-wall))
+             (setf (blt:background-color) (blt:hsva (tile/track tile) 180 180)))
+
+           (setf (blt:cell-char x y) #\Space)))))
+
 
 
   (let ((entities (game-state/entities game-state)))
