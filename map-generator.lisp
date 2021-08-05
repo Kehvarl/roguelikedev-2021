@@ -37,29 +37,41 @@
     (dotimes (monster-index num-monsters)
       (multiple-value-bind (x y) (rect/random room)
         (unless (entity-at entities x y)
-          (cond
-            ((< (random 100) 80)
-             (let* ((fighter-component (make-instance 'fighter :hp 10
-                                                      :defense 0 :power 3))
-                    (ai-component (make-instance 'basic-monster :active-range 5)))
-               (nconc entities (list (make-instance 'entity :name "Orc"
-                                                    :x x :y y :color (blt:green)
-                                                    :char #\o :blocks t
-                                                    :render-order :actor
-                                                    :fighter fighter-component
-                                                    :ai ai-component)))))
+          (let ((monster-rand (random 100)))
+            (cond
+              ((< monster-rand 70)
+               (let* ((fighter-component (make-instance 'fighter :hp 10
+                                                        :defense 0 :power 3))
+                      (ai-component (make-instance 'basic-monster :active-range 5)))
+                 (nconc entities (list (make-instance 'entity :name "Orc"
+                                                      :x x :y y :color (blt:green)
+                                                      :char #\o :blocks t
+                                                      :render-order :actor
+                                                      :fighter fighter-component
+                                                      :ai ai-component)))))
 
-            (t
-             (let* ((fighter-component (make-instance 'fighter :hp 16
-                                                      :defense 1 :power 4))
-                    (ai-component (make-instance 'basic-monster :active-range 10)))
-               (nconc entities (list (make-instance 'entity :name "Troll"
-                                                    :x x :y y :color (blt:yellow)
-                                                    :char #\T :blocks t
-                                                    :render-order :actor
-                                                    :fighter fighter-component
-                                                    :ai ai-component
-                                                    :regenerating t))))))))))
+              ((< monster-rand 90)
+               (let* ((fighter-component (make-instance 'fighter :hp 16
+                                                        :defense 1 :power 4))
+                      (ai-component (make-instance 'basic-monster :active-range 10)))
+                 (nconc entities (list (make-instance 'entity :name "Troll"
+                                                      :x x :y y :color (blt:yellow)
+                                                      :char #\T :blocks t
+                                                      :render-order :actor
+                                                      :fighter fighter-component
+                                                      :ai ai-component
+                                                      :regenerating t)))))
+              (t
+               (let* ((fighter-component (make-instance 'fighter :hp 16 :defense 1
+                                                        :power 4))
+                      (ai-component (make-instance 'ranged-monster :active-range 10)))
+                 (nconc entities (list (make-instance 'entity :name "Curious Light"
+                                                      :x x :y y :color (blt:chartreuse)
+                                                      :char #\c :blocks t
+                                                      :render-order :actor
+                                                      :fighter fighter-component
+                                                      :ai ai-component
+                                                      :regenerating t)))))))))))
 
 (defun place-items (room entities num-items)
   (dotimes (item-index num-items)

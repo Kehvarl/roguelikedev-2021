@@ -14,3 +14,31 @@
   (with-slots (hp max-hp) fighter
     (unless max-hp
       (setf max-hp hp))))
+
+(defgeneric take-damage (component amount))
+(defgeneric attack (component target))
+
+(defmethod take-damage ((component fighter) amount)
+  (decf (fighter/hp component) amount)
+  (let ((results nil))
+    (when (<= (fighter/hp component) 0)
+      (setf results (list :dead (component/owner component))))
+    results))
+
+(defmethod attack ((component fighter) (target entity))
+  (let ((results nil)
+        (damage (- (fighter/power component)
+                   (fighter/defense (entity/fighter target)))))
+    (cond
+      ((> damage 0)
+       (setf results (append (list :message
+                                   (format nil "~A attacks ~A for ~A damage.~%"
+                                           (entity/name (component/owner component))
+                                           (entity/name target)
+                                           damage))
+                      (take-damage (entity/fighter target) damage))))
+      (t
+       (setf results (list :message (format nil "~A attachs ~A but does no damage.~%"
+                                            (entity/name (component/owner component))
+                                            (entity/name target))))))
+    results))
