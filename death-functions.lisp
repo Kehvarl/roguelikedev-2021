@@ -28,10 +28,10 @@
           (ai-component (dead-monster/previous-ai ai)))
       (setf char (if (dead-monster/previous-char ai)
                    (dead-monster/previous-char ai)
-                   #/R)
+                   #\R)
             name (if (dead-monster/previous-name ai)
                     (dead-monster/previous-name ai)
-                    #/z)
+                    #\z)
             color (blt:red)
             blocks t
             render-order :actor

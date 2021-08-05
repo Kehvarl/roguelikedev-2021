@@ -26,3 +26,31 @@
              ((> (fighter/hp (entity/fighter target)) 0)
               (setf results (attack (entity/fighter monster) target)))))
     results))
+
+(defclass ranged-monster (basic-monster)
+  ((target-range :initarg :target-range :accessor ranged-monster/target-range :initform 5)))
+
+(defmethod take-turn ((component ranged-monster) target map entities)
+  (let* ((results nil)
+         (monster (component/owner component))
+         (in-range (<= (distance-to monster target)
+                       (ai/active-range (entity/ai monster))))
+         (in-sight (tile/visible (aref (game-map/tiles map)
+                                       (entity/x monster)
+                                       (entity/y monster)))))
+
+    (with-slots (target-range) component
+      (unless in-sight
+        (when in-range
+          (let ((direction (nth (random (length *all-directions*)) *all-directions*)))
+            (move-safe monster (car direction) (cdr direction) map entities))))
+
+      (when in-sight
+        (cond
+          ((>= (distance-to monster target) target-range)
+           (break)
+           (move-towards monster (entity/x target) (entity/y target) map entities)))))
+
+
+
+    results))
