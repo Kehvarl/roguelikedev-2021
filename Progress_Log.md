@@ -380,3 +380,15 @@ We have some interesting features in place, now let's make some more interesting
  * Otherwise the AI will move randomly
 * Fleeing: This AI will attempt to evade the player.
 * Following:  This AI will try to follow the player, but never approach closer than some Distance
+
+## Ideas awaiting experimentation
+* Dijkstra Map Stuff
+  * Use to have creatures move towards goals
+  * Useful to maintain distance from the player or other Entity
+* Creature mutation
+  * Ritual circles or Matter transmuters that apply random effects to entities that stand in them
+* spawning
+  * Spawners for Monsters
+  * Corpses may spawn special Monsters
+* The cloning Machine
+  * Spawner that uses a "scanning room" and picks features from creatures therein to make a new one.
