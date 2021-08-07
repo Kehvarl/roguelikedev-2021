@@ -37,6 +37,16 @@
 (defmethod blocked-p ((map game-map) x y)
   (tile/blocked (aref (game-map/tiles map) x y)))
 
+(defgeneric entities-in-region (map entities region-index))
+(defmethod entities-in-region ((map game-map) entities region-index)
+  (let ((entity-count 0))
+    (map-tiles-loop (map tile :col-val x :row-val y)
+      (when (and
+             (eql (tile/region (aref (game-map/tiles map) x y)) region-index)
+             (entity-at entities x y))
+        (incf entity-count)))
+    entity-count))
+
 (defun entity-at (entities x y)
   (dolist (entity entities)
     (if (and (= (entity/x entity) x)

@@ -374,12 +374,34 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
 
 ## AI Tracking
 We have some interesting features in place, now let's make some more interesting AI.  I really have a few types I want, I think:
-* Tracking:  This AI will try to follow the player.  
- * If the player is in sight, it will move towards them normally.
- * If the player is out of sight, and if the AI can find the scent trail, it will move towards the player
- * Otherwise the AI will move randomly
-* Fleeing: This AI will attempt to evade the player.
 * Following:  This AI will try to follow the player, but never approach closer than some Distance
+* TODO
+  * Tracking:  This AI will try to follow the player.  
+   * If the player is in sight, it will move towards them normally.
+   * If the player is out of sight, and if the AI can find the scent trail, it will move towards the player
+   * Otherwise the AI will move randomly
+  * Fleeing: This AI will attempt to evade the player.
+
+### Definitely not AI Tracking, but in that branch
+* Spawners now exist.  
+  * Currently they just fill rooms with potions.
+  * Added per-room limits on the number of items a spawner will produce
+* TODO
+  * Next up are permanent spawners that produce mosnters
+  * Then random corpses get spawners for vermin
+  * Then The cloning Machine
+    * Spawner that uses a "scanning room" and picks features from creatures therein to make a new one.
+
+### Better Region Identification
+* Rather than keeping a list of rooms around, assign every tile a number based on its Room-ness or Corridor-ness.
+* TODO
+  * Any creatures on a tile with a shared number are in the same room.
+  * A Corridor tile with a Room on one side and a Corridor on the other is a door
+    * Doors may be one of
+      * Opening - always allow passage
+      * Secret - Act like a wall most of the time
+      * Open - allow passage, but can be closed (should have special character)
+      * Closed - Act like a wall, but can be opened (should have special character)
 
 ## Ideas awaiting experimentation
 * Dijkstra Map Stuff
@@ -387,8 +409,3 @@ We have some interesting features in place, now let's make some more interesting
   * Useful to maintain distance from the player or other Entity
 * Creature mutation
   * Ritual circles or Matter transmuters that apply random effects to entities that stand in them
-* spawning
-  * Spawners for Monsters
-  * Corpses may spawn special Monsters
-* The cloning Machine
-  * Spawner that uses a "scanning room" and picks features from creatures therein to make a new one.

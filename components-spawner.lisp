@@ -2,13 +2,16 @@
 
 (defclass spawner (component)
   ((room :accessor spawner/room)
+   (region :accessor spawner/region)
    (frequency :initarg :frequency :accessor spawner/frequency)
+   (max-entities :initarg :max-entities :accessor spawner/max-entities :initform 5)
    (tick :accessor spawner/tick :initform 0)))
 
 (defgeneric spawn (component map entities))
 (defmethod spawn ((component spawner) map entities)
-  (with-slots (tick frequency) component
+  (with-slots (room region tick frequency max-entities) component
     (incf (spawner/tick component))
-    (when (> frequency tick)
+    (when (> tick frequency)
       (setf (spawner/tick component) 0)
-      (format t "Spawner triggers"))))
+      (unless (> (entities-in-region map entities region) max-entities)
+        (place-items room entities 1)))))
