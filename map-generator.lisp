@@ -103,16 +103,10 @@
  (do* ((rooms nil)
        (num-rooms 0)
        (room-index 0 (1+ room-index))
-       (w (+ (random (- room-max-size room-min-size)) room-min-size)
-          (+ (random (- room-max-size room-min-size)) room-min-size))
-       (h (+ (random (- room-max-size room-min-size)) room-min-size)
-          (+ (random (- room-max-size room-min-size)) room-min-size))
-       (x (random (- map-width w))
-          (random (- map-width w)))
-       (y (random (- map-height h))
-          (random (- map-height h)))
-       (new-room (make-instance 'rect :x x :y y :w w :h h)
-                 (make-instance 'rect :x x :y y :w w :h h))
+       (new-room (random-rect room-min-size room-max-size
+                              map-width map-height)
+                 (random-rect room-min-size room-max-size
+                              map-width map-height))
        (can-place-p t t))
       ((>= room-index max-rooms))
    (dolist (other-room rooms)
@@ -120,6 +114,7 @@
              (setf can-place-p nil)))
    (when can-place-p
      (create-room map new-room)
+     (setf (game-map/rooms map) (append (game-map/rooms map) (list new-room)))
      (multiple-value-bind (new-x new-y) (center new-room)
        (if (zerop num-rooms)
            (setf (entity/x player) new-x

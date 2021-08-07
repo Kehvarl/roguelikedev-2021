@@ -22,10 +22,12 @@
           :accessor game-map/w)
    (height :initarg :h
            :accessor game-map/h)
-   (tiles :accessor game-map/tiles)))
+   (tiles :accessor game-map/tiles)
+   (rooms :accessor game-map/rooms)))
 
 (defmethod initialize-instance :after ((map game-map)
                                        &key (initial-blocked-value t))
+  (setf (game-map/rooms map) ())
   (setf (game-map/tiles map) (make-array (list (game-map/w map)
                                                (game-map/h map))))
   (map-tiles-loop (map tile :col-val x :row-val y)
