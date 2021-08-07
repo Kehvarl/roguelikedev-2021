@@ -126,8 +126,10 @@
      (setf (game-map/rooms map) (append (game-map/rooms map) (list new-room)))
      (multiple-value-bind (new-x new-y) (center new-room)
        (if (zerop num-rooms)
-           (setf (entity/x player) new-x
-                 (entity/y player) new-y)
+           (progn
+            (place-spawner new-room entities (make-instance 'spawner :frequency 10))
+            (setf (entity/x player) new-x
+                  (entity/y player) new-y))
            (multiple-value-bind (prev-x prev-y) (center (car (last rooms)))
              (cond ((= (random 2) 1)
                     (create-h-tunnel map prev-x new-x prev-y)

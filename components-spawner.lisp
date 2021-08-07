@@ -7,8 +7,8 @@
 
 (defgeneric spawn (component map entities))
 (defmethod spawn ((component spawner) map entities)
-  (with-slots (tick frequency) component
+  (with-slots (room tick frequency) component
     (incf (spawner/tick component))
-    (when (> frequency tick)
+    (when (> tick frequency)
       (setf (spawner/tick component) 0)
-      (format t "Spawner triggers"))))
+      (place-items room entities 1))))
