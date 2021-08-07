@@ -80,6 +80,8 @@
   game-state)
 
 (defun enemy-turn (game-state player map log)
+  (dolist (entity (remove-if-not #'entity/spawner (game-state/entities game-state)))
+          (spawn (entity/spawner entity) map (game-state/entities game-state)))
   (dolist (entity (remove-if-not #'entity/ai (game-state/entities game-state)))
     (let* ((enemy-turn-results (take-turn (entity/ai entity)
                                           player map (game-state/entities game-state)))
