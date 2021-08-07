@@ -13,6 +13,7 @@
                  :initform :corpse)
    (fighter :initarg :fighter :accessor entity/fighter :initform nil)
    (ai :initarg :ai :accessor entity/ai :initform nil)
+   (spawner :initarg :spawner :accessor entity/spawner :initform nil)
    (regenerating :initarg :regenerating :accessor entity/regenerating :initform nil)
    (item :initarg :item :accessor entity/item :initform nil)
    (inventory :initarg :inventory :accessor entity/inventory :initform nil)))
@@ -23,11 +24,13 @@
 
 (defmethod initialize-instance :after ((entity entity) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fighter ai inventory) entity
+  (with-slots (fighter ai spawner inventory) entity
     (when fighter
       (setf (component/owner fighter) entity))
     (when ai
-      (setf (component/owner ai) entity))
+      (setf (component/owner ai) entity)
+      (when spawner
+        (setf (component/owner spawner) entity)))
     (when inventory
       (setf (component/owner inventory) entity))))
 

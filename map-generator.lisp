@@ -86,6 +86,15 @@
                                       :render-order :item)))
           (nconc entities (list potion)))))))
 
+(defun place-spawner (room entities spawner)
+  (multiple-value-bind (x y) (rect/random room)
+    (unless (entity-at entities x y)
+      (setf (spawner/room spawner) room)
+      (nconc entities (list (make-instance 'entity :x x :y y :color (blt:black)
+                                           :spawner spawner
+                                           :char #\space :blocks nil
+                                           :render-order :item))))))
+
 (defgeneric make-map (map max-rooms
                           room-min-size room-max-size
                           map-width map-height
@@ -127,6 +136,8 @@
                     (create-v-tunnel map prev-y new-y prev-x)
                     (create-h-tunnel map prev-x new-x new-y)))))
        (place-entities map new-room entities max-enemies-per-room max-items-per-room)
+       (when (> (random 100) 90)
+         (place-spawner new-room entities (make-instance 'spawner :frequency 10)))
        (if (null rooms)
            (setf rooms (list new-room))
            (push new-room (cdr (last rooms))))
