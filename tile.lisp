@@ -13,6 +13,12 @@
    (explored :initarg :explored
              :accessor tile/explored
              :initform nil)
+   (region :initarg :region
+           :accessor tile/region
+           :initform nil)
+   (door :initarg :door
+         :accessor tile/door
+         :initform nil)
    (track :initarg :track
           :accessor tile/track
           :initform nil)))
@@ -24,8 +30,11 @@
       (setf block-sight blocked))))
 
 (defmethod set-tile-slots ((tile tile) &key (blocked nil blocked-supplied-p)
-                                       (block-sight nil block-sight-supplied-p))
+                                       (block-sight nil block-sight-supplied-p)
+                                       (region nil region-supplied-p))
   (if blocked-supplied-p
     (setf (slot-value tile 'blocked) blocked))
   (if block-sight-supplied-p
-    (setf (slot-value tile 'block-sight) block-sight)))
+    (setf (slot-value tile 'block-sight) block-sight))
+  (if region-supplied-p
+    (setf (slot-value tile 'region) region)))

@@ -1,30 +1,33 @@
 (in-package #:roguelike-2021)
 
-(defmethod create-room ((map game-map) (room rect))
+(defgeneric create-room (map room index))
+(defmethod create-room ((map game-map) (room rect) index)
   (map-tiles-loop (map tile
                        :x-start (1+ (rect/x1 room)) :x-end (rect/x2 room)
                        :y-start (1+ (rect/y1 room)) :y-end (rect/y2 room))
-    (set-tile-slots tile :blocked nil :block-sight nil)))
+    (set-tile-slots tile :blocked nil :block-sight nil :region index)))
 
-(defmethod create-h-tunnel ((map game-map) x1 x2 y)
+(defgeneric create-h-tunnel (map x1 x2 y index))
+(defmethod create-h-tunnel ((map game-map) x1 x2 y index)
   (let ((start-x (min x1 x2))
         (end-x (max x1 x2)))
     (map-tiles-loop (map tile
                          :x-start start-x :x-end (1+ end-x)
                          :y-start y :y-end (1+ y))
-      (set-tile-slots tile :blocked nil :block-sight nil))))
+      (when (not (tile/region tile))
+        (set-tile-slots tile :blocked nil :block-sight nil :region index)))))
 
-
-(defmethod create-v-tunnel ((map game-map) y1 y2 x)
+(defgeneric create-v-tunnel (map y1 y2 x index))
+(defmethod create-v-tunnel ((map game-map) y1 y2 x index)
   (let ((start-y (min y1 y2))
         (end-y (max y1 y2)))
     (map-tiles-loop (map tile
                          :x-start x :x-end (1+ x)
                          :y-start start-y :y-end (1+ end-y))
-      (set-tile-slots tile :blocked nil :block-sight nil))))
+      (when (not (tile/region tile))
+        (set-tile-slots tile :blocked nil :block-sight nil :region index)))))
 
 (defgeneric place-entities (map room entities max-enemies-per-room max-items-per-room))
-
 (defmethod place-entities ((map game-map) (room rect) entities
                                           max-enemies-per-room
                                           max-items-per-room)
@@ -110,6 +113,7 @@
                                    max-items-per-room)
 
  (do* ((rooms nil)
+       (region-index 0)
        (num-rooms 0)
        (room-index 0 (1+ room-index))
        (new-room (random-rect room-min-size room-max-size
@@ -122,7 +126,8 @@
            (if (intersect new-room other-room)
              (setf can-place-p nil)))
    (when can-place-p
-     (create-room map new-room)
+     (create-room map new-room region-index)
+     (incf region-index)
      (setf (game-map/rooms map) (append (game-map/rooms map) (list new-room)))
      (multiple-value-bind (new-x new-y) (center new-room)
        (if (zerop num-rooms)
@@ -132,11 +137,13 @@
                   (entity/y player) new-y))
            (multiple-value-bind (prev-x prev-y) (center (car (last rooms)))
              (cond ((= (random 2) 1)
-                    (create-h-tunnel map prev-x new-x prev-y)
-                    (create-v-tunnel map prev-y new-y new-x))
+                    (create-h-tunnel map prev-x new-x prev-y region-index)
+                    (create-v-tunnel map prev-y new-y new-x region-index)
+                    (incf region-index))
                    (t
-                    (create-v-tunnel map prev-y new-y prev-x)
-                    (create-h-tunnel map prev-x new-x new-y)))))
+                    (create-v-tunnel map prev-y new-y prev-x region-index)
+                    (create-h-tunnel map prev-x new-x new-y region-index)
+                    (incf region-index)))))
        (place-entities map new-room entities max-enemies-per-room max-items-per-room)
        (when (> (random 100) 90)
          (place-spawner new-room entities (make-instance 'spawner :frequency 10)))

@@ -23,19 +23,25 @@
              (wall (tile/blocked tile))
              (visible (tile/visible tile))
              (explored (tile/explored tile))
-             (track (tile/track tile)))
+             (track (tile/track tile))
+             (lit-wall (if (tile/region tile)
+                         (blt:hsva (tile/region tile) 100 100)
+                         (blt:rgba 130 110 50)))
+             (lit-ground (if (tile/region tile)
+                           (blt:hsva (tile/region tile) 180 180)
+                           (blt:rgba 200 180 50))))
 
          (cond (visible
                  (if wall
-                   (setf (blt:background-color) (getf *color-map* :lit-wall))
-                   (setf (blt:background-color) (getf *color-map* :lit-ground)))
+                   (setf (blt:background-color) lit-wall) ;(getf *color-map* :lit-wall))
+                   (setf (blt:background-color) lit-ground)) ;(getf *color-map* :lit-ground)))
                 (setf (blt:cell-char x y) #\Space))
                (explored
                  (if wall
                    (setf (blt:background-color) (getf *color-map* :dark-wall))
                    (setf (blt:background-color) (getf *color-map* :dark-ground)))
                 (setf (blt:cell-char x y) #\Space)))
-         (when track
+         (when nil;track
            (if wall
              (setf (blt:background-color) (getf *color-map* :dark-wall))
              (setf (blt:background-color) (blt:hsva (tile/track tile) 180 180)))
