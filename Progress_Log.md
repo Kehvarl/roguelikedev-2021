@@ -385,6 +385,7 @@ We have some interesting features in place, now let's make some more interesting
 ### Definitely not AI Tracking, but in that branch
 * Spawners now exist.  
   * Currently they just fill rooms with potions.
+  * Added per-room limits on the number of items a spawner will produce
 * TODO
   * Next up are permanent spawners that produce mosnters
   * Then random corpses get spawners for vermin

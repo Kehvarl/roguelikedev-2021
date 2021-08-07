@@ -93,6 +93,7 @@
   (multiple-value-bind (x y) (rect/random room)
     (unless (entity-at entities x y)
       (setf (spawner/room spawner) room)
+      (setf (spawner/region spawner) (rect/region room))
       (nconc entities (list (make-instance 'entity :x x :y y :color (blt:black)
                                            :spawner spawner
                                            :char #\space :blocks nil
@@ -126,13 +127,16 @@
            (if (intersect new-room other-room)
              (setf can-place-p nil)))
    (when can-place-p
+     (setf (rect/region new-room) region-index)
      (create-room map new-room region-index)
      (incf region-index)
      (setf (game-map/rooms map) (append (game-map/rooms map) (list new-room)))
      (multiple-value-bind (new-x new-y) (center new-room)
        (if (zerop num-rooms)
            (progn
-            (place-spawner new-room entities (make-instance 'spawner :frequency 10))
+            (place-spawner new-room entities (make-instance 'spawner
+                                                            :frequency 10
+                                                            :max-entities 5))
             (setf (entity/x player) new-x
                   (entity/y player) new-y))
            (multiple-value-bind (prev-x prev-y) (center (car (last rooms)))
