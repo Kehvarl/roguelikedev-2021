@@ -30,3 +30,10 @@
        (>= (rect/x2 rect) (rect/x1 other))
        (<= (rect/y1 rect) (rect/y2 other))
        (>= (rect/y2 rect) (rect/y1 other))))
+
+(defun random-rect (min-size max-size map-width map-height)
+  (let* ((w (+ (random (- max-size min-size)) min-size))
+         (h (+ (random (- max-size min-size)) min-size))
+         (x (random (- map-width w)))
+         (y (random (- map-height h))))
+    (make-instance 'rect :x x :y y :w w :h h)))
