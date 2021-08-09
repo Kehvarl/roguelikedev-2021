@@ -80,14 +80,19 @@
   (dotimes (item-index num-items)
     (multiple-value-bind (x y) (rect/random room)
       (unless (entity-at entities x y)
-        (let* ((item-component (make-instance 'item :use-function #'heal
-                                              :use-args '(:heal-amount 4)))
-               (potion (make-instance 'entity :name "Healing Potion"
-                                      :x x :y y :color (blt:purple)
-                                      :item item-component
-                                      :char #\! :blocks nil
-                                      :render-order :item)))
-          (nconc entities (list potion)))))))
+        (let ((monster-rand (random 100)))
+          (cond
+            ((< monster-rand 70)
+             (let* ((item-component (make-instance 'item :use-function #'heal
+                                                   :use-args '(:heal-amount 4)))
+                    (potion (make-instance 'entity :name "Healing Potion"
+                                           :x x :y y :color (blt:purple)
+                                           :item item-component
+                                           :char #\! :blocks nil
+                                           :render-order :item)))
+               (nconc entities (list potion))))
+            (t
+             (format t "Monster spawner at ~A,~A~%" x y))))))))
 
 (defun place-spawner (room entities spawner)
   (multiple-value-bind (x y) (rect/random room)
