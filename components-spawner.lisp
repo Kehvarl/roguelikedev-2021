@@ -4,7 +4,8 @@
   ((room :accessor spawner/room)
    (region :accessor spawner/region)
    (frequency :initarg :frequency :accessor spawner/frequency)
-   (max-entities :initarg :max-entities :accessor spawner/max-entities :initform 5)
+   (max-entities :initarg :max-entities :accessor spawner/max-entities
+                 :initform 5)
    (tick :accessor spawner/tick :initform 0)))
 
 (defgeneric spawn (component map entities))

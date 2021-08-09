@@ -387,15 +387,16 @@ We have some interesting features in place, now let's make some more interesting
   * Currently they just fill rooms with potions.
   * Added per-room limits on the number of items a spawner will produce
 * TODO
-  * Next up are permanent spawners that produce mosnters
+  * Next up are permanent spawners that produce monsters
   * Then random corpses get spawners for vermin
   * Then The cloning Machine
     * Spawner that uses a "scanning room" and picks features from creatures therein to make a new one.
 
 ### Better Region Identification
 * Rather than keeping a list of rooms around, assign every tile a number based on its Room-ness or Corridor-ness.
+* Any creatures on a tile with a shared number are in the same room.
+  * Implemented an entities-in-region method on Game-Map
 * TODO
-  * Any creatures on a tile with a shared number are in the same room.
   * A Corridor tile with a Room on one side and a Corridor on the other is a door
     * Doors may be one of
       * Opening - always allow passage
