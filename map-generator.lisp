@@ -45,7 +45,7 @@
               ((< monster-rand 70)
                (let* ((fighter-component (make-instance 'fighter :hp 10
                                                         :defense 0 :power 3))
-                      (ai-component (make-instance 'basic-monster :active-range 5)))
+                      (ai-component (make-instance 'tracking-monster :active-range 5)))
                  (nconc entities (list (make-instance 'entity :name "Orc"
                                                       :x x :y y :color (blt:green)
                                                       :char #\o :blocks t

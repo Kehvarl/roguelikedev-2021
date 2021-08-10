@@ -50,7 +50,39 @@
           ((>= (distance-to monster target) target-range)
            (break)
            (move-towards monster (entity/x target) (entity/y target) map entities)))))
+    results))
+
+(defclass tracking-monster (basic-monster) ())
+
+(defmethod take-turn ((component tracking-monster) target map entities)
+  (let* ((results nil)
+         (monster (component/owner component))
+         (in-range (<= (distance-to monster target)
+                       (ai/active-range (entity/ai monster)))))
+
+    (when in-range
 
 
+        (let ((tracks (track-around map (entity/x monster) (entity/y monster))))
+          (unless tracks
+            (let ((direction (nth (random (length *all-directions*))
+                                  *all-directions*)))
+              (move-safe monster (car direction) (cdr direction) map entities)))
+          (when tracks
+            (print tracks)
+            (move-safe monster (car tracks) (cdr tracks) map entities))))
 
     results))
+
+(defun track-around (map x y)
+  (let ((result nil))
+    (dolist (direction *all-directions*)
+            (let ((track (tile/track (aref (game-map/tiles map)
+                                           (+ (car direction) x)
+                                           (+ (cdr direction) y)))))
+             (when track
+               (if result
+                 (when (> (cdr result) track)
+                   (setf result (cons direction track)))
+                 (setf result (cons direction track))))))
+    (car result)))

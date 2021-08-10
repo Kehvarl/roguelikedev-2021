@@ -20,10 +20,10 @@
   (dotimes (y (game-map/h map))
     (dotimes (x (game-map/w map))
       (let* ((tile (aref (game-map/tiles map) x y))
+             (track (tile/track tile))
              (wall (tile/blocked tile))
              (visible (tile/visible tile))
              (explored (tile/explored tile)))
-
 
          (cond (visible
                  (if wall
@@ -34,10 +34,11 @@
                  (if wall
                    (setf (blt:background-color) (getf *color-map* :dark-wall))
                    (setf (blt:background-color) (getf *color-map* :dark-ground)))
-                (setf (blt:cell-char x y) #\Space))))))
-
-
-
+                (setf (blt:cell-char x y) #\Space)))
+        (when track
+          (if wall
+            (setf (blt:background-color) (getf *color-map* :dark-wall))
+            (setf (blt:background-color) (blt:hsva (tile/track tile) 180 180)))))))
 
   (let ((entities (game-state/entities game-state)))
     (mapc #'(lambda (entity) (draw entity map))
