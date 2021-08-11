@@ -69,7 +69,6 @@
                                   *all-directions*)))
               (move-safe monster (car direction) (cdr direction) map entities)))
           (when tracks
-            (print tracks)
             (move-safe monster (car tracks) (cdr tracks) map entities))))
 
     results))
