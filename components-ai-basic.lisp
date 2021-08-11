@@ -82,7 +82,7 @@
                                            (+ (cdr direction) y)))))
              (when track
                (if result
-                 (when (> (cdr result) track)
+                 (when (> track (cdr result))
                    (setf result (cons direction track)))
                  (setf result (cons direction track))))))
     (car result)))
