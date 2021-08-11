@@ -375,11 +375,11 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
 ## AI Tracking
 We have some interesting features in place, now let's make some more interesting AI.  I really have a few types I want, I think:
 * Following:  This AI will try to follow the player, but never approach closer than some Distance
+* Tracking:  This AI will try to follow the player.  
+  * If the player is in sight, it will move towards them normally.
+  * If the player is out of sight, and if the AI can find the scent trail, it will move towards the player
+  * Otherwise the AI will move randomly
 * TODO
-  * Tracking:  This AI will try to follow the player.  
-   * If the player is in sight, it will move towards them normally.
-   * If the player is out of sight, and if the AI can find the scent trail, it will move towards the player
-   * Otherwise the AI will move randomly
   * Fleeing: This AI will attempt to evade the player.
 
 ### Definitely not AI Tracking, but in that branch
