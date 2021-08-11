@@ -48,7 +48,6 @@
       (when in-sight
         (cond
           ((>= (distance-to monster target) target-range)
-           (break)
            (move-towards monster (entity/x target) (entity/y target) map entities)))))
     results))
 
@@ -58,10 +57,18 @@
   (let* ((results nil)
          (monster (component/owner component))
          (in-range (<= (distance-to monster target)
-                       (ai/active-range (entity/ai monster)))))
+                       (ai/active-range (entity/ai monster))))
+         (in-sight (tile/visible (aref (game-map/tiles map)
+                                       (entity/x monster)
+                                       (entity/y monster)))))
 
     (when in-range
+      (if in-sight
+         (cond ((>= (distance-to monster target) 2)
+                (move-towards monster (entity/x target) (entity/y target) map entities))
 
+               ((> (fighter/hp (entity/fighter target)) 0)
+                (setf results (attack (entity/fighter monster) target))))
 
         (let ((tracks (track-around map (entity/x monster) (entity/y monster))))
           (unless tracks
@@ -69,7 +76,7 @@
                                   *all-directions*)))
               (move-safe monster (car direction) (cdr direction) map entities)))
           (when tracks
-            (move-safe monster (car tracks) (cdr tracks) map entities))))
+            (move-safe monster (car tracks) (cdr tracks) map entities)))))
 
     results))
 
