@@ -51,6 +51,15 @@
 (defmethod region-at((map game-map) x y)
   (tile/region (aref (game-map/tiles map) x y)))
 
+(defgeneric random-in-region (map region-index))
+(defmethod random-in-region ((map game-map) region-index)
+  (let ((coords nil))
+    (map-tiles-loop (map tile :col-val x :row-val y)
+      (when (eql (tile/region (aref (game-map/tiles map) x y)) region-index)
+        (setf coords (append coords (list (cons x y))))))
+    (let ((coord (nth (random (length coords)) coords)))
+      (values (car coord) (cdr coord)))))
+
 (defun entity-at (entities x y)
   (dolist (entity entities)
     (if (and (= (entity/x entity) x)
