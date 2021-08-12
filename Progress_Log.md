@@ -2,10 +2,12 @@
 ## Part 1
 ### Drawing the Screen
 ![Part 1.0](./screenshots/Part1.0.png?raw=true "Game Window")
+
 * Initialize BearLibTerminal and display a window with title
 * Capture keystrokes and check for game-over condition.
 ## Drawing the Player and Moving around
 ![Part 1.1](./screenshots/Part1.1.png?raw=true "Player On Screen")
+
 * Update Drawing routine to show the player '@'
 * Update Drawing routing to accept location to draw player
 * Break out key-handler to its own function
@@ -15,6 +17,7 @@
 ## Part 2
 ### The entity
 ![Part 2.1](./screenshots/Part2.1.png?raw=true "Entities and NPCs")
+
 #### Defining the Entity
 * Create a generic Entity object to track entities
   * Position
@@ -35,6 +38,7 @@
 * Add the new Entity file to our ASD to make sure it gets loaded.
 ### The Map
 ![Part 2.2](./screenshots/Part2.2.png?raw=true "The Game Map")
+
 #### Define Map Components
 * Create a new game-map file and add it to our ASD so it will get loaded.
 * Define a Tile which is a game-map space that may or may not be a wall
@@ -57,6 +61,7 @@
 
 ## Part 3
 ![Part 3.1](./screenshots/Part3.1.png?raw=true "Random Maps")
+
 ### Looping over Tiles
 We will be looping over the entire map (or subsets of it) quite often.  To facilitate this, we will create a macro to build the looping functions we need.
 * Cleanup our Initialize loop to concisely state what we need it to do
@@ -87,6 +92,7 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
 ## Part 4
 ### Field of View
 ![Part 4.1](./screenshots/Part4.1.png?raw=true "Our Field Of View")
+
 #### Calculating
 * Per the CL-RLTUT tutorial, we will be implementing a very simple FoV algorithm
   * We will draw 360 lines from the character out to our desired radius.
@@ -101,6 +107,7 @@ We will be looping over the entire map (or subsets of it) quite often.  To facil
   * Of course, our rendering tools don't know what to do if we don't calculate the FoV, so let's add that to our Game-Tick
 ### The Fog of War
 ![Part 4.2](./screenshots/Part4.2.png?raw=true "The Fog Of War")
+
 #### Exploration
 Currently the player can see the entire map.  That's no challenge at all! So what we will do is hide the map and only show the player what's in their field of view.  Just to be nice, we will also show the parts of the map the player has seen before, but we won't show any monsters or treasures lurking in those remembered places.
 * First step: Add an "Explored" slot to our tiles.  That way we know what's safe to render.
@@ -111,6 +118,7 @@ Currently the player can see the entire map.  That's no challenge at all! So wha
 ## Part 5
 ### Placing Enemies
 ![Part 5.1](./screenshots/Part5.1.png?raw=true "A Well-Stocked Dungeon")
+
 Now that there's a map to explore, and some mystery to the map, it's time to populate the dungeon!  This is most easily done ruing map generation when we can easily add stuff to the rooms.
 * First we'll add a utility function to our game-map that checks if there's already an entity at a chosen x/y point.
 * Then we'll add a method to our game-map that accepts a room and some constraints, then populates that room with some number of entities fitting our constraints.
@@ -118,6 +126,7 @@ Now that there's a map to explore, and some mystery to the map, it's time to pop
 * And then we just update our make-map routine so we can drop those random entities into our rooms as we make them.
 ### Colliding with enemies
 ![Part 5.2](./screenshots/Part5.2.png?raw=true "Win Friends and Kick Enemies")
+
 Currently we can walk right through all the enemies on the map.  Since they won't move out of our way, this is very useful.  Unfortunately it's not ideal for the future of our game.
 * Modify the Entity to hold a "blocks" slot
 * Update entity creation to make our various entities solid
@@ -147,6 +156,7 @@ Let's give all those entities we're spawning a chance to do things!
 ## Part 6
 ### Combat!
 ![Part 6.1](./screenshots/Part6.1.png?raw=true "With a Fightin' Heart and Immortal Skill")
+
 #### Components
 We'll be using components within our entities to identify various capabilities, the first of which is "Fighter".  The Fighter Component grants: HP, Attack, and Defense.
 * Create a new Components file, make sure to add it to our ASD and also put the proper (in-package...) at the top!
@@ -177,6 +187,7 @@ Now we make our enemies do stuff!
 * Don't forget to add Pathfinding to our ASD so it loads properly.
 ### Doing Damage
 ![Part 6.2](./screenshots/Part6.2.png?raw=true "WHAM! POW! BLAM!")
+
 #### Damage and Combat
 And now we move from trading insults to trading blows.
 * First up is some necessary changes to our Fighter component.
@@ -186,6 +197,7 @@ And now we move from trading insults to trading blows.
 * For fairness, we'll update the enemies' AI to attack instead of insulting us.
 #### Messages, Death, and Corpses
 ![Part 6.3](./screenshots/Part6.3.png?raw=true "Let the dead find their rest as a messy pile!")
+
 We can hit things, things can hit us, and we can even brag about the relative amounts of damage!  Time to do something with all this.
 * Instead of printing, our take-damage and attack methods should return some information about what happened, so the game logic can do useful things for us.
 * With all these useful messages flowing back to our game loop, let's modify it to display our messages and do something when things die!
@@ -197,6 +209,7 @@ We can hit things, things can hit us, and we can even brag about the relative am
 
 ## Part 7 (UI Stuff)
 ![Part 7.1](./screenshots/Part7.1.png?raw=true "Showing off our HP!")
+
 ### Player Health
 We can deal and take damage, but right now we have no way of knowing just how badly injured we are.   We're going to tackle this in stages!  First up, just a crude presentation of our current HP.
 * We'll hack our Render-All function to accept the player and display the HP and Max-HP values from that entity.
@@ -217,6 +230,7 @@ Well that was an exciting diversion!  It turns out that cl-blt can't print with 
   * Pop into components, and create an initialize-instance function to set max-HP if it's not provided.
 ### Rendering Order
 ![Part 7.2](./screenshots/Part7.2.png?raw=true "Walking all over them!")
+
 Everything just gets drawn on screen in the order it's added to the Entities list.  Unfortunately, Player comes first, so we get covered with all sorts of unpleasantness if we share a tile with a body.    To fix that, let's add a concept of render order and make sure the dead come last when we do that.
 * First off, we'll create a render-order global in our rendering-functions file.
 * We'll define 3 types of renderable entities:  Corpses, Items, and Actors.  Lower on the list means it gets drawn first, so it's covered up by other stuff.
@@ -227,6 +241,7 @@ Everything just gets drawn on screen in the order it's added to the Entities lis
 * And we're done!  You can now walk _on top_ of corpses!
 ### Healthbar
 ![Part 7.3](./screenshots/Part7.3.png?raw=true "Healthbar: The New sensation!")
+
 Our little HP tracker is somewhat boring.  To make it more exciting we're going to turn it into a health bar that shrinks as our Player loses HP. Rather than just draw this wherever, we're going to divide our screen into a series of "Panels" to simplify the display of information.
 * First up, we'll create a new "UI" file (and register it in our ASD), then do some work to define this Panel concept.
   * While we're at it, we created a panel-component class to store things that go inside panels, and we created a quick little function to create panels for us.
@@ -242,6 +257,7 @@ The bug only activates if the first creature I kill is a Troll. It sometimes sto
 Based on some work I did after setting a Break in my code, it appears that corpses just occasionally vanish from my entity list.  This bears further investigation.
 ### Messages
 ![Part 7.4](./screenshots/Part7.4.png?raw=true "We've got Fun and Games")
+
 * We'll start out by creating some classes in our UI file (Though I really feel this should be its own file since there's so much going on)
   * First up a Message Log which is a Panel-Component just like our healthbar is.
   * Next a message to store in our log.
@@ -253,10 +269,12 @@ Based on some work I did after setting a Break in my code, it appears that corps
 * Penultimately, we create a message log back in our Main function.
   * Let's add a test message too.
 * ![Part 7.5](./screenshots/Part7.5.png?raw=true "Logging our Messages")  
+
 * Finally finally, we replace our format statements with add-to-log statements
   * Make sure we pass our new message-log into game-tick, and use that when we append messages, otherwise we won't actually have a working solution.
 ### Entities under the cursor
 ![Part 7.6](./screenshots/Part7.6.png?raw=true "Look around with your mouse.")  
+
 Let's use that silly mouse that all our players have on their desk!
 * We'll start off by configuring BLT to watch the mouse movements.
 * Then we create a function that will scan our list of entities and find everything under the mouse position.
@@ -265,6 +283,7 @@ Let's use that silly mouse that all our players have on their desk!
 ## Part 8
 ### Items and Inventory
 ![Part 8.1](./screenshots/Part8.1.png?raw=true "Bottles bottles everywhere!")  
+
 Now that our player can explore the map, encounter strange and unusual creatures, fight them to the death, and be told about it in glorious messages, it's time to add some stuff for them to pick up
 #### Placing Items
 * For starters let's scatter some healing potions around the map.
@@ -299,6 +318,7 @@ Our game-tick class is getting very complicated, so while we're hacking on the p
 ### Inventory menu
 #### Drawing the menu
 ![Part 8.2](./screenshots/Part8.2.png?raw=true "I've been down to the bottom of every bottle")
+
 We have a working game again, and we can pick up items that are lying around!  Let's do something with those items.
 * First off, create a new menus.lisp file and in-package it.  Add to our ASD tool
 * In our menu, let's set up a quick menu rendering tool.
@@ -311,6 +331,7 @@ We have a working game again, and we can pick up items that are lying around!  L
 * We now nicely list items in our inventory!  Of course nothing happens when you try to choose one.  That's next!
 #### Using the menu
 ![Part 8.3](./screenshots/Part8.3.png?raw=true "Making bad choices")
+
 We can display neat menus and show off the player's inventory (as long as it's 26 items or less).  Now let's use those items!
 * First up we'll move our key handler to a new file!
 * Then modify our key handler based on our game-state.
@@ -320,6 +341,7 @@ We can display neat menus and show off the player's inventory (as long as it's 2
   * What we choose to do at the moment is print the item to the REPL.
 #### Using the menu revisited
 ![Part 8.4](./screenshots/Part8.4.png?raw=true "Quaffing and Feeling Great.")
+
 * To really use our items, let's put a use-item function into them!
   * We'll define a slot that can hold a function for later use, and another slot with arguments for that function.
   * As before, when things get complicated the complicated make more files!
@@ -327,6 +349,7 @@ We can display neat menus and show off the player's inventory (as long as it's 2
   * Now that we have a way to heal, let's apply it to those purple potions prominently placed!
 #### Dropping Items
 ![Part 8.5](./screenshots/Part8.5.png?raw=true "Just put that down anywhere.")
+
 * Next up we're going to add a way to make space in your inventory:  dropping the junk!
 * We'll start off my taking another look at our key handler, and adding a "drop" command.
 * With our keys handled for entering the state, let's add a clause to the player-tick to jump into an inventory-drop state.
@@ -352,6 +375,7 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
   * My wandering breaks things, but if I just always move towards the player there's a bit of unpleasantness.
 * New AI: Dead
 ![Part 9.1](./screenshots/Part9.1.png?raw=true "Self-cleaning corpses.")
+
   * The Dead AI basically just counts down through some states of decay and ends with the monster being removed from the map.
   * Changes made to a large number of files for this one.
   * First we broke AI out into separate files
@@ -359,6 +383,7 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
   * Each tick, if the monster is in range of the player, it slowly decays, moving through phases until it fades away.
 * New AI:  Regenerating.   A Dead Troll has a chance each turn of gaining back 1 HP.  If it regains 5, it returns to life.
 ![Part 9.2](./screenshots/Part9.2.png?raw=true "The Walking Trolls.")
+
   * I just made it 100% certain that the troll would regain HP or decay every 5 turns.   with 5 HP it becomes a Risen Troll.
   * We now have generic Decay and Regenerate features for dead monsters.  And a Resurrect function in the Death functions.  
   * I may give Live trolls a regeneration feature too.  Might be time to strip some of this out of hard-code and into configurable settings.
@@ -366,6 +391,7 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
   * On resurrect, we put those settings back into place
 ### Scent trails
 ![Part 9.3](./screenshots/Part9.3.png?raw=true "Getting Warmer.")
+
   As the player walks, they will lay down a scent trail which mostly follows a logical progression.   If they cross their own trail, the value resets so the trails are vaguely branching.
   * Update Tile to hold a Track value
   * Create a new Player class descending from Entity.  Which is an Entity with a Track score
@@ -384,7 +410,8 @@ We have some interesting features in place, now let's make some more interesting
 
 ### Definitely not AI Tracking, but in that branch
 ![Part A.1](./screenshots/PartA.1.png?raw=true "Vermin! Vermin everywhere!")
-Dead Bodies are still a source of consternation and threat!  Some may rise again, gaining in power with each undeath.  Others will bring forth hordes of rats or other foul carrion eaters. 
+
+Dead Bodies are still a source of consternation and threat!  Some may rise again, gaining in power with each undeath.  Others will bring forth hordes of rats or other foul carrion eaters.
 * Spawners now exist.  
   * Currently they just fill rooms with potions.
   * Added per-room limits on the number of items a spawner will produce
