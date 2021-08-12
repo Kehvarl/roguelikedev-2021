@@ -42,7 +42,7 @@
            (let ((state-results (getf *decay-states* next-state))
                  (prev (describe-entity monster)))
              (if (and (not (entity/spawner (component/owner component)))
-                      (< (random 100) 100))
+                      (< (random 100) 5))
                (progn
                 (setf state-results (getf *decay-states* :decay-hold))
                 (vermin-spawner component map)))
