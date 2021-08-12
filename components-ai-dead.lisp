@@ -53,7 +53,7 @@
              (if (nth 1 state-results)
                (setf (entity/descriptor monster) (nth 1 state-results)))
 
-             (unless (eql state-results :decay-hold)
+             (unless (eql state :decay-hold)
                (setf results (list :message
                               (format nil "The ~A decays to a ~A" prev
                                (describe-entity monster))))))))

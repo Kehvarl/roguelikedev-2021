@@ -386,9 +386,14 @@ We have some interesting features in place, now let's make some more interesting
 * Spawners now exist.  
   * Currently they just fill rooms with potions.
   * Added per-room limits on the number of items a spawner will produce
+* Random corpses may become vermin spawners at any point in their decay (5 percent chance per decay state)
+  * Decay state gets put on hold and.
+  * Monster gets a spawning component
+  * Will attempt to spawn components in a 5 square radius
+
 * TODO
   * Next up are permanent spawners that produce monsters
-  * Then random corpses get spawners for vermin
+
   * Then The cloning Machine
     * Spawner that uses a "scanning room" and picks features from creatures therein to make a new one.
 
