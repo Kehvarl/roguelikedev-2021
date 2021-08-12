@@ -139,9 +139,6 @@
      (multiple-value-bind (new-x new-y) (center new-room)
        (if (zerop num-rooms)
            (progn
-            (place-spawner new-room entities (make-instance 'spawner
-                                                            :frequency 10
-                                                            :max-entities 5))
             (setf (entity/x player) new-x
                   (entity/y player) new-y))
            (multiple-value-bind (prev-x prev-y) (center (car (last rooms)))

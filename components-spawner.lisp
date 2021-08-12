@@ -2,7 +2,7 @@
 
 (defclass spawner (component)
   ((room :accessor spawner/room)
-   (region :accessor spawner/region)
+   (region :initarg :region :accessor spawner/region)
    (frequency :initarg :frequency :accessor spawner/frequency)
    (max-entities :initarg :max-entities :accessor spawner/max-entities
                  :initform 5)
@@ -22,7 +22,6 @@
                                           entities)
                                      region)
                  max-entities)
-        (break)
         (if spawn-args
           (spawn-monster (component/owner component) spawn-args entities)
           (place-items room entities 1))))))

@@ -41,10 +41,11 @@
                     (<= count 0))
            (let ((state-results (getf *decay-states* next-state))
                  (prev (describe-entity monster)))
-             (if (< (random 100) 100)
+             (if (and (not (entity/spawner (component/owner component)))
+                      (< (random 100) 100))
                (progn
                 (setf state-results (getf *decay-states* :decay-hold))
-                (vermin-spawner component)))
+                (vermin-spawner component map)))
 
              (setf count 5
                   state next-state
@@ -58,15 +59,19 @@
                                (describe-entity monster))))))))
     results))
 
-(defmethod vermin-spawner ((component dead-monster))
-  (let ((spawner-component (make-instance 'spawner :frequency 10 :max-entities 5
-                                          :spawn-args '(:hp 3 :defense 3
-                                                        :power 3 :name "Rat"
-                                                        :char #\r
-                                                        :color (blt:orange)))))
-    (setf (component/owner spawner-component) (component/owner component)
-          (entity/spawner (component/owner component)) spawner-component))
-  (break))
+(defgeneric vermin-spawner (component map))
+(defmethod vermin-spawner ((component dead-monster) map)
+  (let* ((monster (component/owner component))
+         (region (region-at map (entity/x monster) (entity/y monster)))
+         (spawner-component (make-instance 'spawner :frequency 10
+                                           :max-entities 5
+                                           :region region
+                                           :spawn-args `(:hp 3 :defense 3
+                                                         :power 3 :name "Rat"
+                                                         :char #\r
+                                                         :color ,(blt:gray)))))
+    (setf (component/owner spawner-component) monster
+          (entity/spawner monster) spawner-component)))
 
 
 
