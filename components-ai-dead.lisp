@@ -4,7 +4,8 @@
   '(:decay-corpse (list "corpse" :decay-skeleton)
     :decay-skeleton ( list "skeleton" :decay-bones)
     :decay-bones (list "bones" :decay-remains)
-    :decay-remains (list "scattered remains" nil)))
+    :decay-remains (list "scattered remains" nil)
+    :decay-hold (list nil :decay-hold)))
 
 (defclass dead-monster (basic-monster)
   ((previous-ai :initarg :previous-ai :accessor dead-monster/previous-ai :initform nil)
@@ -40,15 +41,39 @@
                     (<= count 0))
            (let ((state-results (getf *decay-states* next-state))
                  (prev (describe-entity monster)))
-             (setf count 5
-                   (entity/descriptor monster) (nth 1 state-results)
-                   state next-state
-                   next-state (nth 2 state-results))
+             (if (and (not (entity/spawner (component/owner component)))
+                      (< (random 100) 5))
+               (progn
+                (setf state-results (getf *decay-states* :decay-hold))
+                (vermin-spawner component map)))
 
-             (setf results (list :message
-                                   (format nil "The ~A decays to a ~A" prev
-                                             (describe-entity monster)))))))
+             (setf count 5
+                  state next-state
+                  next-state (nth 2 state-results))
+             (if (nth 1 state-results)
+               (setf (entity/descriptor monster) (nth 1 state-results)))
+
+             (unless (eql state :decay-hold)
+               (setf results (list :message
+                              (format nil "The ~A decays to a ~A" prev
+                               (describe-entity monster))))))))
     results))
+
+(defgeneric vermin-spawner (component map))
+(defmethod vermin-spawner ((component dead-monster) map)
+  (let* ((monster (component/owner component))
+         (region (region-at map (entity/x monster) (entity/y monster)))
+         (spawner-component (make-instance 'spawner :frequency 10
+                                           :max-entities 5
+                                           :region region
+                                           :spawn-args `(:hp 3 :defense 3
+                                                         :power 3 :name "Rat"
+                                                         :char #\r
+                                                         :color ,(blt:gray)))))
+    (setf (component/owner spawner-component) monster
+          (entity/spawner monster) spawner-component)))
+
+
 
 (defclass dead-monster-regenerating (dead-monster)
   ())

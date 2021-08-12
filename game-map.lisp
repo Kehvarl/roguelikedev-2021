@@ -47,6 +47,10 @@
         (incf entity-count)))
     entity-count))
 
+(defgeneric region-at (map x y))
+(defmethod region-at((map game-map) x y)
+  (tile/region (aref (game-map/tiles map) x y)))
+
 (defun entity-at (entities x y)
   (dolist (entity entities)
     (if (and (= (entity/x entity) x)

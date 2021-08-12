@@ -365,7 +365,7 @@ Instead of removing the AI from dead creatures, we're going to set up 2 new AIs,
   * Dead monsters track some of the state of their past life
   * On resurrect, we put those settings back into place
 ### Scent trails
-![Part 9.3](./screenshots/Part9.3.png?raw=true "Getting Warmer.)
+![Part 9.3](./screenshots/Part9.3.png?raw=true "Getting Warmer.")
   As the player walks, they will lay down a scent trail which mostly follows a logical progression.   If they cross their own trail, the value resets so the trails are vaguely branching.
   * Update Tile to hold a Track value
   * Create a new Player class descending from Entity.  Which is an Entity with a Track score
@@ -383,12 +383,19 @@ We have some interesting features in place, now let's make some more interesting
   * Fleeing: This AI will attempt to evade the player.
 
 ### Definitely not AI Tracking, but in that branch
+![Part A.1](./screenshots/PartA.1.png?raw=true "Vermin! Vermin everywhere!")
+Dead Bodies are still a source of consternation and threat!  Some may rise again, gaining in power with each undeath.  Others will bring forth hordes of rats or other foul carrion eaters. 
 * Spawners now exist.  
   * Currently they just fill rooms with potions.
   * Added per-room limits on the number of items a spawner will produce
+* Random corpses may become vermin spawners at any point in their decay (5 percent chance per decay state)
+  * Decay state gets put on hold and.
+  * Monster gets a spawning component
+  * Will attempt to spawn components in a 5 square radius
+
 * TODO
   * Next up are permanent spawners that produce monsters
-  * Then random corpses get spawners for vermin
+
   * Then The cloning Machine
     * Spawner that uses a "scanning room" and picks features from creatures therein to make a new one.
 
