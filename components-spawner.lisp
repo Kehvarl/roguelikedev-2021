@@ -23,16 +23,15 @@
                                      region)
                  max-entities)
         (if spawn-args
-          (spawn-monster (component/owner component) spawn-args entities map)
+          (spawn-monster component spawn-args entities map)
           (place-items room entities 1))))))
 
-(defun spawn-monster (monster spawn-args entities map)
+(defun spawn-monster (spawner spawn-args entities map)
  (let* ((fighter-component (make-instance 'fighter :hp (getf spawn-args :hp)
                                           :defense (getf spawn-args :defense)
                                           :power (getf spawn-args :power)))
         (ai-component (make-instance 'basic-monster :active-range 5)))
-   (multiple-value-bind (x y)(random-in-region map (region-at map (entity/x monster)
-                                                              (entity/y monster)))
+   (multiple-value-bind (x y)(random-in-region map (spawner/region spawner))
      (unless (entity-at entities x y)
        (nconc entities (list (make-instance 'entity :name (getf spawn-args :name)
                                             :x x :y y
