@@ -429,11 +429,11 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Any creatures on a tile with a shared number are in the same room.
   * Implemented an entities-in-region method on Game-Map
 
-
 ### Refactor/Cleanup
 * Did some slight refactor to use Region instead of room in places.
 * Need to review modules and put components where they belong.
 * Very late in development to change the approach to packaging and dependencies, but that might be worthwhile or at least good to check into for the rewrite/tutorial.
+
 ## Ideas awaiting experimentation
 * Dijkstra Map Stuff
   * Use to have creatures move towards goals
