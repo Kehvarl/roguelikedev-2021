@@ -23,22 +23,21 @@
                                      region)
                  max-entities)
         (if spawn-args
-          (spawn-monster (component/owner component) spawn-args entities)
+          (spawn-monster component spawn-args entities map)
           (place-items room entities 1))))))
 
-(defun spawn-monster (monster spawn-args entities)
- (let* ((x (+ (- (random 10) 5) (entity/x monster)))
-        (y (+ (- (random 10) 5) (entity/y monster)))
-        (fighter-component (make-instance 'fighter :hp (getf spawn-args :hp)
+(defun spawn-monster (spawner spawn-args entities map)
+ (let* ((fighter-component (make-instance 'fighter :hp (getf spawn-args :hp)
                                           :defense (getf spawn-args :defense)
                                           :power (getf spawn-args :power)))
         (ai-component (make-instance 'basic-monster :active-range 5)))
-   (unless (entity-at entities x y)
-     (nconc entities (list (make-instance 'entity :name (getf spawn-args :name)
-                                          :x x :y y
-                                          :color (getf spawn-args :color)
-                                          :char (getf spawn-args :char)
-                                          :blocks t
-                                          :render-order :actor
-                                          :fighter fighter-component
-                                          :ai ai-component))))))
+   (multiple-value-bind (x y)(random-in-region map (spawner/region spawner))
+     (unless (entity-at entities x y)
+       (nconc entities (list (make-instance 'entity :name (getf spawn-args :name)
+                                            :x x :y y
+                                            :color (getf spawn-args :color)
+                                            :char (getf spawn-args :char)
+                                            :blocks t
+                                            :render-order :actor
+                                            :fighter fighter-component
+                                            :ai ai-component)))))))
