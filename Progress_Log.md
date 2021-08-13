@@ -418,11 +418,9 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Random corpses may become vermin spawners at any point in their decay (5 percent chance per decay state)
   * Decay state gets put on hold and.
   * Monster gets a spawning component
-  * Will attempt to spawn components in a 5 square radius
-
+  * Will attempt to spawn vermin somewhere in the same Region
 * TODO
   * Next up are permanent spawners that produce monsters
-
   * Then The cloning Machine
     * Spawner that uses a "scanning room" and picks features from creatures therein to make a new one.
 
@@ -430,17 +428,23 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Rather than keeping a list of rooms around, assign every tile a number based on its Room-ness or Corridor-ness.
 * Any creatures on a tile with a shared number are in the same room.
   * Implemented an entities-in-region method on Game-Map
-* TODO
-  * A Corridor tile with a Room on one side and a Corridor on the other is a door
-    * Doors may be one of
-      * Opening - always allow passage
-      * Secret - Act like a wall most of the time
-      * Open - allow passage, but can be closed (should have special character)
-      * Closed - Act like a wall, but can be opened (should have special character)
 
+
+### Refactor/Cleanup
+* Did some slight refactor to use Region instead of room in places.
+* Need to review modules and put components where they belong.
+* Very late in development to change the approach to packaging and dependencies, but that might be worthwhile or at least good to check into for the rewrite/tutorial.
 ## Ideas awaiting experimentation
 * Dijkstra Map Stuff
   * Use to have creatures move towards goals
   * Useful to maintain distance from the player or other Entity
 * Creature mutation
   * Ritual circles or Matter transmuters that apply random effects to entities that stand in them
+* Doors
+  * A Corridor tile with a Room on one side and a Corridor on the other is a door
+  * A Door is an Entity in a tile.  With a Door Component
+  * Doors may be one of
+    * Opening - always allow passage
+    * Secret - Act like a wall most of the time
+    * Open - allow passage, but can be closed (should have special character)
+    * Closed - Act like a wall, but can be opened (should have special character)
