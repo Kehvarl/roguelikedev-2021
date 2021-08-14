@@ -49,7 +49,10 @@
 
 (defgeneric region-at (map x y))
 (defmethod region-at((map game-map) x y)
-  (tile/region (aref (game-map/tiles map) x y)))
+ (if (and (> x 0) (< x (1- (game-map/w map)))
+          (> y 0) (< y (1- (game-map/h map))))
+   (tile/region (aref (game-map/tiles map) x y))
+   nil))
 
 (defgeneric random-in-region (map region-index))
 (defmethod random-in-region ((map game-map) region-index)

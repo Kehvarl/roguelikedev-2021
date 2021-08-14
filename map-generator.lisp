@@ -14,7 +14,7 @@
     (map-tiles-loop (map tile
                          :x-start start-x :x-end (1+ end-x)
                          :y-start y :y-end (1+ y))
-      (when (not (tile/region tile))
+      (unless (tile/region tile)
         (set-tile-slots tile :blocked nil :block-sight nil :region index)))))
 
 (defgeneric create-v-tunnel (map y1 y2 x index))
@@ -24,7 +24,7 @@
     (map-tiles-loop (map tile
                          :x-start x :x-end (1+ x)
                          :y-start start-y :y-end (1+ end-y))
-      (when (not (tile/region tile))
+      (unless (tile/region tile)
         (set-tile-slots tile :blocked nil :block-sight nil :region index)))))
 
 (defparameter *cardinal-directions*
@@ -36,7 +36,7 @@
 (defun neighboring-regions (map x y)
   (let ((regions nil)
         (walls 0))
-    (dolist (direction *cardinal-directions*)
+    (dolist (direction (list (cons (-1 0))))
         (when (and (> x 0) (< x (1- (game-map/w map)))
                    (> y 0) (< y (1- (game-map/h map))))
             (let* ((tile (aref (game-map/tiles map)
@@ -48,14 +48,36 @@
               (when (tile/blocked tile) (incf walls)))))
     (values regions walls)))
 
+(defun is-door (map x y region)
+  (let ((door nil)
+        (x+1 (region-at map (1+ x) y))
+        (x-1 (region-at map (1- x) y))
+        (y+1 (region-at map x (1- y)))
+        (y-1 (region-at map x (1- y))))
+    (when (and (and x+1 x-1)
+               (or (eql x+1 region)
+                   (eql x-1 region))
+               (or (not (eql x+1 region))
+                   (not (eql x-1 region)))
+               (or (blocked-p map x (1+ y))
+                   (blocked-p map x (1- y))))
+      (setf door t))
+    (when (and (and y+1 y-1)
+               (or (eql y+1 region)
+                   (eql y-1 region))
+               (or (not (eql y+1 region))
+                   (not (eql y-1 region)))
+               (or (blocked-p map (1+ x) y)
+                   (blocked-p map (1- x) y)))
+      (setf door t))
+    door))
+
+
 (defgeneric find-doors (map))
 (defmethod find-doors ((map game-map))
   (map-tiles-loop (map tile :col-val x :row-val y)
-    (when (tile/region tile)
-      (multiple-value-bind (regions walls) (neighboring-regions map x y)
-        (when (and (> (length regions) 1)
-                   (> walls 0))
-          (setf (slot-value tile 'door) t))))))
+    (when (is-door map x y (tile/region tile))
+      (setf (slot-value tile 'door) t))))
 
 
 (defgeneric place-entities (map room entities max-enemies-per-room max-items-per-room))
