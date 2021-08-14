@@ -16,13 +16,10 @@
      (getf *render-order* (entity/render-order entity-2))))
 
 (defun render-all (game-state player map stats-panel screen-width screen-height)
-                              ;&key (debug_track nil))
   (blt:clear)
   (dotimes (y (game-map/h map))
     (dotimes (x (game-map/w map))
       (let* ((tile (aref (game-map/tiles map) x y))
-             ;(track (tile/track tile))
-             (door (tile/door tile))
              (wall (tile/blocked tile))
              (visible (tile/visible tile))
              (explored (tile/explored tile)))
@@ -36,13 +33,7 @@
                  (if wall
                    (setf (blt:background-color) (getf *color-map* :dark-wall))
                    (setf (blt:background-color) (getf *color-map* :dark-ground)))
-                (setf (blt:cell-char x y) #\Space)))
-
-        (when door;(and debug_track track)
-          (if wall
-            (setf (blt:background-color) (getf *color-map* :dark-wall))
-            (setf (blt:background-color) (blt:white))) ;(blt:hsva track 180 180)))
-         (setf (blt:cell-char x y) #\Space)))))
+                (setf (blt:cell-char x y) #\Space))))))
 
   (let ((entities (game-state/entities game-state)))
     (mapc #'(lambda (entity) (draw entity map))
