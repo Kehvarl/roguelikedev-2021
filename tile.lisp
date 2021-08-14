@@ -16,6 +16,9 @@
    (region :initarg :region
            :accessor tile/region
            :initform nil)
+   (room :initarg :room
+          :accessor tile/room
+          :initform nil)
    (door :initarg :door
          :accessor tile/door
          :initform nil)
@@ -31,10 +34,13 @@
 
 (defmethod set-tile-slots ((tile tile) &key (blocked nil blocked-supplied-p)
                                        (block-sight nil block-sight-supplied-p)
-                                       (region nil region-supplied-p))
+                                       (region nil region-supplied-p)
+                                       (room nil room-supplied-p))
   (if blocked-supplied-p
     (setf (slot-value tile 'blocked) blocked))
   (if block-sight-supplied-p
     (setf (slot-value tile 'block-sight) block-sight))
   (if region-supplied-p
-    (setf (slot-value tile 'region) region)))
+    (setf (slot-value tile 'region) region))
+  (if room-supplied-p
+    (setf (slot-value tile 'room) room)))

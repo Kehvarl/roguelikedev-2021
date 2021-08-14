@@ -20,7 +20,6 @@
   (dotimes (y (game-map/h map))
     (dotimes (x (game-map/w map))
       (let* ((tile (aref (game-map/tiles map) x y))
-             (door (tile/door tile))
              (wall (tile/blocked tile))
              (visible (tile/visible tile))
              (explored (tile/explored tile)))
@@ -34,11 +33,7 @@
                  (if wall
                    (setf (blt:background-color) (getf *color-map* :dark-wall))
                    (setf (blt:background-color) (getf *color-map* :dark-ground)))
-                (setf (blt:cell-char x y) #\Space)))
-
-        (when door
-            (setf (blt:background-color) (blt:white))
-         (setf (blt:cell-char x y) #\Space)))))
+                (setf (blt:cell-char x y) #\Space))))))
 
   (let ((entities (game-state/entities game-state)))
     (mapc #'(lambda (entity) (draw entity map))
