@@ -27,6 +27,35 @@
       (when (not (tile/region tile))
         (set-tile-slots tile :blocked nil :block-sight nil :region index)))))
 
+(defparameter *cardinal-directions*
+  (list (cons 0 -1)
+        (cons 0 1)
+        (cons -1 0)
+        (cons 1 0)))
+
+(defun neighboring-regions (map x y)
+  (let ((regions nil)
+        (walls 0))
+    (dolist (direction *cardinal-directions*)
+        (when (and (> x 0) (< x (1- (game-map/w map)))
+                   (> y 0) (< y (1- (game-map/h map))))
+            (let ((tile (aref (game-map/tiles map)
+                              (+ x (car direction))
+                              (+ y (cdr direction)))))
+              (when (and (tile/region tile) (not (member (tile/region tile) regions)))
+                (setf regions (append (list (tile/region tile) regions))))
+              (when (tile/blocked tile) (incf walls)))))
+    (values regions walls)))
+
+(defgeneric find-doors (map))
+(defmethod find-doors ((map game-map))
+  (map-tiles-loop (map tile :col-val x :row-val y)
+    (multiple-value-bind (regions walls) (neighboring-regions map x y)
+      (when (and (> (length regions) 1)
+                 (> walls 0))
+        (setf (slot-value tile 'door) t)))))
+
+
 (defgeneric place-entities (map room entities max-enemies-per-room max-items-per-room))
 (defmethod place-entities ((map game-map) (room rect) entities
                                           max-enemies-per-room
@@ -156,4 +185,5 @@
        (if (null rooms)
            (setf rooms (list new-room))
            (push new-room (cdr (last rooms))))
-       (incf num-rooms)))))
+       (incf num-rooms))))
+ (find-doors map))
