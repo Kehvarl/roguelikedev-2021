@@ -22,6 +22,9 @@
    (door :initarg :door
          :accessor tile/door
          :initform nil)
+   (corridor :initarg :corridor
+             :accessor tile/corridor
+             :initform nil)
    (track :initarg :track
           :accessor tile/track
           :initform nil)))
@@ -35,7 +38,8 @@
 (defmethod set-tile-slots ((tile tile) &key (blocked nil blocked-supplied-p)
                                        (block-sight nil block-sight-supplied-p)
                                        (region nil region-supplied-p)
-                                       (room nil room-supplied-p))
+                                       (room nil room-supplied-p)
+                                       (corridor nil corridor-supplied-p))
   (if blocked-supplied-p
     (setf (slot-value tile 'blocked) blocked))
   (if block-sight-supplied-p
@@ -43,4 +47,6 @@
   (if region-supplied-p
     (setf (slot-value tile 'region) region))
   (if room-supplied-p
-    (setf (slot-value tile 'room) room)))
+    (setf (slot-value tile 'room) room))
+  (if corridor-supplied-p
+    (setf (slot-value tile 'corridor) corridor)))

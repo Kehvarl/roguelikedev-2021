@@ -430,7 +430,6 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Need to review modules and put components where they belong.
 * Very late in development to change the approach to packaging and dependencies, but that might be worthwhile or at least good to check into for the rewrite/tutorial.
 
-
 ### Doors
 * We we fiddle with implementing doors.
   * A Corridor tile with a Room on one side and a Corridor on the other is a door
@@ -451,7 +450,7 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Creature mutation
   * Ritual circles or Matter transmuters that apply random effects to entities that stand in them
 
-## Neccessary Features
+## Necessary Features
 * Levels
   * Need to be able to descend deeper into the game with monsters becoming more difficult as you do.
   * Would be nice to ascend back to the same level you were in previously

@@ -5,7 +5,8 @@
   (map-tiles-loop (map tile
                        :x-start (1+ (rect/x1 room)) :x-end (rect/x2 room)
                        :y-start (1+ (rect/y1 room)) :y-end (rect/y2 room))
-    (set-tile-slots tile :blocked nil :block-sight nil :region index :room t)))
+    (set-tile-slots tile :blocked nil :block-sight nil :region index
+                    :room t :corridor nil)))
 
 (defgeneric create-h-tunnel (map x1 x2 y index))
 (defmethod create-h-tunnel ((map game-map) x1 x2 y index)
@@ -14,8 +15,9 @@
     (map-tiles-loop (map tile
                          :x-start start-x :x-end (1+ end-x)
                          :y-start y :y-end (1+ y))
-      (unless (tile/region tile)
-        (set-tile-slots tile :blocked nil :block-sight nil :region index)))))
+      (unless (tile/room tile)
+        (set-tile-slots tile :blocked nil :block-sight nil :region index
+                        :corridor t)))))
 
 (defgeneric create-v-tunnel (map y1 y2 x index))
 (defmethod create-v-tunnel ((map game-map) y1 y2 x index)
@@ -24,8 +26,9 @@
     (map-tiles-loop (map tile
                          :x-start x :x-end (1+ x)
                          :y-start start-y :y-end (1+ end-y))
-      (unless (tile/region tile)
-        (set-tile-slots tile :blocked nil :block-sight nil :region index)))))
+      (unless (tile/room tile)
+        (set-tile-slots tile :blocked nil :block-sight nil :region index
+                        :corridor t)))))
 
 (defun get-tile (map x y)
   (if (and (< x (1- (game-map/w map)))
@@ -35,23 +38,33 @@
     (aref (game-map/tiles map) x y)
     nil))
 
+(defun wall-p (tile)
+  (and tile (tile/blocked tile)))
+
+(defun room-p (tile)
+  (and tile (tile/room tile)))
+
 (defun is-door (map x y)
   (let ((door nil)
         (u (get-tile map x (1+ y)))
         (d (get-tile map x (1- y)))
         (l (get-tile map (1- x) y))
         (r (get-tile map (1+ x) y)))
-    (when (or (and u (tile/room u))
-              (and d (tile/room d))
-              (and l (tile/room l))
-              (and r (tile/room r)))
+    (when (or (and (room-p u) (not (room-p d))
+                   (or (wall-p l) (wall-p r)))
+              (and (room-p d) (not (room-p u))
+                   (or (wall-p l) (wall-p r)))
+              (and (room-p l) (not (room-p r))
+                   (or (wall-p u) (wall-p d)))
+              (and (room-p r) (not (room-p l))
+                   (or (wall-p u) (wall-p d))))
       (setf door t))
     door))
 
 (defgeneric find-doors (map))
 (defmethod find-doors ((map game-map))
   (map-tiles-loop (map tile :col-val x :row-val y)
-    (when (and (tile/region tile) (not (tile/room tile)) (is-door map x y))
+    (when (and (tile/corridor tile) (is-door map x y))
       (setf (slot-value tile 'door) t))))
 
 (defgeneric place-entities (map room entities max-enemies-per-room max-items-per-room))
