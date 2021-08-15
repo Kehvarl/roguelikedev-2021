@@ -22,6 +22,7 @@
                (:file "components-ai-dead")
                (:file "components-item")
                (:file "components-inventory")
+               (:file "components-spawner")
                (:file "fov")
                (:file "game-states")
                (:file "death-functions")
