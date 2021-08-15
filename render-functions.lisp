@@ -35,6 +35,7 @@
                    (setf (blt:background-color) (getf *color-map* :dark-ground)))
                 (setf (blt:cell-char x y) #\Space))))))
 
+
   (let ((entities (game-state/entities game-state)))
     (mapc #'(lambda (entity) (draw entity map))
           (sort (copy-seq entities) #'render-order-compare))

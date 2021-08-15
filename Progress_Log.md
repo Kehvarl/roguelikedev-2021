@@ -430,8 +430,8 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Need to review modules and put components where they belong.
 * Very late in development to change the approach to packaging and dependencies, but that might be worthwhile or at least good to check into for the rewrite/tutorial.
 
-
 ### Doors
+![Part A.2](./screenshots/PartA.2.png?raw=true "Debugging Corridors and Doors")
 * We we fiddle with implementing doors.
   * A Corridor tile with a Room on one side and a Corridor on the other is a door
   * A Door is an Entity in a tile.  With a Door Component
@@ -450,3 +450,47 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Monster mutation
 * Creature mutation
   * Ritual circles or Matter transmuters that apply random effects to entities that stand in them
+
+## Necessary Features
+* Levels
+  * Need to be able to descend deeper into the game with monsters becoming more difficult as you do.
+  * Would be nice to ascend back to the same level you were in previously
+* Saving
+  * Need to store the entire game-state and recover it later
+  * Game-state includes:
+    * Player with all components and Inventory
+    * All entities, their current status and inventory and goals
+    * The game map
+      * Might be worthwhile to divorce exploration and visibility from the actual map
+    * The current game-state
+    * All of the above for all levels
+* More Enemies
+  * We need more enemies to scatter around the Levels
+  * Enemies need a per-level frequency
+  * Special enemies (Bosses) need to be introduced
+  * Enemies should be pulled out of hard-code and defined by data.
+* More items
+  * We need items that do more than just heal
+  * Equipable items that grant continuous bonuses
+    * Power
+    * Damage
+    * Bonus attacks
+    * Bonus effects on wearer
+    * Effects on Target
+  * Ranged effects are needed along with ways to select the target.
+* Intro screen
+* Main Menu
+* Menu states and transitions
+* Advancement.
+  * How do we improve the player to survive greater and greater threats
+  * Do we allow XP and leveling
+  * Do we add skills and train them automatically
+  * Is equipment the only boost
+  * Are their things in game that can grant permanent increases
+* Scoring
+  * How do we track player score
+* Entity actions
+  * Is everything either an item or an Enemy
+  * Do enemies have different goals in regards to the player
+  * Are some enemies hostile towards each other
+  * Does the game continue to only simulate a radius around the player, or the entire level
