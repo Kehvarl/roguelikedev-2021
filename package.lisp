@@ -1,4 +1,5 @@
 ;;;; package.lisp
 
 (defpackage #:roguelike-2021
-  (:use #:cl))
+  (:use #:cl)
+  (:export main))
