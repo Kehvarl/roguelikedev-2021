@@ -38,35 +38,6 @@
     (aref (game-map/tiles map) x y)
     nil))
 
-(defun wall-p (tile)
-  (and tile (tile/blocked tile)))
-
-(defun room-p (tile)
-  (and tile (tile/room tile)))
-
-(defun is-door (map x y)
-  (let ((door nil)
-        (u (get-tile map x (1+ y)))
-        (d (get-tile map x (1- y)))
-        (l (get-tile map (1- x) y))
-        (r (get-tile map (1+ x) y)))
-    (when (or (and (room-p u) (not (room-p d))
-                   (or (wall-p l) (wall-p r)))
-              (and (room-p d) (not (room-p u))
-                   (or (wall-p l) (wall-p r)))
-              (and (room-p l) (not (room-p r))
-                   (or (wall-p u) (wall-p d)))
-              (and (room-p r) (not (room-p l))
-                   (or (wall-p u) (wall-p d))))
-      (setf door t))
-    door))
-
-(defgeneric find-doors (map))
-(defmethod find-doors ((map game-map))
-  (map-tiles-loop (map tile :col-val x :row-val y)
-    (when (and (tile/corridor tile) (is-door map x y))
-      (setf (slot-value tile 'door) t))))
-
 (defgeneric place-entities (map room entities max-enemies-per-room max-items-per-room))
 (defmethod place-entities ((map game-map) (room rect) entities
                                           max-enemies-per-room

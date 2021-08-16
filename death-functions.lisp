@@ -3,7 +3,7 @@
 (defun kill-player (player)
   (setf (entity/char player) #\%
         (entity/color player) (blt:red))
-  (values "You died!" :player-dead))
+  (values (format nil "You died after ~A turns!" (player/score player)) :player-dead))
 
 (defun kill-monster (monster)
   (with-slots (char color blocks render-order ai regenerating name descriptor) monster

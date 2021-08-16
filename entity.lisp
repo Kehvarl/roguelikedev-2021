@@ -19,7 +19,8 @@
    (inventory :initarg :inventory :accessor entity/inventory :initform nil)))
 
 (defclass player (entity)
-  ((track :initarg :track :accessor player/track :initform 0)))
+  ((track :initarg :track :accessor player/track :initform 0)
+   (score :initarg :score :accessor player/score :initform 0)))
 
 
 (defmethod initialize-instance :after ((entity entity) &rest initargs)
