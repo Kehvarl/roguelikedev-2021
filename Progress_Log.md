@@ -442,6 +442,9 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
     * Closed - Act like a wall, but can be opened (should have special character)
 * When we carve our corridors, we will flag the doors.  A door will be the first and last tile carved that were not rooms.
 
+### Scoring
+* Implemented a counter for number of turns played.
+
 ## Ideas awaiting experimentation
 * Dijkstra Map Stuff
   * Use to have creatures move towards goals
