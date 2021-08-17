@@ -446,6 +446,7 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
   * We also need a door-state state.  Maybe a door component.
   * Door Component tracks door state.  
   * Doors block all passage
+  * Bumping into a closed door opens it.
 
 ### Scoring
 * Implemented a counter for number of turns played.
