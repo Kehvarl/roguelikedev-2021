@@ -19,9 +19,12 @@
           (let ((target (blocking-entity-at (game-state/entities game-state)
                                             destination-x destination-y)))
             (cond (target
-                   (if (entity/fighter target)
+                   (when (entity/fighter target)
                      (setf player-turn-results (attack (entity/fighter player)
-                                                       target))))
+                                                       target)))
+                   (when (entity/door target)
+                     (unless (door/locked (entity/door target))
+                       (setf (door/open (entity/door target)) t))))
                   (t
                    (move player (car move) (cdr move))
                    (setf (tile/track (aref (game-map/tiles map)
