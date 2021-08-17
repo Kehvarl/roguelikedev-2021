@@ -71,7 +71,9 @@
 
 (defun blocking-entity-at (entities x y)
   (let ((entity (entity-at entities x y)))
-    (if (and entity (entity/blocks entity))
+    (if (and entity (or (entity/blocks entity)
+                        (and (entity/door entity)
+                             (door/blocks (entity/door entity)))))
       entity)))
 
 (defun wall-p (tile)

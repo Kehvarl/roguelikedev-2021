@@ -441,6 +441,11 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
     * Open - allow passage, but can be closed (should have special character)
     * Closed - Act like a wall, but can be opened (should have special character)
 * When we carve our corridors, we will flag the doors.  A door will be the first and last tile carved that were not rooms.
+* A door is an entity that might block passage.
+  * Right now they're yellow.  We need a brown color.
+  * We also need a door-state state.  Maybe a door component.
+  * Door Component tracks door state.  
+  * Doors block all passage
 
 ### Scoring
 * Implemented a counter for number of turns played.

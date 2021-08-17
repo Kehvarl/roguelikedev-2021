@@ -16,7 +16,8 @@
    (spawner :initarg :spawner :accessor entity/spawner :initform nil)
    (regenerating :initarg :regenerating :accessor entity/regenerating :initform nil)
    (item :initarg :item :accessor entity/item :initform nil)
-   (inventory :initarg :inventory :accessor entity/inventory :initform nil)))
+   (inventory :initarg :inventory :accessor entity/inventory :initform nil)
+   (door :initarg :door :accessor entity/door :initform nil)))
 
 (defclass player (entity)
   ((track :initarg :track :accessor player/track :initform 0)
@@ -25,15 +26,17 @@
 
 (defmethod initialize-instance :after ((entity entity) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fighter ai spawner inventory) entity
+  (with-slots (fighter ai spawner inventory door) entity
     (when fighter
       (setf (component/owner fighter) entity))
     (when ai
-      (setf (component/owner ai) entity)
-      (when spawner
-        (setf (component/owner spawner) entity)))
+      (setf (component/owner ai) entity))
+    (when spawner
+      (setf (component/owner spawner) entity))
     (when inventory
-      (setf (component/owner inventory) entity))))
+      (setf (component/owner inventory) entity))
+    (when door
+      (setf (component/owner door) entity))))
 
 (defmethod describe-entity ((e entity))
   (with-slots (descriptor name) e

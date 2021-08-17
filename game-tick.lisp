@@ -9,7 +9,7 @@
         (drop-inventory (getf action :drop-inventory)))
     (when (or move stay pickup show-inventory drop-inventory)
       (incf (player/score player)))
-    
+
     (when stay
       (setf (game-state/state game-state) :enemy-turn))
     (when move
@@ -19,8 +19,9 @@
           (let ((target (blocking-entity-at (game-state/entities game-state)
                                             destination-x destination-y)))
             (cond (target
-                   (setf player-turn-results (attack (entity/fighter player)
-                                                     target)))
+                   (if (entity/fighter target)
+                     (setf player-turn-results (attack (entity/fighter player)
+                                                       target))))
                   (t
                    (move player (car move) (cdr move))
                    (setf (tile/track (aref (game-map/tiles map)
