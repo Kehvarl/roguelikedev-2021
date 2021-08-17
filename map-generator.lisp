@@ -115,6 +115,13 @@
                                            :char #\space :blocks nil
                                            :render-order :item))))))
 
+(defun place-door (entities x y)
+  (let ((door-component (make-instance 'door :open nil :locked nil)))
+    (nconc entities (list (make-instance 'entity :x x :y y :color (blt:yellow)
+                                         :door door-component
+                                         :char #\# :blocks nil
+                                         :render-order :corpse)))))
+
 (defgeneric make-map (map max-rooms
                           room-min-size room-max-size
                           map-width map-height
@@ -168,4 +175,5 @@
            (setf rooms (list new-room))
            (push new-room (cdr (last rooms))))
        (incf num-rooms))))
- (find-doors map))
+ (dolist (door (find-doors map))
+         (place-door entities (car door) (cdr door))))

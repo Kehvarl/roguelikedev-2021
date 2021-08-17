@@ -42,3 +42,11 @@
                                             (entity/name (component/owner component))
                                             (entity/name target))))))
     results))
+
+(defclass door (component)
+  ((open :initarg :open :accessor door/open :initform nil)
+   (locked :initarg :locked :accessor door/locked :initform nil)))
+
+(defgeneric door/blocks (component))
+(defmethod door/blocks ((component door))
+  (not (door/open component)))

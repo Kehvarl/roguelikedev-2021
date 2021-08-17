@@ -71,7 +71,9 @@
 
 (defun blocking-entity-at (entities x y)
   (let ((entity (entity-at entities x y)))
-    (if (and entity (entity/blocks entity))
+    (if (and entity (or (entity/blocks entity)
+                        (and (entity/door entity)
+                             (door/blocks (entity/door entity)))))
       entity)))
 
 (defun wall-p (tile)
@@ -99,6 +101,9 @@
 
 (defgeneric find-doors (map))
 (defmethod find-doors ((map game-map))
-  (map-tiles-loop (map tile :col-val x :row-val y)
-    (when (and (tile/corridor tile) (is-door map x y))
-      (setf (slot-value tile 'door) t))))
+  (let ((doors nil))
+    (map-tiles-loop (map tile :col-val x :row-val y)
+      (when (and (tile/corridor tile) (is-door map x y))
+        (setf (slot-value tile 'door) t)
+        (setf doors (append doors (list (cons x y))))))
+    doors))

@@ -432,7 +432,7 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 
 ### Doors
 ![Part A.2](./screenshots/PartA.2.png?raw=true "Debugging Corridors and Doors")
-* We we fiddle with implementing doors.
+* We will fiddle with implementing doors.
   * A Corridor tile with a Room on one side and a Corridor on the other is a door
   * A Door is an Entity in a tile.  With a Door Component
   * Doors may be one of
@@ -441,6 +441,12 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
     * Open - allow passage, but can be closed (should have special character)
     * Closed - Act like a wall, but can be opened (should have special character)
 * When we carve our corridors, we will flag the doors.  A door will be the first and last tile carved that were not rooms.
+* A door is an entity that might block passage.
+  * Right now they're yellow.  We need a brown color.
+  * We also need a door-state state.  Maybe a door component.
+  * Door Component tracks door state.  
+  * Doors block all passage
+  * Bumping into a closed door opens it.
 
 ### Scoring
 * Implemented a counter for number of turns played.
