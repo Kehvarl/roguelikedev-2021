@@ -432,7 +432,7 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 
 ### Doors
 ![Part A.2](./screenshots/PartA.2.png?raw=true "Debugging Corridors and Doors")
-* We we fiddle with implementing doors.
+* We will fiddle with implementing doors.
   * A Corridor tile with a Room on one side and a Corridor on the other is a door
   * A Door is an Entity in a tile.  With a Door Component
   * Doors may be one of

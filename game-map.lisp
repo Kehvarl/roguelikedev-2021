@@ -99,6 +99,9 @@
 
 (defgeneric find-doors (map))
 (defmethod find-doors ((map game-map))
-  (map-tiles-loop (map tile :col-val x :row-val y)
-    (when (and (tile/corridor tile) (is-door map x y))
-      (setf (slot-value tile 'door) t))))
+  (let ((doors nil))
+    (map-tiles-loop (map tile :col-val x :row-val y)
+      (when (and (tile/corridor tile) (is-door map x y))
+        (setf (slot-value tile 'door) t)
+        (setf doors (append doors (list (cons x y))))))
+    doors))
