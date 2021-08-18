@@ -452,6 +452,19 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 ### Scoring
 * Implemented a counter for number of turns played.
 
+### Advanced Spawners
+* Time to get monster spawners spawning monsters.
+* First some re-org.
+* Map-making places a lot of things.  Let's pull those into their own file and clean them up so we can add
+  * Monsters
+  * Items
+  * Doors
+  * Spawners
+    * For a specific Item
+    * For a list of Items
+    * For a specific Monster
+    * For a list of Monsters
+
 ## Ideas awaiting experimentation
 * Dijkstra Map Stuff
   * Use to have creatures move towards goals
