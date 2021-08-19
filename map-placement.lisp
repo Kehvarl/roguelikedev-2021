@@ -1,5 +1,38 @@
 (in-package #:roguelike-2021)
 
+(defstruct monster
+  (chance 0)
+  (entity ())
+  (fighter ())
+  (ai)
+  (ai-args)())
+
+(defparameter *monsters-list*
+  (list
+   (make-monster
+    :chance 70
+    :entity (list
+             :name "Orc"
+             :color (blt:green)
+             :char #\o
+             :blocks t
+             :render-order :actor)
+    :fighter '(:hp 10 :defense 0 :power 3)
+    :ai 'tracking-monster
+    :ai-args '(:active-range 5))
+   (make-monster
+    :chance 20
+    :entity (list
+             :name "Troll"
+             :color (blt:yellow)
+             :char #\T
+             :blocks t
+             :regenerating t
+             :render-order :actor)
+    :fighter '(:hp 16 :defense 1 :power 4)
+    :ai 'basic-monster
+    :ai-args '(:active-range 5))))
+
 (defun place-monsters (room entities num-monsters)
     (dotimes (monster-index num-monsters)
       (multiple-value-bind (x y) (rect/random room)
