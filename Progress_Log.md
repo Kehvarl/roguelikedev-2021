@@ -452,6 +452,10 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 ### Scoring
 * Implemented a counter for number of turns played.
 
+### Data Driven Monsters
+* Strip monster information out of the monster-placing functions and into a list.
+* Ability to place a specific monster at a specific place
+
 ### Advanced Spawners
 * Time to get monster spawners spawning monsters.
 * First some re-org.
