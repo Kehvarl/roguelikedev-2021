@@ -44,17 +44,20 @@
     :ai 'ranged-monster
     :ai-args '(:active-range 5))))
 
-(defun get-monster (chance)
-  (let ((select chance))
-    (dolist (monster *monsters-list*)
-      (when (> (monster-chance monster) select)(return monster))
-      (decf select (monster-chance monster)))))
+(defun get-monster (monsters &key (chance nil))
+  (let ((max_chance 0))
+    (dolist (monster monsters)
+      (incf max_chance (monster-chance monster)))
+    (let ((select (if chance chance (random max_chance))))
+      (dolist (monster monsters)
+        (when (> (monster-chance monster) select)(return monster))
+        (decf select (monster-chance monster))))))
 
 (defun place-monsters (room entities num-monsters)
     (dotimes (monster-index num-monsters)
       (multiple-value-bind (x y) (rect/random room)
         (unless (entity-at entities x y)
-          (let* ((monster (get-monster(random 100)))
+          (let* ((monster (get-monster *monsters-list* :chance (random 100)))
                  (ai-component (apply #'make-instance (monster-ai monster)
                                      (monster-ai-args monster)))
                  (fighter-component (apply #'make-instance 'fighter
