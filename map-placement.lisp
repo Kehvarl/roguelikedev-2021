@@ -53,21 +53,25 @@
         (when (> (monster-chance monster) select)(return monster))
         (decf select (monster-chance monster))))))
 
+(defun place-monster (entities x y monster)
+  (let* ((ai-component (apply #'make-instance (monster-ai monster)
+                          (monster-ai-args monster)))
+         (fighter-component (apply #'make-instance 'fighter
+                              (monster-fighter monster))))
+    (nconc entities (list (apply #'make-instance 'entity
+                            (append (monster-entity monster)
+                                    (list
+                                     :x x :y y
+                                     :ai ai-component
+                                     :fighter fighter-component)))))))
+
 (defun place-monsters (room entities num-monsters)
     (dotimes (monster-index num-monsters)
       (multiple-value-bind (x y) (rect/random room)
         (unless (entity-at entities x y)
-          (let* ((monster (get-monster *monsters-list* :chance (random 100)))
-                 (ai-component (apply #'make-instance (monster-ai monster)
-                                     (monster-ai-args monster)))
-                 (fighter-component (apply #'make-instance 'fighter
-                                      (monster-fighter monster))))
-            (nconc entities (list (apply #'make-instance 'entity
-                                    (append (monster-entity monster)
-                                            (list
-                                             :x x :y y
-                                             :ai ai-component
-                                             :fighter fighter-component))))))))))
+          (place-monster entities x y
+                         (get-monster *monsters-list* :chance (random 100)))))))
+
 
 (defun place-items (room entities num-items)
   (dotimes (item-index num-items)
