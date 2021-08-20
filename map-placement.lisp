@@ -5,7 +5,7 @@
   (entity ())
   (fighter ())
   (ai)
-  (ai-args)())
+  (ai-args ()))
 
 (defparameter *monsters-list*
   (list
@@ -31,47 +31,40 @@
              :render-order :actor)
     :fighter '(:hp 16 :defense 1 :power 4)
     :ai 'basic-monster
+    :ai-args '(:active-range 5))
+   (make-monster
+    :chance 10
+    :entity (list
+             :name "Curious Light"
+             :color (blt:cyan)
+             :char #\c
+             :blocks t
+             :render-order :actor)
+    :fighter '(:hp 10 :defense 1 :power 3)
+    :ai 'ranged-monster
     :ai-args '(:active-range 5))))
+
+(defun get-monster (chance)
+  (let ((select chance))
+    (dolist (monster *monsters-list*)
+      (when (> (monster-chance monster) select)(return monster))
+      (decf select (monster-chance monster)))))
 
 (defun place-monsters (room entities num-monsters)
     (dotimes (monster-index num-monsters)
       (multiple-value-bind (x y) (rect/random room)
         (unless (entity-at entities x y)
-          (let ((monster-rand (random 100)))
-            (cond
-              ((< monster-rand 70)
-               (let* ((fighter-component (make-instance 'fighter :hp 10
-                                                        :defense 0 :power 3))
-                      (ai-component (make-instance 'tracking-monster :active-range 5)))
-                 (nconc entities (list (make-instance 'entity :name "Orc"
-                                                      :x x :y y :color (blt:green)
-                                                      :char #\o :blocks t
-                                                      :render-order :actor
-                                                      :fighter fighter-component
-                                                      :ai ai-component)))))
-
-              ((< monster-rand 90)
-               (let* ((fighter-component (make-instance 'fighter :hp 16
-                                                        :defense 1 :power 4))
-                      (ai-component (make-instance 'basic-monster :active-range 10)))
-                 (nconc entities (list (make-instance 'entity :name "Troll"
-                                                      :x x :y y :color (blt:yellow)
-                                                      :char #\T :blocks t
-                                                      :render-order :actor
-                                                      :fighter fighter-component
-                                                      :ai ai-component
-                                                      :regenerating t)))))
-              (t
-               (let* ((fighter-component (make-instance 'fighter :hp 16 :defense 1
-                                                        :power 4))
-                      (ai-component (make-instance 'ranged-monster :active-range 10)))
-                 (nconc entities (list (make-instance 'entity :name "Curious Light"
-                                                      :x x :y y :color (blt:chartreuse)
-                                                      :char #\c :blocks t
-                                                      :render-order :actor
-                                                      :fighter fighter-component
-                                                      :ai ai-component
-                                                      :regenerating t)))))))))))
+          (let* ((monster (get-monster(random 100)))
+                 (ai-component (apply #'make-instance (monster-ai monster)
+                                     (monster-ai-args monster)))
+                 (fighter-component (apply #'make-instance 'fighter
+                                      (monster-fighter monster))))
+            (nconc entities (list (apply #'make-instance 'entity
+                                    (append (monster-entity monster)
+                                            (list
+                                             :x x :y y
+                                             :ai ai-component
+                                             :fighter fighter-component))))))))))
 
 (defun place-items (room entities num-items)
   (dotimes (item-index num-items)
