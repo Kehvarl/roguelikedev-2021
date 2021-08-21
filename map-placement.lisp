@@ -69,8 +69,8 @@
     (dotimes (monster-index num-monsters)
       (multiple-value-bind (x y) (rect/random room)
         (unless (entity-at entities x y)
-          (place-monster entities x y
-                         (get-monster *monsters-list* :chance (random 100)))))))
+          (place-monster
+           entities x y (get-monster *monsters-list* :chance (random 100)))))))
 
 
 (defun place-items (room entities num-items)
