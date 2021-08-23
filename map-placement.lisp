@@ -5,7 +5,12 @@
   (entity ())
   (fighter ())
   (ai)
-  (ai-args ()))
+  (ai-args))
+
+(defstruct item-def
+  (chance 0)
+  (entity)
+  (item))
 
 (defparameter *monsters-list*
   (list
@@ -72,7 +77,13 @@
           (place-monster
            entities x y (get-monster *monsters-list* :chance (random 100)))))))
 
-
+(defun place-item (entities x y item)
+  (let* ((item-component (apply #'make-instance 'item (item-def-item item))))
+    (nconc entities (list (apply 'make-instance 'entity
+                             (append (item-def-entity item)
+                                     (list
+                                      :x x :y y
+                                      :item item-component)))))))
 (defun place-items (room entities num-items)
   (dotimes (item-index num-items)
     (multiple-value-bind (x y) (rect/random room)
