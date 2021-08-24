@@ -16,6 +16,7 @@
                (:file "pathfinding")
                (:file "game-map")
                (:file "map-placement")
+               (:file "map-placement-items")
                (:file "map-generator")
                (:file "entity")
                (:file "components")

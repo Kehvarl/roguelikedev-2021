@@ -7,11 +7,6 @@
   (ai)
   (ai-args))
 
-(defstruct item-def
-  (chance 0)
-  (entity)
-  (item))
-
 (defparameter *monsters-list*
   (list
    (make-monster
@@ -76,31 +71,6 @@
         (unless (entity-at entities x y)
           (place-monster
            entities x y (get-monster *monsters-list* :chance (random 100)))))))
-
-(defun place-item (entities x y item)
-  (let* ((item-component (apply #'make-instance 'item (item-def-item item))))
-    (nconc entities (list (apply 'make-instance 'entity
-                             (append (item-def-entity item)
-                                     (list
-                                      :x x :y y
-                                      :item item-component)))))))
-(defun place-items (room entities num-items)
-  (dotimes (item-index num-items)
-    (multiple-value-bind (x y) (rect/random room)
-      (unless (entity-at entities x y)
-        (let ((monster-rand (random 100)))
-          (cond
-            ((< monster-rand 70)
-             (let* ((item-component (make-instance 'item :use-function #'heal
-                                                   :use-args '(:heal-amount 4)))
-                    (potion (make-instance 'entity :name "Healing Potion"
-                                           :x x :y y :color (blt:purple)
-                                           :item item-component
-                                           :char #\! :blocks nil
-                                           :render-order :item)))
-               (nconc entities (list potion))))
-            (t
-             (format t "Monster spawner at ~A,~A~%" x y))))))))
 
 (defun place-spawner (room entities spawner)
   (multiple-value-bind (x y) (rect/random room)
