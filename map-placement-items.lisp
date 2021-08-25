@@ -28,7 +28,19 @@
              :render-order :item)
     :item (list
            :use-function #'heal
-           :use-args '(:heal-amount 4)))))
+           :use-args '(:heal-amount 4)))
+   (make-item-def
+    :chance 50
+    :entity (list
+             :name "Green Potion"
+             :color (blt:green)
+             :char #\!
+             :blocks nil
+             :render-order :item)
+    :item (list
+           :use-function #'recolor
+           :use-args (list :new-color (blt:green))))))
+
 
 (defun get-item (items &key (chance nil))
   (let ((max_chance 0))

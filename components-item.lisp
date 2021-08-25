@@ -17,3 +17,9 @@
            (setf hp max-hp))
          (list :consumed t :message "Your wounds start to feel better!"
                :message-color (blt:green)))))))
+
+(defun recolor (item target)
+  (let ((new-color (getf (item/use-args item) :new-color)))
+    (setf (entity/color target) new-color)
+    (list :consumed t :message "You feel strange..."
+          :message-color (blt:green))))
