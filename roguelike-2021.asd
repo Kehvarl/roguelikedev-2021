@@ -22,6 +22,7 @@
                (:file "components-item")
                (:file "components-inventory")
                (:file "components-spawner")
+               (:file "components-effects")
                (:file "map-placement")
                (:file "map-placement-items")
                (:file "map-generator")
