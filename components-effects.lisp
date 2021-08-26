@@ -1,7 +1,10 @@
 (in-package #:roguelike-2021)
 
 (defclass effect (component)
-  ((name :initarg :name :accessor effect/name :initform "")))
+  ((name :initarg :name :accessor effect/name :initform "")
+   (turn-function :initarg :turn-function
+                  :accessor effect/turn-function
+                  :initform nil)))
 
 (defclass active-effects (component)
   ((capacity :initarg :capacity :accessor active-effects/capacity :initform 1)
@@ -9,7 +12,7 @@
 
 (defgeneric add-effect (effects effect))
 (defgeneric remove-effect (effects effect))
-(defgeneric process-effects (effects))
+(defgeneric process-effects (effects owner))
 
 (defmethod add-effect ((effects active-effects) (effect effect))
   (let ((results nil))
@@ -35,3 +38,8 @@
                           :message (format nil "~A no longer affects you."
                                            (effect/name effect))
                           :message-color (blt:yellow))))))
+
+(defmethod process-effects ((effects active-effects) owner)
+  (let ((results nil))
+    (dolist (effect (remove-if-not #'effect/turn-function effects))
+      (append results (funcall (effect/turn-function effect) effect owner)))))
