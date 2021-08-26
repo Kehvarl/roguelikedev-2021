@@ -469,6 +469,10 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
     * For a specific Monster
     * For a list of Monsters
 
+### Status effects
+* Implemented a color-change potion that changes the player's colors
+* Next we will make that color-change a status effect with a duration.  When the effect runs out, the color will revert to its original shade.
+
 ## Ideas awaiting experimentation
 * Dijkstra Map Stuff
   * Use to have creatures move towards goals
