@@ -36,6 +36,8 @@
                                             :power 5))
           (inventory-component (make-instance 'inventory
                                               :capacity 26))
+          (active-effects-component (make-instance 'active-effects
+                                                   :capacity 5))
           (player (make-instance 'player
                                  :name "Player"
                                  :x (/ *screen-width* 2)
@@ -45,7 +47,8 @@
                                  :blocks t
                                  :render-order :actor
                                  :fighter fighter-component
-                                 :inventory inventory-component))
+                                 :inventory inventory-component
+                                 :effects active-effects-component))
           (entities (list player))
           (map (make-instance 'game-map :w *map-width* :h *map-height*))
           (stats-panel (make-panel 0 *map-height* *screen-width*
@@ -68,4 +71,6 @@
                                   :state :player-turn
                                   :entities entities)
                    (game-tick player map *state* stats-panel message-log)))
-         ((null (game-state/running *state*)))))))
+         ((null (game-state/running *state*))))
+
+     (player/score player))))

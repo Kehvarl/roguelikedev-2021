@@ -8,7 +8,8 @@
         (show-inventory (getf action :show-inventory))
         (drop-inventory (getf action :drop-inventory)))
     (when (or move stay pickup show-inventory drop-inventory)
-      (incf (player/score player)))
+      (incf (player/score player))
+      (process-effects (entity/effects player) player))
 
     (when stay
       (setf (game-state/state game-state) :enemy-turn))

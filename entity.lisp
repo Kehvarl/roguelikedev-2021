@@ -17,6 +17,7 @@
    (regenerating :initarg :regenerating :accessor entity/regenerating :initform nil)
    (item :initarg :item :accessor entity/item :initform nil)
    (inventory :initarg :inventory :accessor entity/inventory :initform nil)
+   (effects :initarg :effects :accessor entity/effects :initform nil)
    (door :initarg :door :accessor entity/door :initform nil)))
 
 (defclass player (entity)
@@ -26,7 +27,7 @@
 
 (defmethod initialize-instance :after ((entity entity) &rest initargs)
   (declare (ignore initargs))
-  (with-slots (fighter ai spawner inventory door) entity
+  (with-slots (fighter ai spawner inventory effects door) entity
     (when fighter
       (setf (component/owner fighter) entity))
     (when ai
@@ -35,6 +36,8 @@
       (setf (component/owner spawner) entity))
     (when inventory
       (setf (component/owner inventory) entity))
+    (when effects
+      (setf (component/owner effects) entity))
     (when door
       (setf (component/owner door) entity))))
 

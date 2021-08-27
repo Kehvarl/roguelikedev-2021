@@ -85,6 +85,7 @@
 (defun place-door (entities x y)
   (let ((door-component (make-instance 'door :open nil :locked nil)))
     (nconc entities (list (make-instance 'entity :x x :y y :color (blt:yellow)
+                                         :name "Door"
                                          :door door-component
                                          :char #\# :blocks nil
                                          :render-order :corpse)))))
