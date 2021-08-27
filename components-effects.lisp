@@ -9,6 +9,18 @@
   (declare (ignore owner))
   (list :message (format nil "Default Effect")))
 
+(defclass colorshift (effect)
+  ((previous-color :initarg :previous-color :accessor colorshift/previous-color)
+   (duration :initarg :duration :accessor colorshift/duration :initform nil)))
+
+(defmethod process-effect (effect colorshift) (owner entity)
+ (with-slots (previous-color duration) effect
+   (when duration
+     (decf duration)
+     (when (<= duration 0)
+       (setf (entity/color owner) previous-color)))))
+       
+
 (defclass active-effects (component)
   ((capacity :initarg :capacity :accessor active-effects/capacity :initform 1)
    (effects :initarg :effects :accessor active-effects/effects :initform nil)))
