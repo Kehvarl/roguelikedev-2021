@@ -1,10 +1,13 @@
 (in-package #:roguelike-2021)
 
 (defclass effect (component)
-  ((name :initarg :name :accessor effect/name :initform "")
-   (turn-function :initarg :turn-function
-                  :accessor effect/turn-function
-                  :initform nil)))
+  ((name :initarg :name :accessor effect/name :initform "")))
+
+(defgeneric process-effect (effect owner))
+
+(defmethod process-effect ((effect effect) (owner entity))
+  (declare (ignore owner))
+  (list :message (format nil "Default Effect")))
 
 (defclass active-effects (component)
   ((capacity :initarg :capacity :accessor active-effects/capacity :initform 1)
@@ -41,5 +44,5 @@
 
 (defmethod process-effects ((effects active-effects) owner)
   (let ((results nil))
-    (dolist (effect (remove-if-not #'effect/turn-function effects))
-      (append results (funcall (effect/turn-function effect) effect owner)))))
+    (dolist (effect effects)
+      (append results (process-effect effect owner)))))
