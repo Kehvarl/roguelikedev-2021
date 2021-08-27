@@ -20,6 +20,10 @@
 
 (defun recolor (item target)
   (let ((new-color (getf (item/use-args item) :new-color)))
+    (let ((effect (make-instance 'colorshift
+                                 :previous-color (entity/color target)
+                                 :duration 5)))
+      (add-effect (entity/effects target) effect))
     (setf (entity/color target) new-color)
     (list :consumed t :message "You feel strange..."
           :message-color (blt:green))))

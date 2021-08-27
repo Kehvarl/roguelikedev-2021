@@ -1,10 +1,30 @@
 (in-package #:roguelike-2021)
 
 (defclass effect (component)
-  ((name :initarg :name :accessor effect/name :initform "")
-   (turn-function :initarg :turn-function
-                  :accessor effect/turn-function
-                  :initform nil)))
+  ((name :initarg :name :accessor effect/name :initform "")))
+
+(defgeneric process-effect (effect entity))
+
+(defmethod process-effect ((effect effect) (entity entity))
+  (declare (ignore entity))
+  (list :message (format nil "Default Effect")))
+
+(defclass colorshift (effect)
+  ((previous-color :initarg :previous-color :accessor colorshift/previous-color)
+   (duration :initarg :duration :accessor colorshift/duration :initform nil)))
+
+(defmethod process-effect ((effect colorshift) (entity entity))
+ (let ((results nil))
+   (append results (list :message (format nil "Ongoing effect...")))
+   (with-slots (previous-color duration) effect
+     (when duration
+       (decf duration)
+       (when (<= duration 0)
+         (setf (entity/color entity) previous-color)
+         (remove-effect (entity/effects entity) effect)
+         (append results (list :message (format nil "An Effect has ended"))))))
+   results))
+
 
 (defclass active-effects (component)
   ((capacity :initarg :capacity :accessor active-effects/capacity :initform 1)
@@ -41,5 +61,6 @@
 
 (defmethod process-effects ((effects active-effects) owner)
   (let ((results nil))
-    (dolist (effect (remove-if-not #'effect/turn-function effects))
-      (append results (funcall (effect/turn-function effect) effect owner)))))
+    (dolist (effect (active-effects/effects effects))
+      (append results (process-effect effect owner)))
+    results))
