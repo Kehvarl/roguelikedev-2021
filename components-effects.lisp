@@ -13,16 +13,15 @@
   ((previous-color :initarg :previous-color :accessor colorshift/previous-color)
    (duration :initarg :duration :accessor colorshift/duration :initform nil)))
 
-(defmethod process-effect ((effect colorshift) (entity entity))
- (let ((results nil))
-   (append results (list :message (format nil "Ongoing effect...")))
+(defmethod process-effect ((effect colorshift) entity)
+  (let ((results nil))
    (with-slots (previous-color duration) effect
      (when duration
-       (decf duration)
-       (when (<= duration 0)
-         (setf (entity/color entity) previous-color)
-         (remove-effect (entity/effects entity) effect)
-         (append results (list :message (format nil "An Effect has ended"))))))
+        (decf duration)
+        (when (<= duration 0)
+          (setf (entity/color entity) previous-color)
+          (remove-effect (entity/effects entity) effect)
+          (setf results (list :message (format nil "An Effect has ended"))))))
    results))
 
 
@@ -62,5 +61,5 @@
 (defmethod process-effects ((effects active-effects) owner)
   (let ((results nil))
     (dolist (effect (active-effects/effects effects))
-      (append results (process-effect effect owner)))
+      (setf results (append results (process-effect effect owner))))
     results))
