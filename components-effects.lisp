@@ -19,10 +19,10 @@
      (when duration
         (decf duration)
         (when (<= duration 0)
-          (setf (entity/color entity) previous-color
-           (remove-effect (entity/effects entity) effect)
-           (append results (list :message (format nil "An Effect has ended")))))
-      results))))
+          (setf (entity/color entity) previous-color)
+          (remove-effect (entity/effects entity) effect)
+          (setf results (list :message (format nil "An Effect has ended"))))))
+   results))
 
 
 (defclass active-effects (component)
@@ -61,5 +61,5 @@
 (defmethod process-effects ((effects active-effects) owner)
   (let ((results nil))
     (dolist (effect (active-effects/effects effects))
-      (append results (process-effect effect owner)))
+      (setf results (append results (process-effect effect owner))))
     results))
