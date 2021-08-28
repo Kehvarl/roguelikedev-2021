@@ -15,14 +15,14 @@
 
 (defmethod process-effect ((effect colorshift) entity)
   (let ((results nil))
-    (with-slots (previous-color duration) effect
-      (when duration
+   (with-slots (previous-color duration) effect
+     (when duration
         (decf duration)
         (when (<= duration 0)
-          (setf (entity/color entity) previous-color)
-          (remove-effect (entity/effects entity) effect)
-          (append results (list :message (format nil "An Effect has ended")))))
-      results)))
+          (setf (entity/color entity) previous-color
+           (remove-effect (entity/effects entity) effect)
+           (append results (list :message (format nil "An Effect has ended")))))
+      results))))
 
 
 (defclass active-effects (component)
