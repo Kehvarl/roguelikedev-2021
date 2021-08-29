@@ -472,12 +472,12 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 ### Status effects
 * Implemented a color-change potion that changes the player's colors
 * Next we will make that color-change a status effect with a duration.  When the effect runs out, the color will revert to its original shade.
+* Heal-over-time effect is in place.   This can also be used to grant living Trolls a regeneration feature.
 
 ## Ideas awaiting experimentation
 * Dijkstra Map Stuff
   * Use to have creatures move towards goals
   * Useful to maintain distance from the player or other Entity
-* Monster Spawners
 * Monster mutation
 * Creature mutation
   * Ritual circles or Matter transmuters that apply random effects to entities that stand in them
