@@ -27,8 +27,10 @@
              :blocks nil
              :render-order :item)
     :item (list
-           :use-function #'heal
-           :use-args '(:heal-amount 4)))
+           :use-function #'heal-duration
+           :use-args '(:heal-amount 2
+                       :duration 5
+                       :message "Your whole body tingles.")))
    (make-item-def
     :chance 50
     :entity (list

@@ -24,6 +24,20 @@
           (setf results (list :message (format nil "An Effect has ended"))))))
    results))
 
+(defclass healeffect (effect)
+  ((heal-amount :initarg :heal-amount :accessor heal/heal-amount)
+   (duration :initarg :duration :accessor heal/duration :initform 1)))
+
+(defmethod process-effect ((effect healeffect) entity)
+  (let ((results nil))
+    (with-slots (heal-amount duration) effect
+      (gain-hp (entity/fighter entity) heal-amount)
+      (when duration
+        (decf duration)
+        (when (<= duration 0)
+          (remove-effect (entity/effects entity) effect)
+          (setf results (list :message (format nil "An Effect has ended"))))))
+    results))
 
 (defclass active-effects (component)
   ((capacity :initarg :capacity :accessor active-effects/capacity :initform 1)
