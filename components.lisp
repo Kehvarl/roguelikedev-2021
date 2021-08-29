@@ -17,6 +17,20 @@
 
 (defgeneric take-damage (component amount))
 (defgeneric attack (component target))
+(defgeneric gain-hp (component amount))
+
+(defmethod gain-hp ((component fighter) amount)
+ (with-slots (hp max-hp) component
+   (cond
+     ((= hp max-hp)
+      (list :consumed nil :message "You are already at full health"
+            :message-color (blt:yellow)))
+     (t
+      (incf hp amount)
+      (when (> hp max-hp)
+        (setf hp max-hp))
+      (list :consumed t :message "Your wounds start to feel better!"
+            :message-color (blt:green))))))
 
 (defmethod take-damage ((component fighter) amount)
   (decf (fighter/hp component) amount)
