@@ -43,7 +43,7 @@
                                             :ai ai-component)))))))
 
 (defclass cloner (spawner)
-  ((clone-region :initarg :region :accessor cloner/clone-region)))
+  ((clone-region :initarg :clone-region :accessor cloner/clone-region)))
 
 (defmethod spawn ((component cloner) map entities)
   (with-slots (region tick frequency max-entities spawn-args) component
@@ -56,9 +56,11 @@
                                           entities)
                                      region)
                  max-entities))
-      (let* ((clonable
-              (entities-in-region map (remove-if-not #'entity/fighter
-                                                     entities)
-                                  (cloner/clone-region component)))
-             (clone (nth (random (length clonable)) clonable)))
-        (format t "Cloning ~A" (entity/name clone))))))
+      (let ((clonable
+             (entities-in-region map (remove-if-not #'entity/fighter
+                                                    entities)
+                                 (cloner/clone-region component))))
+
+        (when (> (length clonable) 0)
+          (let((clone (nth (random (length clonable)) clonable)))
+            (format t "Cloning ~A" (entity/name clone))))))))
