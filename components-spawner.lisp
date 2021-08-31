@@ -46,19 +46,19 @@
   ((clone-region :initarg :region :accessor cloner/clone-region)))
 
 (defmethod spawn ((component cloner) map entities)
-  (let* ((clonable (entities-in-region map (remove-if-not #'entity/fighter
-                                                          entities)
-                                       (cloner/clone-region component))))
-    (declare (ignore clonable))
-    (with-slots (region tick frequency max-entities spawn-args) component
-      (incf (spawner/tick component))
-      (when (> tick frequency)
-        (setf (spawner/tick component) 0)
-        (unless (> (entities-in-region map (remove-if
-                                            #'(lambda (e)
-                                                      (entity/spawner e))
-                                            entities)
-                                       region)
-                   max-entities))
-        (when spawn-args
-          (spawn-monster component spawn-args entities map))))))
+  (with-slots (region tick frequency max-entities spawn-args) component
+    (incf (spawner/tick component))
+    (when (> tick frequency)
+      (setf (spawner/tick component) 0)
+      (unless (> (entities-in-region map (remove-if
+                                          #'(lambda (e)
+                                                    (entity/spawner e))
+                                          entities)
+                                     region)
+                 max-entities))
+      (let* ((clonable
+              (entities-in-region map (remove-if-not #'entity/fighter
+                                                     entities)
+                                  (cloner/clone-region component)))
+             (clone (nth (random (length clonable)) clonable)))
+        (format t "Cloning ~A" (entity/name clone))))))
