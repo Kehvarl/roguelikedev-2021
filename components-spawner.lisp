@@ -46,7 +46,8 @@
   ((clone-region :initarg :region :accessor cloner/clone-region)))
 
 (defmethod spawn ((component cloner) map entities)
-  (let* ((clonable (entities-in-region map entities
+  (let* ((clonable (entities-in-region map (remove-if-not #'entity/fighter
+                                                          entities)
                                        (cloner/clone-region component))))
     (declare (ignore clonable))
     (with-slots (region tick frequency max-entities spawn-args) component

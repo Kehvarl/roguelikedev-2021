@@ -474,6 +474,14 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Next we will make that color-change a status effect with a duration.  When the effect runs out, the color will revert to its original shade.
 * Heal-over-time effect is in place.   This can also be used to grant living Trolls a regeneration feature.
 
+### Cloning
+* Declare new form of spawner that watched for monsters in a region.
+* Grab a list of monsters in a Region
+* If we're ready to make a monster
+* Get N Monsters
+* For each trait we want to copy, copy from a monster
+* Create and spawn new monster
+
 ## Ideas awaiting experimentation
 * Dijkstra Map Stuff
   * Use to have creatures move towards goals
