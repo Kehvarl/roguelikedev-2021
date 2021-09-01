@@ -95,7 +95,8 @@
                     (incf region-index)))))
        (place-entities map new-room entities max-enemies-per-room max-items-per-room)
        (when (> (random 100) 90)
-         (place-spawner new-room entities (make-instance 'spawner :frequency 10)))
+         (place-spawner new-room entities (make-instance 'cloner :frequency 10
+                                                         :clone-region (random region-index))))
        (if (null rooms)
            (setf rooms (list new-room))
            (push new-room (cdr (last rooms))))
