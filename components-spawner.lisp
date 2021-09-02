@@ -16,12 +16,12 @@
     (incf (spawner/tick component))
     (when (> tick frequency)
       (setf (spawner/tick component) 0)
-      (unless (> (entities-in-region map (remove-if
-                                          #'(lambda (e)
-                                                    (entity/spawner e))
-                                          entities)
-                                     region)
-                 max-entities)
+      (unless (> (length (entities-in-region map (remove-if
+                                                  #'(lambda (e)
+                                                            (entity/spawner e))
+                                                  entities)
+                                     region))
+                max-entities)
         (if spawn-args
           (spawn-monster component spawn-args entities map)
           (place-items room entities 1))))))
@@ -50,17 +50,16 @@
     (incf (spawner/tick component))
     (when (> tick frequency)
       (setf (spawner/tick component) 0)
-      (unless (> (entities-in-region map (remove-if
-                                          #'(lambda (e)
-                                                    (entity/spawner e))
-                                          entities)
-                                     region)
+      (unless (> (length (entities-in-region map (remove-if
+                                                  #'(lambda (e)
+                                                            (entity/spawner e))
+                                                  entities)
+                                             region))
                  max-entities))
       (let ((clonable
              (entities-in-region map (remove-if-not #'entity/fighter
                                                     entities)
                                  (cloner/clone-region component))))
-
         (when (> (length clonable) 0)
           (let((clone (nth (random (length clonable)) clonable)))
             (format t "Cloning ~A" (entity/name clone))))))))

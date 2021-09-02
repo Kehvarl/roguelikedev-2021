@@ -482,6 +482,9 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * For each trait we want to copy, copy from a monster
 * Create and spawn new monster
 
+#### Cloning Modifications
+* Entities-in-region returns list of entities instead of count
+
 ## Ideas awaiting experimentation
 * Dijkstra Map Stuff
   * Use to have creatures move towards goals

@@ -39,13 +39,14 @@
 
 (defgeneric entities-in-region (map entities region-index))
 (defmethod entities-in-region ((map game-map) entities region-index)
-  (let ((entity-count 0))
+  (let ((region-entities nil))
     (map-tiles-loop (map tile :col-val x :row-val y)
       (when (and
              (eql (tile/region (aref (game-map/tiles map) x y)) region-index)
              (entity-at entities x y))
-        (incf entity-count)))
-    entity-count))
+        (setf region-entities (append region-entities
+                                      (list (entity-at entities x y))))))
+    region-entities))
 
 (defgeneric region-at (map x y))
 (defmethod region-at((map game-map) x y)
