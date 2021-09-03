@@ -62,4 +62,4 @@
                                  (cloner/clone-region component))))
         (when (> (length clonable) 0)
           (let((clone (nth (random (length clonable)) clonable)))
-            (format t "Cloning ~A" (entity/name clone))))))))
+            (format t "Cloning ~A~%" (entity/name clone))))))))
