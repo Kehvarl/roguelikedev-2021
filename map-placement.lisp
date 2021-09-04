@@ -23,26 +23,37 @@
    (make-monster
     :chance 20
     :entity (list
-             :name "Troll"
-             :color (blt:yellow)
-             :char #\T
-             :blocks t
-             :regenerating t
-             :render-order :actor)
+              :name "Troll"
+              :color (blt:yellow)
+              :char #\T
+              :blocks t
+              :regenerating t
+              :render-order :actor)
     :fighter '(:hp 16 :defense 1 :power 4)
     :ai 'basic-monster
     :ai-args '(:active-range 5))
    (make-monster
     :chance 10
     :entity (list
-             :name "Curious Light"
-             :color (blt:cyan)
-             :char #\c
-             :blocks t
-             :render-order :actor)
+              :name "Curious Light"
+              :color (blt:cyan)
+              :char #\c
+              :blocks t
+              :render-order :actor)
     :fighter '(:hp 10 :defense 1 :power 3)
     :ai 'ranged-monster
-    :ai-args '(:active-range 5))))
+    :ai-args '(:active-range 10))
+   (make-monster
+    :chance 100
+    :entity (list
+             :name "Dangerous Glimmer"
+             :color (blt:orange)
+             :char #\g
+             :blocks t
+             :render-order :actor)
+    :fighter '(:hp 10 :defense 3 :power 5)
+    :ai 'tracking-monster
+    :ai-args '(:active-range 10))))
 
 (defun get-monster (monsters &key (chance nil))
   (let ((max_chance 0))
@@ -70,7 +81,7 @@
       (multiple-value-bind (x y) (rect/random room)
         (unless (entity-at entities x y)
           (place-monster
-           entities x y (get-monster *monsters-list* :chance (random 100)))))))
+           entities x y (get-monster *monsters-list* :chance (random 120)))))))
 
 (defun place-spawner (room entities spawner)
   (multiple-value-bind (x y) (rect/random room)
