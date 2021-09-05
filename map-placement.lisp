@@ -44,7 +44,7 @@
     :ai 'ranged-monster
     :ai-args '(:active-range 10))
    (make-monster
-    :chance 100
+    :chance 5
     :entity (list
              :name "Dangerous Glimmer"
              :color (blt:orange)
@@ -81,7 +81,7 @@
       (multiple-value-bind (x y) (rect/random room)
         (unless (entity-at entities x y)
           (place-monster
-           entities x y (get-monster *monsters-list* :chance (random 120)))))))
+           entities x y (get-monster *monsters-list* ))))))
 
 (defun place-spawner (room entities spawner)
   (multiple-value-bind (x y) (rect/random room)
