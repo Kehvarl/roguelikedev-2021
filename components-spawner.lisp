@@ -61,5 +61,16 @@
                                                     entities)
                                  (cloner/clone-region component))))
         (when (> (length clonable) 0)
-          (let((clone (nth (random (length clonable)) clonable)))
-            (format t "Cloning ~A~%" (entity/name clone))))))))
+          (let* ((clone (nth (random (length clonable)) clonable))
+                 (fighter (entity/fighter clone))
+                 (spawn-args '(:hp (fighter/hp fighter)
+                               :defense (fighter/defense fighter)
+                               :power (fighter/power fighter)
+                               :name (entity/name clone)
+                               :char (entity/char clone)
+                               :color (entity/color clone))))
+
+            (spawn-monster component
+                           spawn-args
+                           entities map)
+            (format t "Cloning ~A ~AHP~%" (entity/name clone) (fighter/hp fighter))))))))
