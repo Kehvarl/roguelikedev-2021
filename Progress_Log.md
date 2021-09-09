@@ -483,6 +483,7 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Create and spawn new monster
  * Need to force a cloner into the starting region and using a know populated region to clone From
 * Might be worthwhile to create a 1-room map.
+* Need to start separating data from code as planned.
 
 #### Cloning Modifications
 * Entities-in-region returns list of entities instead of count
