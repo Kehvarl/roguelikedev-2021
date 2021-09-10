@@ -484,6 +484,7 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
  * Need to force a cloner into the starting region and using a know populated region to clone From
 * Might be worthwhile to create a 1-room map.
 * Need to start separating data from code as planned.
+* Time to look into a complete cleanup of generation too
 
 #### Cloning Modifications
 * Entities-in-region returns list of entities instead of count
