@@ -487,6 +487,7 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 ### Code Cleanup Needed.
 * Need to start separating data from code as planned.
 * Time to look into a complete cleanup of generation too
+* Todo: Plan refactor of major systems
 
 #### Cloning Modifications
 * Entities-in-region returns list of entities instead of count
