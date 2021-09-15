@@ -481,13 +481,14 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Get N Monsters
 * For each trait we want to copy, copy from a monster
 * Create and spawn new monster
- * Need to force a cloner into the starting region and using a know populated region to clone From
-* Might be worthwhile to create a 1-room map.
+
 
 ### Code Cleanup Needed.
 * Need to start separating data from code as planned.
 * Time to look into a complete cleanup of generation too
 * Todo: Plan refactor of major systems
+* Need to force a cloner into the starting region and using a know populated region to clone From
+* Might be worthwhile to create a 1-room map.
 
 #### Cloning Modifications
 * Entities-in-region returns list of entities instead of count
