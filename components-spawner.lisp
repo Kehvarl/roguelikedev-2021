@@ -70,5 +70,4 @@
                                :char (entity/char clone)
                                :color (entity/color clone))))
 
-            (spawn-monster component spawn-args entities map)
-            (format t "Cloning ~A ~AHP~%" (entity/name clone) (fighter/hp fighter))))))))
+            (spawn-monster component spawn-args entities map)))))))
