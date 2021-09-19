@@ -488,7 +488,7 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
 * Todo: Plan refactor of major systems
 * Need to force a cloner into the starting region and using a know populated region to clone From
 * Might be worthwhile to create a 1-room map.
-* Need significant rework
+* Need significant rework.
 
 #### Cloning Modifications
 * Entities-in-region returns list of entities instead of count
