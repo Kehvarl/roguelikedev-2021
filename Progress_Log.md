@@ -544,3 +544,28 @@ Dead Bodies are still a source of consternation and threat!  Some may rise again
   * Do enemies have different goals in regards to the player
   * Are some enemies hostile towards each other
   * Does the game continue to only simulate a radius around the player, or the entire level
+
+# Rewrite Plans
+* Environment setup
+  * Linux/Ubuntu
+  * Windows
+* Pre-packaged BLT binaries
+* Atom/SlIMA setup
+* Tutorial Steps
+  * Creating a Window
+  * Drawing characters
+  * Printing text
+  * Moving around
+  * The Map
+  * Wall Collision
+  * entities
+  * Entity Collision
+  * etc
+* Region-based maps instead of room-Based
+* Region-utilities
+  * Cells in Region
+  * Random Cell In Region
+  * Region Edges
+  * Region Center
+  * Regions Intersect
+  * Entities in region
